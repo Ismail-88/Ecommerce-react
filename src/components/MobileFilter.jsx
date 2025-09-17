@@ -1,8 +1,8 @@
-import React from "react";
-import { getData } from "../context/DataContext";
+import React from 'react'
+import { FaFilter } from 'react-icons/fa'
+import { getData } from '../context/DataContext';
 
-const FilterSection = ({
-  search,
+const MobileFilter = ({openFilter, setOpenFilter,search,
   setSearch,
   category,
   brand,
@@ -11,17 +11,26 @@ const FilterSection = ({
   setCategory,
   setBrand,
   handleBrandChange,
-  handleCategoryChange,
-}) => {
-  const { categoryNames } = getData();
+  handleCategoryChange}) => {
+
+    const { categoryNames } = getData();
+    const toggleFilter = ()=>{
+        setOpenFilter(!openFilter)
+    }
   return (
-    <div className="bg-gray-100 mt-10 p-4 rounded-md h-auto hidden md:block">
-      <input
+    <>
+    <div className='bg-gray-100 flex justify-between items-center md:hidden px-4 p-2 mt-5'>
+      <h1 className='font-semibold text-xl'>Filters</h1>
+      <FaFilter onClick={toggleFilter} className='text-gray-800' />
+    </div>
+    {
+        openFilter ? <div className='bg-gray-100 p-2 md:hidden'>
+             <input
         type="text"
         placeholder="Search.."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="bg-white p-2 rounded-md border-gray-400 border-2 "
+        className="bg-white p-2 rounded-md border-gray-400 border-2 w-full"
       />
 
       {/* Category only data */}
@@ -61,10 +70,9 @@ const FilterSection = ({
           );
         })}
       </select>
-
-      {/* price range */}
+       {/* price range */}
       <h1 className="mt-5 font-semibold text-xl mb-3">Price Range</h1>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-[200px]">
         <label htmlFor="">
           Price Range : ${priceRange[0]} - ${priceRange[1]}
         </label>
@@ -88,12 +96,15 @@ const FilterSection = ({
           setBrand("All");
           setCategory("All");
           setPriceRange([0, 5000]);
+          setOpenFilter(false);
         }}
       >
         Reset Filters
       </button>
-    </div>
-  );
-};
+        </div> : null
+    }
+    </>
+  )
+}
 
-export default FilterSection;
+export default MobileFilter
