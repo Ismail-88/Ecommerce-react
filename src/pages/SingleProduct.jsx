@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import Loading from '../assets/loading4.webm'
+import Loading from '../assets/Loading4.webm'
 import { getData } from '../context/DataContext'
 import BreadCrumbs from '../components/BreadCrumbs'
 import { IoCartOutline } from 'react-icons/io5'
