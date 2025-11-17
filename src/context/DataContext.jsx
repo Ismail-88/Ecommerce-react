@@ -39,20 +39,14 @@ export const DataProvider = ({ children }) => {
 
   const { user } = useUser();
 
-  // axios instance uses API base (no trailing slash)
   const api = axios.create({
-    baseURL: API.replace(/\/$/, ""), // ensure no trailing slash
-    // you can add headers/interceptors here
+    baseURL: API.replace(/\/$/, ""), 
   });
 
-  // Sync Clerk user to your backend (use api instance and the correct endpoint)
   useEffect(() => {
     if (user) {
       (async () => {
         try {
-          // Adjust path to match your backend route for user sync.
-          // I used '/api/user/auth/sync' as a likely route; if your backend uses a different path,
-          // replace it with the correct one (e.g. '/api/users/sync').
           await api.post("/api/user/auth/sync", {
             clerkId: user.id,
             email: user.emailAddresses?.[0]?.emailAddress,
@@ -64,12 +58,12 @@ export const DataProvider = ({ children }) => {
         }
       })();
     }
-  }, [user]); // eslint-disable-line
+  }, [user]); 
 
   // Fetch all products
   const fetchAllProducts = async () => {
     try {
-      // server expects /api/user/products (based on your server.js)
+     
       const res = await api.get("/api/user/products");
       setData(res.data);
     } catch (error) {
@@ -90,7 +84,7 @@ export const DataProvider = ({ children }) => {
   // Fetch products by category slug/name
   const fetchProductsByCategoryName = async (categorySlugOrName) => {
     try {
-      // backend route used earlier: likely /api/user/categories/:slug
+     
       const res = await api.get(`/api/user/categories/${encodeURIComponent(categorySlugOrName)}`);
       setData(res.data);
     } catch (error) {
