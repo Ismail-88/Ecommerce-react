@@ -45,12 +45,12 @@ export const DataProvider = ({ children }) => {
 
   const api = axios.create({
     baseURL: joinBase(API_BASE, "/"),
-    // optionally add headers etc.
   });
 
   useEffect(() => {
     if (user) {
-      api.post("/api/users/sync", {
+      // Update to match your backend route
+      api.post("/api/user/auth/sync", {
         clerkId: user.id,
         email: user.emailAddresses[0]?.emailAddress,
         name: user.fullName,
@@ -64,7 +64,8 @@ export const DataProvider = ({ children }) => {
 
   const fetchAllProducts = async () => {
     try {
-      const res = await api.get("/products");
+      // Changed from /products to /api/user/products
+      const res = await api.get("/api/user/products");
       setData(res.data);
     } catch (error) {
       console.error("fetchAllProducts error:", error.response?.data || error.message);
@@ -73,7 +74,8 @@ export const DataProvider = ({ children }) => {
 
   const fetchCategories = async () => {
     try {
-      const res = await api.get("/categories");
+      // Changed from /categories to /api/user/categories
+      const res = await api.get("/api/user/categories");
       setCategories(res.data);
     } catch (error) {
       console.error(error);
@@ -82,7 +84,8 @@ export const DataProvider = ({ children }) => {
 
   const fetchProductsByCategoryName = async (categorySlugOrName) => {
     try {
-      const res = await api.get(`/categories/${categorySlugOrName}`);
+      // Changed from /categories/:name to /api/user/categories/:name
+      const res = await api.get(`/api/user/categories/${categorySlugOrName}`);
       setData(res.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -92,7 +95,8 @@ export const DataProvider = ({ children }) => {
 
   const getSingleProduct = async (id) => {
     try {
-      const res = await api.get(`/products/${id}`);
+      // Changed from /products/:id to /api/user/products/:id
+      const res = await api.get(`/api/user/products/${id}`);
       setSingleProduct(res.data);
     } catch (error) {
       console.error(error);
@@ -104,7 +108,8 @@ export const DataProvider = ({ children }) => {
 
   const placeOrder = async (orderData) => {
     try {
-      const res = await api.post("/orders", orderData);
+      // Changed from /orders to /api/user/orders
+      const res = await api.post("/api/user/orders", orderData);
       const newOrder = res.data;
       setOrders((prev) => [newOrder, ...(prev || [])]);
       return newOrder;
@@ -117,7 +122,8 @@ export const DataProvider = ({ children }) => {
   const fetchOrdersByUser = async (userId) => {
     setLoadingOrders(true);
     try {
-      const res = await api.get(`/orders/user/${userId}`);
+      // Changed from /orders/user/:id to /api/user/orders/user/:id
+      const res = await api.get(`/api/user/orders/user/${userId}`);
       setOrders(res.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -129,7 +135,8 @@ export const DataProvider = ({ children }) => {
 
   const fetchOrderById = async (orderId) => {
     try {
-      const res = await api.get(`/order/${orderId}`);
+      // Changed from /order/:id to /api/user/orders/:id
+      const res = await api.get(`/api/user/orders/${orderId}`);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -139,7 +146,8 @@ export const DataProvider = ({ children }) => {
   const fetchAllOrders = async () => {
     setLoadingOrders(true);
     try {
-      const res = await api.get("/orders");
+      // Changed from /orders to /api/user/orders
+      const res = await api.get("/api/user/orders");
       setOrders(res.data);
     } catch (error) {
       console.error("Error fetching all orders:", error);
