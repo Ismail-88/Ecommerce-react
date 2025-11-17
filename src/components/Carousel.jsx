@@ -69,9 +69,9 @@ const Carousel = () => {
   var settings = {
     dots: false,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     infinite: true,
-    speed: 500,
+    // speed: 500,
     slidesToShow: 1,
     pauseOnHover: false,
     slidesToScroll: 1,
@@ -82,7 +82,7 @@ const Carousel = () => {
   return (
     <div>
       <Slider {...settings} className="overflow-hidden">
-        {data?.slice(7, 14).map((item, index) => {
+        {data?.slice(20, 27).map((item, index) => {
           return (
             <div
               key={index}
@@ -108,7 +108,7 @@ const Carousel = () => {
                   <img
                     src={item.images}
                     alt={item.title}
-                    className="rounded-full w-[550px] hover:scale-105 shadow-2xl shadow-red-400 transition-all"
+                    className="rounded-full w-[550px] h-[550px] shadow-xl shadow-red-400 transition-all"
                   />
                 </div>
               </div>

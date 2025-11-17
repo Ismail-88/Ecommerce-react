@@ -1,15 +1,20 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { getData } from '../context/DataContext'
 
 const ProductListView = ({product}) => {
   const navigate = useNavigate()
   const {addToCart} = useCart()
 
+  const { getProductImageUrl } = getData();
+    const imageUrl = getProductImageUrl(product);
+
+
   return (
     <div className='space-y-4 mt-2 rounded-md'>
       <div className='bg-gray-100 flex gap-7 items-center p-2 rounded-md'>
-        <img src={product.images} alt={product.title} className='md:h-60 md:w-60 h-25 w-25 rounded-md cursor-pointer'  onClick={() => navigate(`/products/${product.id}`)}/>
+        <img src={imageUrl} alt={product.title} className='md:h-60 md:w-60 h-25 w-25 rounded-md cursor-pointer'  onClick={() => navigate(`/products/${product._id}`)}/>
         <div className='space-y-2'>
           <h1 className='font-bold md:text-xl text-lg line-clamp-3 hover:text-red-400 md:w-full w-[220px]'>{product.title}</h1>
           <p className='font-semibold flex items-center md:text-lg text-sm'>$<span className='md:text-4xl text-3xl'>{product.price}</span> (5% off)</p>
