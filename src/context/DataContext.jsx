@@ -1,37 +1,41 @@
+// DataContext.jsx
 import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const DataContext = createContext(null);
 
-// Get API base either from Vite env (deployed) or local dev fallback
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+// Vite env (set VITE_API_URL in .env) or fallback to your production Render URL
+const API_BASE = import.meta.env.VITE_API_URL || "https://node-api-backend-9fpb.onrender.com";
 
-//
-// Image utility functions (use API for relative paths)
-const normalizeImagePath = (imagePath) => {
+// helper to join base + path safely
+const joinBase = (base, path) => {
+  const b = base.replace(/\/$/, "");
+  if (!path) return b;
+  return path.startsWith("/") ? b + path : b + "/" + path;
+};
+
+// Image utility functions
+const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
-  if (typeof imagePath !== "string") return null;
   if (imagePath.startsWith("http")) return imagePath;
-  // ensure leading slash
-  const pathWithSlash = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
-  return `${API}${pathWithSlash}`;
+  return joinBase(API_BASE, imagePath);
 };
 
 const getProductImageUrl = (product) => {
   if (!product || !product.images) return null;
   const firstImage = Array.isArray(product.images) ? product.images[0] : product.images;
-  return normalizeImagePath(firstImage);
+  return getImageUrl(firstImage);
 };
 
 const getProductImagesUrls = (product) => {
   if (!product || !product.images) return [null];
   const images = Array.isArray(product.images) ? product.images : [product.images];
-  return images.map((img) => normalizeImagePath(img));
+  return images.map((img) => getImageUrl(img));
 };
 
 export const DataProvider = ({ children }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); 
   const [singleProduct, setSingleProduct] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(false);
@@ -40,120 +44,105 @@ export const DataProvider = ({ children }) => {
   const { user } = useUser();
 
   const api = axios.create({
-    baseURL: API.replace(/\/$/, ""), 
+    baseURL: joinBase(API_BASE, "/"),
+    // optionally add headers etc.
   });
 
   useEffect(() => {
     if (user) {
-      (async () => {
-        try {
-          await api.post("/api/user/auth/sync", {
-            clerkId: user.id,
-            email: user.emailAddresses?.[0]?.emailAddress,
-            name: user.fullName,
-            profileImage: user.profileImageUrl,
-          });
-        } catch (err) {
-          console.error("Clerk user sync failed:", err);
-        }
-      })();
+      api.post("/api/users/sync", {
+        clerkId: user.id,
+        email: user.emailAddresses[0]?.emailAddress,
+        name: user.fullName,
+        profileImage: user.profileImageUrl,
+      }).catch(err => {
+        console.error("Clerk user sync failed:", err);
+      });
     }
-  }, [user]); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
-  // Fetch all products
   const fetchAllProducts = async () => {
     try {
-     
-      const res = await api.get("/api/user/products");
+      const res = await api.get("/products");
       setData(res.data);
     } catch (error) {
-      console.error("fetchAllProducts error:", error);
+      console.error("fetchAllProducts error:", error.response?.data || error.message);
     }
   };
 
-  // Fetch categories
   const fetchCategories = async () => {
     try {
-      const res = await api.get("/api/user/categories");
+      const res = await api.get("/categories");
       setCategories(res.data);
     } catch (error) {
-      console.error("fetchCategories error:", error);
+      console.error(error);
     }
   };
 
-  // Fetch products by category slug/name
   const fetchProductsByCategoryName = async (categorySlugOrName) => {
     try {
-     
-      const res = await api.get(`/api/user/categories/${encodeURIComponent(categorySlugOrName)}`);
+      const res = await api.get(`/categories/${categorySlugOrName}`);
       setData(res.data);
     } catch (error) {
-      console.error("fetchProductsByCategoryName error:", error);
+      console.error("Error fetching products:", error);
       setData([]);
     }
   };
 
-  // Fetch single product
   const getSingleProduct = async (id) => {
     try {
-      const res = await api.get(`/api/user/products/${id}`);
+      const res = await api.get(`/products/${id}`);
       setSingleProduct(res.data);
-      return res.data;
     } catch (error) {
-      console.error("getSingleProduct error:", error);
-      return null;
+      console.error(error);
     }
   };
 
   const categoryNames = ["All", ...new Set(data?.map((item) => item.category?.name))];
   const brandNames = [...new Set(data?.map((item) => item.brand))];
 
-  // Place order
   const placeOrder = async (orderData) => {
     try {
-      const res = await api.post("/api/user/orders", orderData);
+      const res = await api.post("/orders", orderData);
       const newOrder = res.data;
       setOrders((prev) => [newOrder, ...(prev || [])]);
       return newOrder;
     } catch (error) {
-      console.error("placeOrder error:", error);
+      console.error("Error placing order:", error);
       throw error;
     }
   };
 
-  // Fetch orders by user ID
   const fetchOrdersByUser = async (userId) => {
     setLoadingOrders(true);
     try {
-      const res = await api.get(`/api/user/orders/user/${encodeURIComponent(userId)}`);
+      const res = await api.get(`/orders/user/${userId}`);
       setOrders(res.data);
     } catch (error) {
-      console.error("fetchOrdersByUser error:", error);
+      console.error("Error fetching orders:", error);
       setOrders([]);
     } finally {
       setLoadingOrders(false);
     }
   };
 
-  // Fetch single order by orderId
   const fetchOrderById = async (orderId) => {
     try {
-      const res = await api.get(`/api/user/orders/${orderId}`);
+      const res = await api.get(`/order/${orderId}`);
       return res.data;
     } catch (error) {
-      console.error("fetchOrderById error:", error);
-      return null;
+      console.error(error);
     }
   };
 
-  // Fetch all orders (admin)
   const fetchAllOrders = async () => {
     setLoadingOrders(true);
     try {
-      const res = await api.get("/api/admin/orders");
+      const res = await api.get("/orders");
       setOrders(res.data);
     } catch (error) {
-      console.error("fetchAllOrders error:", error);
+      console.error("Error fetching all orders:", error);
       setOrders([]);
     } finally {
       setLoadingOrders(false);
@@ -179,7 +168,7 @@ export const DataProvider = ({ children }) => {
         fetchOrderById,
         categories,
         fetchAllOrders,
-        getImageUrl: normalizeImagePath,
+        getImageUrl,
         getProductImageUrl,
         getProductImagesUrls,
         loadingOrders,
