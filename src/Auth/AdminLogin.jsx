@@ -84,12 +84,14 @@ const AdminLogin = () => {
   //   }
   // };
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
   const onSubmit = async (data) => {
   setServerError('');
   setLoading(true);
 
   try {
-    const response = await axios.post('http://localhost:5000/api/admin/login', {
+    const response = await axios.post(`${API_BASE_URL}/api/admin/login`, {
       email: data.email,
       password: data.password
     });
