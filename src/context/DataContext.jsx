@@ -4,11 +4,24 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 export const DataContext = createContext(null);
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+const api = axios.create({
+    // baseURL: "https://api.escuelajs.co/api/v1",
+    baseURL: API_BASE_URL,
+  });
+
 // Image utility functions
 const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
   if (imagePath.startsWith("http")) return imagePath;
-  return `http://localhost:5000${imagePath}`;
+
+  const normalizedPath = imagePath.startsWith("/")
+    ? imagePath
+    : `/${imagePath}`;
+
+  return `${API_BASE_URL}${normalizedPath}`;
+  // return `http://localhost:5000${imagePath}`;
 };
 
 const getProductImageUrl = (product) => {
@@ -40,15 +53,11 @@ export const DataProvider = ({ children }) => {
  const [categories, setCategories] = useState([])
 
  const { user } = useUser();
-  const api = axios.create({
-    // baseURL: "https://api.escuelajs.co/api/v1",
-    baseURL: "http://localhost:5000/",
-  });
+  
 
-   
   useEffect(() => {
     if (user) {
-      axios.post("http://localhost:5000/api/users/sync", {
+      api.post("/api/users/sync", {
         clerkId: user.id,
         email: user.emailAddresses[0]?.emailAddress,
         name: user.fullName,
