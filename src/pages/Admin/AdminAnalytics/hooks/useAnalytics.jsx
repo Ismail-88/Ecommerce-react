@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { API_BASE_URL } from '../../../../context/DataContext';
 
 const useAnalytics = () => {
     const [stats, setStats] = useState({
@@ -26,10 +27,10 @@ const useAnalytics = () => {
       
       // Fetch all data
       const [ordersRes, usersRes, productsRes, categoriesRes] = await Promise.all([
-        fetch('http://localhost:5000/orders', { headers: { Authorization: `Bearer ${token}` } }),
-        fetch('http://localhost:5000/api/admin/users', { headers: { Authorization: `Bearer ${token}` } }),
-        fetch('http://localhost:5000/products'),
-        fetch('http://localhost:5000/categories')
+        fetch(`${API_BASE_URL}/orders`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`${API_BASE_URL}/api/admin/users`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`${API_BASE_URL}/products`),
+        fetch(`${API_BASE_URL}/categories`)
       ]);
 
       const orders = await ordersRes.json();

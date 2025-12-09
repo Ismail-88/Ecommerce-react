@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '@clerk/clerk-react';
 import axios from 'axios';
 import { useCart } from '../../../../context/CartContext';
-import { getData } from '../../../../context/DataContext'; // ensure this path is correct
+import { api, getData } from '../../../../context/DataContext'; // ensure this path is correct
 
 export const useCheckout = () => {
   const { cartItem } = useCart();
@@ -40,7 +40,7 @@ export const useCheckout = () => {
 
     try {
       // Get MongoDB user (backend mapping)
-      const mongoUserRes = await axios.get(`http://localhost:5000/users/clerk/${user.id}`);
+      const mongoUserRes = await api.get(`/users/clerk/${user.id}`);
       const mongoUser = mongoUserRes.data;
 
       if (!mongoUser) {
@@ -74,7 +74,7 @@ export const useCheckout = () => {
       if (typeof placeOrder === 'function') {
         createdOrder = await placeOrder(orderData);
       } else {
-        const res = await axios.post("http://localhost:5000/orders", orderData);
+        const res = await api.post("/orders", orderData);
         createdOrder = res.data;
       }
 

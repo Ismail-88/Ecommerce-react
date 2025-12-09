@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-react';
+import { API_BASE_URL } from '../context/DataContext';
 
 // Add this component to your App.js inside <SignedIn>
 const ClerkUserSync = () => {
@@ -14,7 +15,7 @@ const ClerkUserSync = () => {
       try {
         
 
-        const response = await fetch('http://localhost:5000/api/users/sync', {
+        const response = await fetch(`${API_BASE_URL}/api/users/sync`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

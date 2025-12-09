@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { api, API_BASE_URL } from '../../context/DataContext';
+
 
 const AdminRoute = ({ children }) => {
   const location = useLocation();
@@ -29,7 +30,7 @@ const AdminRoute = ({ children }) => {
         }
 
         // Verify token with backend
-        const response = await axios.get('http://localhost:5000/api/admin/profile', {
+        const response = await api.get(`${API_BASE_URL}/api/admin/profile`, {
           headers: {
             Authorization: `Bearer ${adminToken}`
           }

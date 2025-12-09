@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Search, Folder } from 'lucide-react';
+import { API_BASE_URL } from '../../../context/DataContext';
 
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -26,7 +27,7 @@ const AdminCategories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/categories');
+      const response = await fetch(`${API_BASE_URL}/categories`);
       const data = await response.json();
       setCategories(data);
       setLoading(false);
@@ -67,8 +68,8 @@ const AdminCategories = () => {
     try {
       const token = localStorage.getItem('adminToken');
       const url = editMode
-        ? `http://localhost:5000/categories/${currentCategory._id}`
-        : 'http://localhost:5000/categories';
+        ? `${API_BASE_URL}/categories/${currentCategory._id}`
+        : `${API_BASE_URL}/categories`;
       
       const method = editMode ? 'PUT' : 'POST';
 
@@ -103,7 +104,7 @@ const AdminCategories = () => {
     if (window.confirm('Are you sure you want to delete this category?')) {
       try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`http://localhost:5000/categories/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${token}` }
         });

@@ -1,4 +1,5 @@
 import { ImageIcon, Upload, X } from "lucide-react";
+import { API_BASE_URL } from "../../../../context/DataContext";
 
 export const ImageUploadCard = ({ imagePreview, onImageUpload, onRemoveImage }) => {
   return (
@@ -49,7 +50,7 @@ export const ImageUploadCard = ({ imagePreview, onImageUpload, onRemoveImage }) 
                 src={
                   typeof img === "string"
                     ? img.startsWith("/uploads")
-                      ? `http://localhost:5000${img}`
+                      ? `${API_BASE_URL}${img}`
                       : img
                     : URL.createObjectURL(img)
                 }

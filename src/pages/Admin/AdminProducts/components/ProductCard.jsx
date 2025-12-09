@@ -3,6 +3,7 @@ import React from 'react';
 import { Edit2, Eye, Trash2, Tag as TagIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '../../../../context/ThemeContext';
+import { API_BASE_URL } from '../../../../context/DataContext';
 
 const ProductCard = ({ product, onDelete }) => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const ProductCard = ({ product, onDelete }) => {
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "https://via.placeholder.com/300x300?text=No+Image";
     if (imagePath.startsWith("http")) return imagePath;
-    return `http://localhost:5000${imagePath}`;
+    return `${API_BASE_URL}${imagePath}`;
   };
 
   const firstImage = Array.isArray(product.images) ? product.images[0] : product.images;

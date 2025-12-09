@@ -1,7 +1,7 @@
 // hooks/useSingleProduct.js
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
-import { getData } from '../../../../context/DataContext';
+import { api, getData } from '../../../../context/DataContext';
 
 
 export const useSingleProduct = (id) => {
@@ -24,7 +24,7 @@ export const useSingleProduct = (id) => {
   useEffect(() => {
     const fetchReviewStats = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/products/${id}/reviews/stats`);
+        const res = await api.get(`/api/products/${id}/reviews/stats`);
         setReviewStats(res.data);
       } catch (error) {
         console.error("Error fetching review stats:", error);

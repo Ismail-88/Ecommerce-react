@@ -1,11 +1,12 @@
 import { Eye, Trash2, UserCheck, UserX } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '../../../../context/DataContext';
 
 export const CustomerTable = ({ customers, onViewDetails, onDelete }) => {
   const getImageUrl = (imgPath) => {
     if (!imgPath) return 'https://via.placeholder.com/100';
     if (imgPath.startsWith("http")) return imgPath;
-    return `http://localhost:5000${imgPath}`;
+    return `${API_BASE_URL}${imgPath}`;
   };
 
   const formatCurrency = (amount) => {

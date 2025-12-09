@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaStore } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { API_BASE_URL } from '../context/DataContext';
 
 // ============= ZOD VALIDATION SCHEMA =============
 const adminLoginSchema = z.object({
@@ -84,7 +85,7 @@ const AdminLogin = () => {
   //   }
   // };
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+  
 
   const onSubmit = async (data) => {
   setServerError('');

@@ -1,5 +1,6 @@
 import { Edit } from 'lucide-react';
 import React from 'react'
+import { API_BASE_URL } from '../../../../context/DataContext';
 
 const InventoryTable = ({products, onUpdateStock}) => {
     const getStockStatus = (stock) => {
@@ -34,7 +35,7 @@ const InventoryTable = ({products, onUpdateStock}) => {
                 const stockValue = product.price * product.stock;
                 const imageUrl = product.images?.[0]?.startsWith('http') 
                   ? product.images[0] 
-                  : `http://localhost:5000${product.images?.[0]}`;
+                  : `${API_BASE_URL}${product.images?.[0]}`;
 
                 return (
                   <tr key={product._id} className="hover:bg-gray-50 transition-colors">

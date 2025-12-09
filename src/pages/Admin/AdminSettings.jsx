@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Store, CreditCard, Truck, Mail, User, Save, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { API_BASE_URL } from '../../context/DataContext';
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('store');
@@ -68,7 +69,7 @@ const Settings = () => {
       ...(body && { body: JSON.stringify(body) })
     };
 
-    const response = await fetch(`http://localhost:5000/api${endpoint}`, options);
+    const response = await fetch(`${API_BASE_URL}/api${endpoint}`, options);
     const data = await response.json();
     
     if (!response.ok) {

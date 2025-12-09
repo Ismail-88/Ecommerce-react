@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Palette, Plus, X, Upload, Trash2 } from "lucide-react";
+import { API_BASE_URL } from "../context/DataContext";
 
 export const ColorVariantsCard = ({ colors, setColors }) => {
   const [showAddColor, setShowAddColor] = useState(false);
@@ -110,7 +111,7 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
                         src={
                           typeof img === "string"
                             ? img.startsWith("/uploads")
-                              ? `http://localhost:5000${img}`
+                              ? `${API_BASE_URL}${img}`
                               : img
                             : URL.createObjectURL(img)
                         }

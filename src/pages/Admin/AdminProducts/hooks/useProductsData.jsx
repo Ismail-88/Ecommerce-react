@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getData } from '../../../../context/DataContext';
+import { api, getData } from '../../../../context/DataContext';
 import axios from 'axios';
 
 const useProductsData = () => {
@@ -87,7 +87,7 @@ const useProductsData = () => {
 
     const deleteProduct = async (productId) => {
     try {
-      await axios.delete(`http://localhost:5000/products/${productId}`);
+      await api.delete(`/products/${productId}`);
       await fetchAllProducts();
       return { success: true };
     } catch (error) {

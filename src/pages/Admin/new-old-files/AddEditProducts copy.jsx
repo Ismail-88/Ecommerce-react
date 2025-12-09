@@ -160,7 +160,7 @@ const AddEditProduct = () => {
     let res;
 
     if (isEditMode) {
-  res = await axios.put(
+  res = await api.put(
     `http://localhost:5000/products/${id}`,
     formData,
     {

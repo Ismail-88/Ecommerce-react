@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import z from 'zod';
-import { getData } from '../../../../context/DataContext';
+import { api, getData } from '../../../../context/DataContext';
 
 
 // Zod validation schema
@@ -146,8 +146,8 @@ const useAddEditProduct = (productId, isEditMode) => {
       let res;
 
       if (isEditMode) {
-        res = await axios.put(
-          `http://localhost:5000/products/${productId}`,
+        res = await api.put(
+          `/products/${productId}`,
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
@@ -178,7 +178,7 @@ const useAddEditProduct = (productId, isEditMode) => {
 
         toast.success("🎉 Product updated successfully!");
       } else {
-        res = await axios.post("http://localhost:5000/products", formData, {
+        res = await api.post("/products", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getData } from "../../../../context/DataContext";
+import { api, getData } from "../../../../context/DataContext";
 
 export const useOrders = ()=>{
     const { orders, fetchAllOrders, loadingOrders } = getData();
@@ -44,7 +44,7 @@ export const useOrders = ()=>{
 
    const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/orders/${orderId}`, {
+      await api.put(`/orders/${orderId}`, {
         status: newStatus,
       });
       toast.success(`Order ${orderId} status updated to ${newStatus}!`);
@@ -59,7 +59,7 @@ export const useOrders = ()=>{
 
    const deleteOrder = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:5000/orders/${orderId}`);
+      await api.delete(`/orders/${orderId}`);
       toast.success("Order deleted successfully!");
       fetchAllOrders();
       return { success: true };

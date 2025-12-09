@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
+import { API_BASE_URL } from '../../../../context/DataContext';
 
 const useInventory = () => {
 
@@ -21,7 +22,7 @@ const useInventory = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:5000/products');
+      const response = await fetch(`${API_BASE_URL}/products`);
       const data = await response.json();
       setProducts(data);
       setLoading(false);
@@ -57,7 +58,7 @@ const useInventory = () => {
    const updateStock = async (productId, newStock) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:5000/products/${selectedProduct._id}`, {
+      const response = await fetch(`${API_BASE_URL}/products/${selectedProduct._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

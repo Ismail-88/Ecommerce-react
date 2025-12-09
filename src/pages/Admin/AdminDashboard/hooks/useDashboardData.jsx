@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getData } from '../../../../context/DataContext';
+import { api, getData } from '../../../../context/DataContext';
 
 const useDashboardData = () => {
   const {fetchCategories } = getData();
@@ -63,8 +63,8 @@ const useDashboardData = () => {
       // Fetch all data in parallel
       const [categoriesRes, productsRes, ordersRes] = await Promise.all([
         fetchCategories(),
-        axios.get("http://localhost:5000/products"),
-        axios.get("http://localhost:5000/orders")
+        api.get("/products"),
+        api.get("/orders")
       ]);
 
       const productsData = productsRes.data;
