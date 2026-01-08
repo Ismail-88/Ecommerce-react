@@ -123,9 +123,9 @@ const Cart = () => {
                       {/* Price */}
                       <div>
                         <p className="text-3xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                          ${item.price * item.quantity}
+                          ₹{item.price * item.quantity}
                         </p>
-                        <p className="text-sm text-gray-400">${item.price} each</p>
+                        <p className="text-sm text-gray-400">₹{item.price} each</p>
                       </div>
 
                       {/* Quantity Controls */}
@@ -182,7 +182,7 @@ const Cart = () => {
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between text-gray-300">
                       <span>Subtotal ({cartItem.length} items)</span>
-                      <span className="font-bold text-white">${subtotal.toFixed(2)}</span>
+                      <span className="font-bold text-white">₹{subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2 text-gray-300">
@@ -190,7 +190,7 @@ const Cart = () => {
                         <span>Delivery Fee</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm line-through text-gray-600">$25</span>
+                        <span className="text-sm line-through text-gray-600">₹25</span>
                         <span className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-400 font-bold text-xs">
                           FREE
                         </span>
@@ -198,7 +198,7 @@ const Cart = () => {
                     </div>
                     <div className="flex justify-between text-gray-300">
                       <span>Handling Fee</span>
-                      <span className="font-bold text-white">${handlingFee.toFixed(2)}</span>
+                      <span className="font-bold text-white">₹{handlingFee.toFixed(2)}</span>
                     </div>
 
                     <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-6"></div>
@@ -206,7 +206,7 @@ const Cart = () => {
                     <div className="flex justify-between items-center p-4 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-500/20">
                       <span className="font-bold text-xl">Total</span>
                       <span className="text-3xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                        ${grandTotal.toFixed(2)}
+                        ₹{grandTotal.toFixed(2)}
                       </span>
                     </div>
                   </div>

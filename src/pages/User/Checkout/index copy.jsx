@@ -1,17 +1,15 @@
 // pages/Checkout.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ShoppingBag, Crown } from "lucide-react";
-import toast from 'react-hot-toast';
+import { ShoppingBag, Crown, Sparkles } from "lucide-react";
 
 // Components
 import PaymentMethodSelector from "./components/PaymentMethodSelector";
 import OrderSummary from "./components/OrderSummary";
 import { useCheckout } from "./hooks/useCheckout";
-import { useRazorpay } from "./hooks/useRazorpay";
 import ShippingForm from "./components/ShippingForm";
 
 // Zod validation schema
@@ -24,112 +22,60 @@ const checkoutSchema = z.object({
   state: z.string().min(2, "State is required"),
   zipCode: z.string().min(4, "Valid zip code is required"),
   country: z.string().min(2, "Country is required"),
-  paymentMethod: z.enum(["razorpay", "cod"], {
+  paymentMethod: z.enum(["card", "paypal", "cod"], {
     required_error: "Please select a payment method",
   }),
-});
+  cardNumber: z.string().optional(),
+  cardName: z.string().optional(),
+  expiryDate: z.string().optional(),
+  cvv: z.string().optional(),
+}).refine(
+  (data) => {
+    if (data.paymentMethod === "card") {
+      return (
+        data.cardNumber &&
+        data.cardNumber.replace(/\s/g, "").length === 16 &&
+        data.cardName &&
+        data.cardName.length >= 3 &&
+        data.expiryDate &&
+        /^\d{2}\/\d{2}$/.test(data.expiryDate) &&
+        data.cvv &&
+        data.cvv.length === 3
+      );
+    }
+    return true;
+  },
+  {
+    message: "Please fill in all card details correctly",
+    path: ["cardNumber"],
+  }
+);
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cartItem, user, pricing } = useCheckout();
-  const { initiatePayment, createCODOrder, isLoading } = useRazorpay();
-  const [isProcessing, setIsProcessing] = useState(false);
+  const { cartItem, user, pricing, isSubmitting, submitOrder } = useCheckout();
 
-  const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
-    resolver: zodResolver(checkoutSchema),
-    defaultValues: {
-      fullName: "",
-      email: "",
-      paymentMethod: "razorpay",
-    },
-  });
+ const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
+  resolver: zodResolver(checkoutSchema),
+  defaultValues: {
+    fullName: "",
+    email: "",
+    paymentMethod: "card",
+  },
+});
 
-  // Populate when user loads
-  useEffect(() => {
-    if (user) {
-      reset({
-        fullName: user.fullName || "",
-        email: user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || "",
-        paymentMethod: "razorpay",
-      });
-    }
-  }, [user, reset]);
+// populate when user loads
+useEffect(() => {
+  if (user) {
+    reset({
+      fullName: user.fullName || "",
+      email: user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || "",
+      paymentMethod: "card",
+    });
+  }
+}, [user, reset]);
 
   const paymentMethod = watch("paymentMethod");
-
-  // Handle form submission
-  const onSubmit = async (formData) => {
-    setIsProcessing(true);
-
-    try {
-      // Prepare order data
-      const orderData = {
-        userId: user?.id || 'guest',
-        items: cartItem.map(item => ({
-          title: item.title,
-          price: item.price,
-          quantity: item.quantity,
-          images: item.images || []
-        })),
-        shippingInfo: {
-          fullName: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-          state: formData.state,
-          zipCode: formData.zipCode,
-          country: formData.country
-        },
-        pricing: {
-          subtotal: pricing.subtotal,
-          deliveryFee: pricing.deliveryFee,
-          handlingFee: pricing.handlingFee,
-          grandTotal: pricing.grandTotal
-        }
-      };
-
-      if (formData.paymentMethod === 'razorpay') {
-        // Razorpay Payment
-        await initiatePayment({
-          amount: pricing.grandTotal,
-          orderData: orderData,
-          customerDetails: {
-            name: formData.fullName,
-            email: formData.email,
-            phone: formData.phone
-          },
-          onSuccess: (order) => {
-            toast.success('Payment successful! 🎉');
-            // Clear cart here if you have cart context
-            navigate(`/order-success?orderId=${order.id}`);
-          },
-          onFailure: (error) => {
-            toast.error(error.message || 'Payment failed. Please try again.');
-            setIsProcessing(false);
-          }
-        });
-      } else if (formData.paymentMethod === 'cod') {
-        // Cash on Delivery
-        await createCODOrder(
-          orderData,
-          (order) => {
-            toast.success('Order placed successfully! 🎉');
-            // Clear cart here if you have cart context
-            navigate(`/order-success?orderId=${order.id}`);
-          },
-          (error) => {
-            toast.error(error.message || 'Failed to place order. Please try again.');
-            setIsProcessing(false);
-          }
-        );
-      }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      toast.error('Something went wrong. Please try again.');
-      setIsProcessing(false);
-    }
-  };
 
   // Empty cart state
   if (cartItem.length === 0) {
@@ -185,7 +131,7 @@ const Checkout = () => {
 
       {/* Checkout Form */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(submitOrder)}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Section - Forms */}
             <div className="lg:col-span-2 space-y-8">
@@ -201,7 +147,7 @@ const Checkout = () => {
             <OrderSummary 
               cartItem={cartItem} 
               pricing={pricing} 
-              isSubmitting={isProcessing || isLoading}
+              isSubmitting={isSubmitting}
             />
           </div>
         </form>

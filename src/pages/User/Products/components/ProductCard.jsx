@@ -94,7 +94,7 @@ const ProductCard = ({ product, viewMode }) => {
             <div>
               <div className="flex items-baseline gap-2 mb-1">
                 <span className="text-4xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                  ${product.price}
+                  ₹{product.price}
                 </span>
                 <span className="text-lg text-gray-600 line-through">${(product.price * 1.2).toFixed(2)}</span>
               </div>
@@ -216,9 +216,9 @@ const ProductCard = ({ product, viewMode }) => {
 
         <div className="flex items-baseline gap-2 mb-4">
           <span className="text-3xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-            ${product.price}
+            ₹{product.price}
           </span>
-          <span className="text-sm text-gray-600 line-through">${(product.price * 1.2).toFixed(2)}</span>
+          <span className="text-sm text-gray-600 line-through">₹{(product.price * 1.2).toFixed(2)}</span>
         </div>
 
         <div className="flex items-center gap-2 mb-4 text-xs">

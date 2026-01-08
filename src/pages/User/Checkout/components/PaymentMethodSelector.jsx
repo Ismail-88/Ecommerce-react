@@ -1,6 +1,7 @@
-// components/checkout/PaymentMethodSelector.jsx
+// components/PaymentMethodSelector.jsx
 import React from 'react';
-import { FaCreditCard, FaPaypal, FaMoneyBillWave } from 'react-icons/fa';
+import { FaMoneyBillWave } from 'react-icons/fa';
+import { SiRazorpay } from 'react-icons/si';
 
 const PaymentMethodSelector = ({ register, errors, paymentMethod }) => {
   return (
@@ -11,126 +12,74 @@ const PaymentMethodSelector = ({ register, errors, paymentMethod }) => {
         <h2 className="text-2xl font-bold mb-8">Payment Method</h2>
 
         <div className="space-y-4">
-          {/* Credit Card */}
+          {/* Razorpay - All Online Methods */}
           <label
             className={`relative flex items-center gap-4 p-5 border-2 rounded-2xl cursor-pointer transition-all group ${
-              paymentMethod === "card"
+              paymentMethod === "razorpay"
                 ? "border-cyan-500 bg-gradient-to-r from-cyan-500/10 to-blue-500/10"
                 : "border-white/10 hover:border-white/30 bg-white/5"
             }`}
           >
             <input
               type="radio"
-              value="card"
+              value="razorpay"
               {...register("paymentMethod")}
               className="sr-only"
             />
             <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-              paymentMethod === "card"
+              paymentMethod === "razorpay"
                 ? "border-cyan-500 bg-gradient-to-br from-cyan-500 to-blue-500"
                 : "border-white/30"
             }`}>
-              {paymentMethod === "card" && (
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-              )}
-            </div>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center">
-              <FaCreditCard className="text-2xl text-cyan-400" />
-            </div>
-            <span className="font-bold text-lg">Credit/Debit Card</span>
-          </label>
-
-          {/* Card Details Form */}
-          {paymentMethod === "card" && (
-            <div className="ml-16 space-y-6 animate-fadeIn p-6 rounded-2xl border border-white/10 bg-white/5">
-              <div>
-                <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                  Card Number *
-                </label>
-                <input
-                  type="text"
-                  {...register("cardNumber")}
-                  className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl text-white placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none transition-all"
-                  placeholder="1234 5678 9012 3456"
-                  maxLength="19"
-                />
-                {errors.cardNumber && (
-                  <p className="text-red-400 text-sm mt-2 flex items-center gap-2">
-                    <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                    {errors.cardNumber.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                  Cardholder Name *
-                </label>
-                <input
-                  type="text"
-                  {...register("cardName")}
-                  className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl text-white placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none transition-all"
-                  placeholder="John Doe"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                    Expiry Date *
-                  </label>
-                  <input
-                    type="text"
-                    {...register("expiryDate")}
-                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl text-white placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none transition-all"
-                    placeholder="MM/YY"
-                    maxLength="5"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                    CVV *
-                  </label>
-                  <input
-                    type="text"
-                    {...register("cvv")}
-                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl text-white placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none transition-all"
-                    placeholder="123"
-                    maxLength="3"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* PayPal */}
-          <label
-            className={`relative flex items-center gap-4 p-5 border-2 rounded-2xl cursor-pointer transition-all group ${
-              paymentMethod === "paypal"
-                ? "border-cyan-500 bg-gradient-to-r from-cyan-500/10 to-blue-500/10"
-                : "border-white/10 hover:border-white/30 bg-white/5"
-            }`}
-          >
-            <input
-              type="radio"
-              value="paypal"
-              {...register("paymentMethod")}
-              className="sr-only"
-            />
-            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-              paymentMethod === "paypal"
-                ? "border-cyan-500 bg-gradient-to-br from-cyan-500 to-blue-500"
-                : "border-white/30"
-            }`}>
-              {paymentMethod === "paypal" && (
+              {paymentMethod === "razorpay" && (
                 <div className="w-2 h-2 bg-white rounded-full"></div>
               )}
             </div>
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
-              <FaPaypal className="text-2xl text-blue-400" />
+              <SiRazorpay className="text-2xl text-blue-400" />
             </div>
-            <span className="font-bold text-lg">PayPal</span>
+            <div className="flex-1">
+              <span className="font-bold text-lg block">Pay Online</span>
+              <span className="text-xs text-gray-400">Card • UPI • Net Banking • Wallets</span>
+            </div>
           </label>
+
+          {/* Razorpay Info */}
+          {paymentMethod === "razorpay" && (
+            <div className="ml-16 p-6 rounded-2xl border border-white/10 bg-white/5 animate-fadeIn">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="font-bold text-white mb-2">Secure Payment Gateway</h4>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-3">
+                    You'll be redirected to Razorpay's secure payment page. Choose from:
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-400">
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                      💳 Credit/Debit Cards (Visa, Mastercard, RuPay)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                      📱 UPI (PhonePe, Google Pay, Paytm, BHIM)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                      🏦 Net Banking (All major banks)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                      👛 Wallets (Paytm, PhonePe, Mobikwik)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Cash on Delivery */}
           <label
@@ -158,8 +107,28 @@ const PaymentMethodSelector = ({ register, errors, paymentMethod }) => {
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
               <FaMoneyBillWave className="text-2xl text-emerald-400" />
             </div>
-            <span className="font-bold text-lg">Cash on Delivery</span>
+            <div className="flex-1">
+              <span className="font-bold text-lg block">Cash on Delivery</span>
+              <span className="text-xs text-gray-400">Pay when you receive</span>
+            </div>
           </label>
+
+          {/* COD Info */}
+          {paymentMethod === "cod" && (
+            <div className="ml-16 p-6 rounded-2xl border border-white/10 bg-white/5 animate-fadeIn">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <FaMoneyBillWave className="text-emerald-400" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-white mb-2">Pay on Delivery</h4>
+                  <p className="text-sm text-gray-400">
+                    💰 Pay with cash when your order is delivered. Additional handling fee may apply.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {errors.paymentMethod && (
