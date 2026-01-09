@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_XXXXXXXXXXXXXXX';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID ;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ;
 
 // Load Razorpay script
 const loadRazorpayScript = () => {
