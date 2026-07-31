@@ -1,118 +1,305 @@
-// components/home/HeroSection.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Award, Sparkles, Crown, Eye } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, ShoppingCart, Heart, Eye, Star, Sparkles, Package } from 'lucide-react';
 
 const HeroSection = ({ heroProduct }) => {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+
+  // Mock products for carousel
+  const products = [
+    {
+      id: 1,
+      image: heroProduct?.images || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800',
+      title: heroProduct?.title || 'Wireless Headphones Pro',
+      price: heroProduct?.price || 299,
+      category: 'Audio',
+      rating: 4.8,
+      color: 'from-indigo-600 to-purple-600'
+    },
+    {
+      id: 2,
+      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
+      title: 'Smart Watch Ultra',
+      price: 449,
+      category: 'Wearables',
+      rating: 4.9,
+      color: 'from-blue-600 to-cyan-600'
+    },
+    {
+      id: 3,
+      image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
+      title: 'Designer Sunglasses',
+      price: 199,
+      category: 'Fashion',
+      rating: 4.7,
+      color: 'from-orange-600 to-pink-600'
+    }
+  ];
+
+  const currentProduct = products[activeSlide];
+
+  useEffect(() => {
+    if (!isAutoPlay) return;
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % products.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isAutoPlay, products.length]);
+
+  const nextSlide = () => {
+    setIsAutoPlay(false);
+    setActiveSlide((prev) => (prev + 1) % products.length);
+  };
+
+  const prevSlide = () => {
+    setIsAutoPlay(false);
+    setActiveSlide((prev) => (prev - 1 + products.length) % products.length);
+  };
+
   return (
-    <div className="relative min-h-[90vh] flex items-center overflow-hidden">
-      {/* Animated Background Layers */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(6,182,212,0.15),transparent_50%)]"></div>
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_30%,rgba(59,130,246,0.15),transparent_50%)]"></div>
-        <div className="absolute bottom-0 left-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_80%,rgba(168,85,247,0.15),transparent_50%)]"></div>
+    <div className="relative min-h-screen py-4 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/30 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      {/* Floating Grid Animation */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.1)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)] animate-grid"></div>
-      </div>
+      <div className="relative h-full max-w-[1800px] mx-auto">
+        <div className="grid lg:grid-cols-2 h-full">
+          {/* LEFT SIDE - Content */}
+          <div className="relative flex flex-col justify-center px-12 xl:px-20 space-y-10">
+            {/* Top Badge */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 backdrop-blur-xl">
+                <Sparkles className="w-4 h-4 text-yellow-400 animate-pulse" />
+                <span className="text-sm font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  2025 Collection
+                </span>
+              </div>
 
-      {/* Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left">
-            {/* Premium Badge */}
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-2xl px-5 py-3 mb-8 group hover:border-cyan-500/30 transition-all">
-              <Crown className="w-5 h-5 text-yellow-400 animate-pulse" />
-              <span className="text-sm font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                EXCLUSIVE COLLECTION 2025
-              </span>
+              {/* Main Headline */}
+              <div>
+                <h1 className="text-6xl xl:text-7xl font-black text-white leading-tight mb-6">
+                  Elevate Your
+                  <br />
+                  <span className="relative inline-block mt-2">
+                    <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 blur-2xl opacity-50"></span>
+                    <span className="relative bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      Lifestyle
+                    </span>
+                  </span>
+                </h1>
+                <p className="text-xl text-gray-400 leading-relaxed max-w-xl">
+                  Discover premium products handpicked by experts. Quality, innovation, and style in perfect harmony.
+                </p>
+              </div>
             </div>
 
-            {/* Animated Title */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-[1.05]">
-              <span className="block mb-2">Experience</span>
-              <span className="relative inline-block">
-                <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 blur-2xl opacity-50 animate-pulse-slow"></span>
-                <span className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]">
-                  Luxury
-                </span>
-              </span>
-              <span className="block">Shopping</span>
-            </h1>
+            {/* Current Product Quick Info */}
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-gray-400 mb-1">Now Showing</div>
+                  <h3 className="text-2xl font-bold text-white">{currentProduct.title}</h3>
+                </div>
+                <div className={`px-4 py-2 rounded-full bg-gradient-to-r ${currentProduct.color} text-white text-sm font-bold`}>
+                  {currentProduct.category}
+                </div>
+              </div>
 
-            <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Discover premium products curated exclusively for the discerning shopper. Elevate your lifestyle today.
-            </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <div className="text-3xl font-black text-white">{currentProduct.price}</div>
+                    <div className="text-sm text-gray-500">Best Price</div>
+                  </div>
+                  <div className="w-px h-12 bg-white/20"></div>
+                  <div>
+                    <div className="flex items-center gap-1 text-lg font-bold text-white">
+                      {currentProduct.rating} <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    </div>
+                    <div className="text-sm text-gray-500">Rating</div>
+                  </div>
+                </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-              <Link to="/products">
-                <button className="group relative overflow-hidden rounded-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.3),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <span className="relative flex items-center justify-center gap-3 px-8 py-4 text-white font-bold">
-                    Explore Collection
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                <button className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-2xl text-white font-bold flex items-center gap-2 shadow-lg shadow-blue-500/25 transition-all">
+                  <ShoppingCart className="w-5 h-5" />
+                  Add to Cart
                 </button>
-              </Link>
-              <button className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl px-8 py-4 font-bold hover:border-cyan-500/30 transition-all">
-                <span className="relative flex items-center justify-center gap-2">
-                  <Eye className="w-5 h-5" />
-                  Watch Video
-                </span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-4">
+              <button className="flex-1 px-8 py-4 bg-white hover:bg-gray-100 text-black font-bold rounded-2xl transition-all flex items-center justify-center gap-2 shadow-xl">
+                <Package className="w-5 h-5" />
+                View All Products
+              </button>
+              <button className="px-6 py-4 bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/20 text-white font-bold rounded-2xl transition-all">
+                <Eye className="w-5 h-5" />
+              </button>
+              <button className="px-6 py-4 bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/20 text-white font-bold rounded-2xl transition-all">
+                <Heart className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Stats with Glassmorphism */}
-            <div className="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
-              {[
-                { value: '15K+', label: 'Products', icon: Sparkles },
-                { value: '100K+', label: 'Happy Customers', icon: Award },
-                { value: '5.0', label: 'Rating', icon: Star }
-              ].map((stat, i) => (
-                <div key={i} className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl p-4 text-center group-hover:border-cyan-500/30 transition-all">
-                    <stat.icon className="w-5 h-5 mx-auto mb-2 text-cyan-400" />
-                    <div className="text-2xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                      {stat.value}
-                    </div>
-                    <div className="text-xs text-gray-500 font-medium">{stat.label}</div>
-                  </div>
-                </div>
-              ))}
+            {/* Stats */}
+            <div className="flex items-center gap-8 pt-4">
+              <div>
+                <div className="text-3xl font-black text-white">15K+</div>
+                <div className="text-sm text-gray-500">Products</div>
+              </div>
+              <div className="w-px h-12 bg-white/20"></div>
+              <div>
+                <div className="text-3xl font-black text-white">50K+</div>
+                <div className="text-sm text-gray-500">Customers</div>
+              </div>
+              <div className="w-px h-12 bg-white/20"></div>
+              <div>
+                <div className="text-3xl font-black text-white">4.9★</div>
+                <div className="text-sm text-gray-500">Rating</div>
+              </div>
             </div>
           </div>
 
-          {/* 3D Product Showcase */}
-          <div className="relative hidden lg:block">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 via-blue-500/30 to-purple-500/30 rounded-full blur-[100px] animate-pulse-slow"></div>
-              {heroProduct && (
-                <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
-                  <img 
-                    src={heroProduct.images} 
-                    alt="Featured Product"
-                    className="relative w-full h-[550px] object-contain drop-shadow-2xl animate-float transform group-hover:scale-105 transition-transform duration-700"
-                  />
+          {/* RIGHT SIDE - Product Carousel */}
+          <div className="relative flex items-center justify-center p-8">
+            {/* Carousel Container */}
+            <div className="relative w-full max-w-2xl">
+              {/* Background Glow */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${currentProduct.color} opacity-20 blur-[100px] rounded-full transition-all duration-700`}></div>
+
+              {/* Main Carousel */}
+              <div className="relative">
+                {/* Product Cards Stack */}
+                <div className="relative h-[600px] perspective-1000">
+                  {products.map((product, index) => {
+                    const offset = index - activeSlide;
+                    const isActive = index === activeSlide;
+                    
+                    return (
+                      <div
+                        key={product.id}
+                        className={`absolute inset-0 transition-all duration-700 ${
+                          isActive ? 'z-30' : 'z-10'
+                        }`}
+                        style={{
+                          transform: `
+                            translateX(${offset * 100}px) 
+                            translateY(${Math.abs(offset) * 20}px)
+                            scale(${isActive ? 1 : 0.85})
+                            rotateY(${offset * -15}deg)
+                          `,
+                          opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.5,
+                          pointerEvents: isActive ? 'auto' : 'none'
+                        }}
+                      >
+                        {/* Product Card */}
+                        <div className="relative h-full group">
+                          {/* Card Glow Effect */}
+                          <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-0 group-hover:opacity-30 blur-2xl rounded-[40px] transition-opacity duration-500`}></div>
+                          
+                          {/* Card Content */}
+                          <div className="relative h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 rounded-[40px] p-8 shadow-2xl overflow-hidden">
+                            {/* Animated Border on Hover */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className={`absolute inset-0 bg-gradient-to-r ${product.color} rounded-[40px] blur-xl`}></div>
+                            </div>
+
+                            {/* Product Image */}
+                            <div className="relative mb-6 rounded-3xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 h-[400px]">
+                              <img 
+                                src={product.image}
+                                alt={product.title}
+                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                              />
+                              
+                              {/* Floating Badges */}
+                              <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-xl rounded-2xl px-4 py-2 border border-white/20">
+                                <div className="flex items-center gap-1">
+                                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                  <span className="text-sm font-bold text-white">{product.rating}</span>
+                                </div>
+                              </div>
+
+                              <div className={`absolute top-4 right-4 bg-gradient-to-r ${product.color} rounded-2xl px-4 py-2 text-white text-sm font-bold`}>
+                                NEW
+                              </div>
+
+                              {/* Quick Actions */}
+                              <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button className="w-12 h-12 bg-black/60 backdrop-blur-xl rounded-full flex items-center justify-center text-white border border-white/20 hover:bg-white/20 transition-all">
+                                  <Heart className="w-5 h-5" />
+                                </button>
+                                <button className="w-12 h-12 bg-black/60 backdrop-blur-xl rounded-full flex items-center justify-center text-white border border-white/20 hover:bg-white/20 transition-all">
+                                  <Eye className="w-5 h-5" />
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Product Info */}
+                            <div className="relative">
+                              <h3 className="text-2xl font-black text-white mb-2">
+                                {product.title}
+                              </h3>
+                              <div className="flex items-center justify-between">
+                                <div className="text-3xl font-black text-white">
+                                  ${product.price}
+                                </div>
+                                <div className={`px-4 py-2 rounded-full bg-gradient-to-r ${product.color} text-white text-sm font-bold`}>
+                                  {product.category}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
+
+                {/* Navigation Arrows */}
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 z-40 w-14 h-14 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white transition-all group"
+                >
+                  <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 z-40 w-14 h-14 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white transition-all group"
+                >
+                  <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                </button>
+
+                {/* Dots Indicator */}
+                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex gap-3 z-40">
+                  {products.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setActiveSlide(index);
+                        setIsAutoPlay(false);
+                      }}
+                      className={`transition-all ${
+                        index === activeSlide
+                          ? 'w-12 h-3 bg-gradient-to-r from-blue-500 to-purple-600'
+                          : 'w-3 h-3 bg-white/30 hover:bg-white/50'
+                      } rounded-full`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
-          <div className="w-1 h-2 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full animate-scroll"></div>
-        </div>
-      </div>
+      <style jsx>{`
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+      `}</style>
     </div>
   );
 };
