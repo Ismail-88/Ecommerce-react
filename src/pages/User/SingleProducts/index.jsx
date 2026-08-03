@@ -71,7 +71,7 @@ const SingleProduct = () => {
       onClick={handleAddToCart}
       size="lg"
       disabled={singleProduct.stock === 0}
-      className="flex-1 justify-center"
+      className="w-full justify-center"
     >
       <ShoppingBag size={18} aria-hidden />
       Add to Cart
@@ -84,7 +84,7 @@ const SingleProduct = () => {
       size="lg"
       variant="secondary"
       disabled={singleProduct.stock === 0}
-      className="flex-1 justify-center"
+      className="w-full justify-center"
     >
       <Zap size={18} aria-hidden />
       Buy Now
@@ -191,7 +191,7 @@ const SingleProduct = () => {
               <p className="font-extrabold text-foreground text-xl">{formatINR(singleProduct.price * quantity)}</p>
             </div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-2">
             {cartButton}
             {buyNowButton}
           </div>

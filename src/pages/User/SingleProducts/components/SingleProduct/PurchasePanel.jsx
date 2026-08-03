@@ -48,12 +48,12 @@ const PurchasePanel = ({
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col gap-3">
           <Button
             onClick={onAddToCart}
             size="lg"
             disabled={isOutOfStock}
-            className="flex-1 justify-center"
+            className="w-full justify-center"
           >
             <ShoppingBag size={18} aria-hidden />
             Add to Cart
@@ -63,7 +63,7 @@ const PurchasePanel = ({
             size="lg"
             variant="secondary"
             disabled={isOutOfStock}
-            className="flex-1 justify-center"
+            className="w-full justify-center"
           >
             <Zap size={18} aria-hidden />
             Buy Now
