@@ -68,7 +68,7 @@ const HeroSection = ({ heroProduct }) => {
           <div className="space-y-8">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-200 dark:border-brand-800 bg-primary-soft text-sm font-semibold text-brand-700 dark:text-brand-300">
               <Sparkles size={15} aria-hidden />
-              2025 Collection
+              2026 Collection
             </span>
 
             <div className="space-y-4">
