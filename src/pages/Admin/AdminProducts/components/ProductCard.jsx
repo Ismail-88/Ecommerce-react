@@ -3,6 +3,7 @@ import React from 'react';
 import { Edit2, Eye, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from '../../../../context/DataContext';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 import Badge from '../../../../components/ui/Badge';
 import Button from '../../../../components/ui/Button';
@@ -91,11 +92,11 @@ const ProductCard = ({ product, onDelete }) => {
             <p className="text-sm mb-1 text-text-muted">Price</p>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-foreground">
-                ${product.price}
+                {formatINR(product.price)}
               </span>
               {product.discount > 0 && (
                 <span className="text-sm line-through text-text-faint">
-                  ${(product.price / (1 - product.discount / 100)).toFixed(2)}
+                  {formatINR(product.price / (1 - product.discount / 100))}
                 </span>
               )}
             </div>

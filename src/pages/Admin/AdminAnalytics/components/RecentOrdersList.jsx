@@ -1,5 +1,6 @@
 import React from 'react'
 import { Clock } from 'lucide-react';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 import Badge from '../../../../components/ui/Badge';
 
@@ -29,7 +30,7 @@ const RecentOrdersList = ({ orders }) => {
               </p>
             </div>
             <div className="text-right flex-shrink-0 ml-2">
-              <p className="font-bold text-foreground">${order.pricing?.grandTotal.toFixed(2)}</p>
+              <p className="font-bold text-foreground">{formatINR(order.pricing?.grandTotal)}</p>
               <Badge tone={statusTones[order.status] || 'neutral'}>
                 {order.status}
               </Badge>

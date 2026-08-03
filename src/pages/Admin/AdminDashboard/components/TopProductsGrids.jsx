@@ -1,5 +1,6 @@
 import { Package, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 const TopProductsGrids = ({ topProducts }) => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const TopProductsGrids = ({ topProducts }) => {
               </h3>
               <div className="flex items-center justify-between">
                 <span className="font-bold text-brand-600 dark:text-brand-400">
-                  ${product.price}
+                  {formatINR(product.price)}
                 </span>
                 <span className="text-xs text-text-muted">
                   Stock: {product.stock || 0}

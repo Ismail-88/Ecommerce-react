@@ -1,4 +1,5 @@
 import { DollarSign, Box, Percent, Tag, AlertCircle } from "lucide-react";
+import { formatINR } from "../../../../utils/formatCurrency";
 
 export const PricingInventoryCard = ({
   register,
@@ -147,19 +148,19 @@ export const PricingInventoryCard = ({
           <div className="space-y-2">
             <div className="flex justify-between text-text-muted">
               <span>Original Price:</span>
-              <span className="font-semibold text-foreground">${watchedPrice.toFixed(2)}</span>
+              <span className="font-semibold text-foreground">{formatINR(watchedPrice)}</span>
             </div>
             {watchedDiscount > 0 && (
               <>
                 <div className="flex justify-between text-danger">
                   <span>Discount ({watchedDiscount}%):</span>
                   <span className="font-semibold">
-                    -${((watchedPrice * watchedDiscount) / 100).toFixed(2)}
+                    -{formatINR((watchedPrice * watchedDiscount) / 100)}
                   </span>
                 </div>
                 <div className="border-t border-success/30 pt-2 flex justify-between text-lg font-bold text-success">
                   <span>Final Price:</span>
-                  <span>${finalPrice.toFixed(2)}</span>
+                  <span>{formatINR(finalPrice)}</span>
                 </div>
               </>
             )}

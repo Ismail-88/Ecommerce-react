@@ -74,7 +74,7 @@ const MobileFilter = ({openFilter, setOpenFilter,search,
       <h1 className="mt-5 font-semibold text-xl mb-3">Price Range</h1>
       <div className="flex flex-col gap-2 w-[200px]">
         <label htmlFor="">
-          Price Range : ${priceRange[0]} - ${priceRange[1]}
+          Price Range : ₹{priceRange[0]} - ₹{priceRange[1]}
         </label>
         <input
           type="range"

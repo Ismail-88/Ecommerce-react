@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatINR } from '../../../../utils/formatCurrency';
 
 import Modal from '../../../../components/ui/Modal';
 
@@ -65,7 +66,7 @@ export const OrderDetailsModal = ({ order, onClose, onStatusChange }) => {
                   <p className="text-xs text-text-muted">Qty: {item.quantity}</p>
                 </div>
                 <span className="font-bold text-brand-600 dark:text-brand-400">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {formatINR(item.price * item.quantity)}
                 </span>
               </div>
             ))}
@@ -77,25 +78,25 @@ export const OrderDetailsModal = ({ order, onClose, onStatusChange }) => {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-text-muted">Subtotal</span>
-              <span className="text-foreground">${order.pricing.subtotal.toFixed(2)}</span>
+              <span className="text-foreground">{formatINR(order.pricing.subtotal)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-muted">Delivery Fee</span>
               <span className="text-foreground">
                 {order.pricing.deliveryFee === 0
                   ? "FREE"
-                  : `$${order.pricing.deliveryFee.toFixed(2)}`}
+                  : formatINR(order.pricing.deliveryFee)}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-muted">Handling Fee</span>
-              <span className="text-foreground">${order.pricing.handlingFee.toFixed(2)}</span>
+              <span className="text-foreground">{formatINR(order.pricing.handlingFee)}</span>
             </div>
             <hr className="my-2 border-border" />
             <div className="flex justify-between font-bold text-lg">
               <span className="text-foreground">Total</span>
               <span className="text-brand-600 dark:text-brand-400">
-                ${order.pricing.grandTotal.toFixed(2)}
+                {formatINR(order.pricing.grandTotal)}
               </span>
             </div>
           </div>

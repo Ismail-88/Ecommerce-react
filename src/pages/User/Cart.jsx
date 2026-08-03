@@ -5,6 +5,7 @@ import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, Truck, Package, Gift
 import EmptyState from "../../components/ui/EmptyState";
 import Button from "../../components/ui/Button";
 import PageHeader from "../../components/ui/PageHeader";
+import { formatINR } from "../../utils/formatCurrency";
 
 const Cart = () => {
   const { cartItem, updatedQuantity, deleteCartItem } = useCart();
@@ -94,8 +95,8 @@ const Cart = () => {
                   <div className="flex flex-wrap items-center justify-between gap-4">
                     {/* Price */}
                     <div>
-                      <p className="text-xl font-extrabold text-foreground">₹{item.price * item.quantity}</p>
-                      <p className="text-xs text-text-muted">₹{item.price} each</p>
+                      <p className="text-xl font-extrabold text-foreground">{formatINR(item.price * item.quantity)}</p>
+                      <p className="text-xs text-text-muted">{formatINR(item.price)} each</p>
                     </div>
 
                     {/* Quantity Controls */}
@@ -141,7 +142,7 @@ const Cart = () => {
                 <div className="space-y-3.5 text-sm">
                   <div className="flex justify-between text-text-secondary">
                     <span>Subtotal ({cartItem.length} items)</span>
-                    <span className="font-semibold text-foreground">₹{subtotal.toFixed(2)}</span>
+                    <span className="font-semibold text-foreground">{formatINR(subtotal)}</span>
                   </div>
                   <div className="flex justify-between items-center text-text-secondary">
                     <span className="flex items-center gap-1.5">
@@ -155,14 +156,14 @@ const Cart = () => {
                   </div>
                   <div className="flex justify-between text-text-secondary">
                     <span>Handling Fee</span>
-                    <span className="font-semibold text-foreground">₹{handlingFee.toFixed(2)}</span>
+                    <span className="font-semibold text-foreground">{formatINR(handlingFee)}</span>
                   </div>
 
                   <div className="border-t border-border my-2" aria-hidden />
 
                   <div className="flex justify-between items-center rounded-xl bg-primary-soft px-4 py-3">
                     <span className="font-bold text-foreground">Total</span>
-                    <span className="text-2xl font-extrabold text-foreground">₹{grandTotal.toFixed(2)}</span>
+                    <span className="text-2xl font-extrabold text-foreground">{formatINR(grandTotal)}</span>
                   </div>
                 </div>
 

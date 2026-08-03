@@ -1,6 +1,7 @@
 import { Edit } from 'lucide-react';
 import React from 'react'
 import { API_BASE_URL } from '../../../../context/DataContext';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 import Badge from '../../../../components/ui/Badge';
 
@@ -11,8 +12,7 @@ const InventoryTable = ({ products, onUpdateStock }) => {
     return { text: 'In Stock', tone: 'success' };
   };
 
-  const formatCurrency = (value) =>
-    value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  const formatCurrency = (value) => formatINR(value);
 
   return (
     <div className="bg-surface rounded-2xl border border-border shadow-card overflow-hidden">

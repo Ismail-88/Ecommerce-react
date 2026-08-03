@@ -4,6 +4,7 @@ import Button from "../../../../../components/ui/Button";
 import PriceCard from "./PriceCard";
 import QuantitySelector from "./QuantitySelector";
 import TrustBadges from "./TrustBadges";
+import { formatINR } from "../../../../../utils/formatCurrency";
 
 const PurchasePanel = ({
   product,
@@ -42,7 +43,7 @@ const PurchasePanel = ({
               Total
             </p>
             <p className="font-extrabold text-foreground text-lg tabular-nums">
-              ₹{(product.price * quantity).toLocaleString("en-IN")}
+              {formatINR(product.price * quantity)}
             </p>
           </div>
         </div>

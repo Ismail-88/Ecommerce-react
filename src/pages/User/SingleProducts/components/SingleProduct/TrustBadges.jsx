@@ -2,7 +2,7 @@ import { Truck, RotateCcw, ShieldCheck, BadgePercent, Banknote } from "lucide-re
 
 const TrustBadges = ({ compact = false }) => {
   const items = [
-    { icon: Truck, label: "Free Delivery", sub: "On orders over $50" },
+    { icon: Truck, label: "Free Delivery", sub: "On orders over ₹50" },
     { icon: RotateCcw, label: "7-Day Returns", sub: "No questions asked" },
     { icon: Banknote, label: "COD Available", sub: "Pay at your door" },
     { icon: ShieldCheck, label: "1-Year Warranty", sub: "Genuine products" },

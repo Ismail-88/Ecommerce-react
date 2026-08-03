@@ -1,5 +1,6 @@
 import React from 'react'
 import { Package } from 'lucide-react';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 const TopProductsList = ({ products }) => {
   return (
@@ -21,7 +22,7 @@ const TopProductsList = ({ products }) => {
               <p className="text-xs text-text-muted">Sold: {product.quantity} units</p>
             </div>
             <div className="text-right flex-shrink-0">
-              <p className="font-bold text-success">${product.revenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+              <p className="font-bold text-success">{formatINR(product.revenue, 2)}</p>
             </div>
           </div>
         ))}

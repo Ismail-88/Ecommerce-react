@@ -1,5 +1,6 @@
 import Modal from '../../../../components/ui/Modal';
 import Badge from '../../../../components/ui/Badge';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 export const CustomerDetailsModal = ({ customer, onClose }) => {
   if (!customer) return null;
@@ -18,7 +19,7 @@ export const CustomerDetailsModal = ({ customer, onClose }) => {
     { label: 'Total Orders', value: customer.totalOrders || 0 },
     {
       label: 'Total Spent',
-      value: `$${(customer.totalSpent || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+      value: formatINR(customer.totalSpent || 0, 2),
     },
     { label: 'Joined Date', value: formatDate(customer.createdAt) },
     { label: 'Last Login', value: customer.lastLogin ? formatDate(customer.lastLogin) : 'N/A' },

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { api, getData } from "../../../../context/DataContext";
+import { formatINR } from "../../../../utils/formatCurrency";
 
 export const useOrders = ()=>{
     const { orders, fetchAllOrders, loadingOrders } = getData();
@@ -78,7 +79,7 @@ export const useOrders = ()=>{
         order.shippingInfo.fullName,
         new Date(order.orderDate).toLocaleDateString(),
         order.status,
-        `$${order.pricing.grandTotal.toFixed(2)}`,
+        formatINR(order.pricing.grandTotal, 2),
       ]),
     ]
       .map((row) => row.join(","))

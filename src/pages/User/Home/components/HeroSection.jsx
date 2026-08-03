@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ShoppingCart, Heart, Star, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { formatINR } from "../../../../utils/formatCurrency";
 
 const HeroSection = ({ heroProduct }) => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -97,7 +98,7 @@ const HeroSection = ({ heroProduct }) => {
               <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-4">
                   <div>
-                    <p className="text-2xl font-extrabold text-foreground">${currentProduct.price}</p>
+                    <p className="text-2xl font-extrabold text-foreground">{formatINR(currentProduct.price)}</p>
                     <p className="text-xs text-text-muted">Best Price</p>
                   </div>
                   <div className="w-px h-10 bg-border" aria-hidden />
@@ -197,7 +198,7 @@ const HeroSection = ({ heroProduct }) => {
                         <div className="p-4">
                           <h3 className="font-bold text-foreground truncate">{product.title}</h3>
                           <div className="flex items-center justify-between mt-1">
-                            <span className="text-xl font-extrabold text-foreground">${product.price}</span>
+                            <span className="text-xl font-extrabold text-foreground">{formatINR(product.price)}</span>
                             <span className="flex items-center gap-1 text-sm font-medium text-text-muted">
                               <Star size={13} className="fill-warning text-warning" aria-hidden />
                               {product.rating}

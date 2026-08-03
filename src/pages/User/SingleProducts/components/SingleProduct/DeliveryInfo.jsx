@@ -16,7 +16,7 @@ const DeliveryInfo = () => {
   };
 
   const services = [
-    { icon: Truck, title: "Free Express Delivery", desc: "On orders over $50" },
+    { icon: Truck, title: "Free Express Delivery", desc: "On orders over ₹50" },
     { icon: RotateCcw, title: "7 Days Easy Return", desc: "Hassle-free returns" },
     { icon: Shield, title: "Premium Warranty", desc: "Covered under warranty" },
   ];

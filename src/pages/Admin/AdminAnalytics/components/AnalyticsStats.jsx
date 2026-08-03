@@ -1,11 +1,12 @@
 import { ArrowUp, ArrowDown, DollarSign, Package, ShoppingCart, Users } from 'lucide-react';
 import React from 'react'
+import { formatINR } from '../../../../utils/formatCurrency';
 
 const AnalyticsStats = ({ stats }) => {
   const statsConfig = [
     {
       label: 'Total Revenue',
-      value: `$${stats.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+      value: formatINR(stats.totalRevenue, 2),
       growth: stats.revenueGrowth,
       icon: DollarSign,
       iconClass: 'text-info bg-info-soft',
@@ -25,7 +26,7 @@ const AnalyticsStats = ({ stats }) => {
     },
     {
       label: 'Avg Order Value',
-      value: `$${stats.avgOrderValue.toFixed(2)}`,
+      value: formatINR(stats.avgOrderValue, 2),
       icon: Package,
       iconClass: 'text-warning bg-warning-soft',
     },

@@ -1,4 +1,5 @@
 import { TrendingUp, Package, ShoppingCart, Users, DollarSign } from 'lucide-react';
+import { formatINR } from '../../../utils/formatCurrency';
 
 import useDashboardData from './hooks/useDashboardData';
 import DashboardHeader from './components/DashboardHeader';
@@ -18,7 +19,7 @@ const AdminDashboard = () => {
   const statsCards = [
     {
       title: 'Total Revenue',
-      value: `$${stats.totalRevenue.toFixed(2)}`,
+      value: formatINR(stats.totalRevenue, 2),
       growth: stats.revenueGrowth,
       icon: <DollarSign className="w-6 h-6" />,
       gradient: 'from-emerald-500 via-green-500 to-teal-600',

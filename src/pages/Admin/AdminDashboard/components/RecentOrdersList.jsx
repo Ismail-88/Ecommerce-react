@@ -1,5 +1,6 @@
 import { Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 import Badge from '../../../../components/ui/Badge';
 
@@ -47,7 +48,7 @@ const RecentOrdersList = ({ recentOrders }) => {
               </div>
               <div className="text-right ml-2">
                 <p className="text-sm font-bold text-brand-600 dark:text-brand-400">
-                  ${(order.pricing?.grandTotal || order.totalAmount || 0).toFixed(2)}
+                  {formatINR(order.pricing?.grandTotal || order.totalAmount || 0)}
                 </p>
                 <Badge tone={statusTones[order.status] || 'info'}>
                   {order.status || 'pending'}

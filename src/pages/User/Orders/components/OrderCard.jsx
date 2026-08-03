@@ -5,6 +5,7 @@ import { MapPin, CreditCard, Package, Truck, CheckCircle2, XCircle, Clock, Eye }
 
 import Badge from '../../../../components/ui/Badge';
 import Button from '../../../../components/ui/Button';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 const OrderCard = ({ order, formatDate }) => {
   const navigate = useNavigate();
@@ -117,7 +118,7 @@ const OrderCard = ({ order, formatDate }) => {
                     Quantity: <span className="text-foreground font-bold">{item.quantity || 1}</span>
                   </p>
                   <p className="font-bold text-brand-600 dark:text-brand-400">
-                    ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}
+                    {formatINR((item.price || 0) * (item.quantity || 1))}
                   </p>
                 </div>
               </div>
@@ -162,7 +163,7 @@ const OrderCard = ({ order, formatDate }) => {
         <div className="p-4 rounded-xl border border-border bg-surface-alt">
           <p className="text-text-muted text-sm mb-2">Total Amount</p>
           <p className="text-2xl font-extrabold text-foreground">
-            ${(order.pricing?.grandTotal || 0).toFixed(2)}
+            {formatINR(order.pricing?.grandTotal || 0)}
           </p>
         </div>
       </div>

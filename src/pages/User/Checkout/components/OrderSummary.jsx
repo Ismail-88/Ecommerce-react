@@ -1,6 +1,7 @@
 import React from "react";
 import { ShoppingBag, Tag } from "lucide-react";
 import Button from "../../../../components/ui/Button";
+import { formatINR } from "../../../../utils/formatCurrency";
 
 const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
   return (
@@ -27,7 +28,7 @@ const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
                     Qty: <span className="font-semibold text-foreground">{item.quantity}</span>
                   </span>
                   <span className="text-sm font-bold text-foreground">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatINR(item.price * item.quantity)}
                   </span>
                 </div>
               </div>
@@ -41,12 +42,12 @@ const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
         <div className="space-y-3 text-sm">
           <div className="flex justify-between text-text-muted">
             <span>Subtotal</span>
-            <span className="font-semibold text-foreground">${pricing.subtotal.toFixed(2)}</span>
+            <span className="font-semibold text-foreground">{formatINR(pricing.subtotal)}</span>
           </div>
           <div className="flex justify-between items-center text-text-muted">
             <span>Delivery Fee</span>
             <span className="flex items-center gap-1.5">
-              <span className="line-through text-text-faint">$25</span>
+              <span className="line-through text-text-faint">₹25</span>
               <span className="inline-flex items-center gap-1 rounded-full bg-success-soft text-success text-xs font-bold px-2.5 py-0.5">
                 <Tag size={10} aria-hidden />
                 FREE
@@ -55,12 +56,12 @@ const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
           </div>
           <div className="flex justify-between text-text-muted">
             <span>Handling Fee</span>
-            <span className="font-semibold text-foreground">${pricing.handlingFee.toFixed(2)}</span>
+            <span className="font-semibold text-foreground">{formatINR(pricing.handlingFee)}</span>
           </div>
 
           <div className="border-t border-border pt-3 flex justify-between items-center">
             <span className="font-bold text-foreground">Total</span>
-            <span className="text-2xl font-extrabold text-foreground">${pricing.grandTotal.toFixed(2)}</span>
+            <span className="text-2xl font-extrabold text-foreground">{formatINR(pricing.grandTotal)}</span>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { AlertTriangle, Package, TrendingDown, DollarSign } from 'lucide-react'
 import React from 'react'
+import { formatINR } from '../../../../utils/formatCurrency'
 
 export const InventoryStats = ({ stats }) => {
   const statsConfig = [
@@ -8,7 +9,7 @@ export const InventoryStats = ({ stats }) => {
     { label: 'Out of Stock', value: stats.outOfStockProducts, icon: AlertTriangle, iconClass: 'text-danger bg-danger-soft' },
     {
       label: 'Stock Value',
-      value: stats.totalStockValue.toLocaleString('en-US', { style: 'currency', currency: 'USD' }),
+      value: formatINR(stats.totalStockValue, 2),
       icon: DollarSign,
       iconClass: 'text-success bg-success-soft',
     },

@@ -106,7 +106,7 @@ const FilterSection = ({
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-semibold text-gray-600">Min</span>
             <span className="text-lg font-bold text-gray-800">
-              ${priceRange[0]} - ${priceRange[1]}
+              ₹{priceRange[0]} - ₹{priceRange[1]}
             </span>
             <span className="text-xs font-semibold text-gray-600">Max</span>
           </div>
@@ -123,8 +123,8 @@ const FilterSection = ({
             }}
           />
           <div className="flex justify-between mt-2 text-xs text-gray-500">
-            <span>$0</span>
-            <span>$5000</span>
+            <span>₹0</span>
+            <span>₹5000</span>
           </div>
         </div>
       </div>

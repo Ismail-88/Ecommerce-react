@@ -18,6 +18,7 @@ import ProductReviews from "./components/review/ProductReviews";
 import BreadCrumbs from "../../../components/BreadCrumbs";
 import Button from "../../../components/ui/Button";
 import { FullPageSpinner } from "../../../components/ui/Spinner";
+import { formatINR } from "../../../utils/formatCurrency";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -187,7 +188,7 @@ const SingleProduct = () => {
               <p className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1">
                 Total
               </p>
-              <p className="font-extrabold text-foreground text-xl">₹{singleProduct.price * quantity}</p>
+              <p className="font-extrabold text-foreground text-xl">{formatINR(singleProduct.price * quantity)}</p>
             </div>
           </div>
           <div className="flex gap-3">

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Eye, Trash2, UserCheck, UserX } from 'lucide-react';
 import { API_BASE_URL } from '../../../../context/DataContext';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 import Badge from '../../../../components/ui/Badge';
 import ConfirmDialog from '../../../../components/ui/ConfirmDialog';
@@ -14,12 +15,7 @@ export const CustomerTable = ({ customers, onViewDetails, onDelete }) => {
     return `${API_BASE_URL}${imgPath}`;
   };
 
-  const formatCurrency = (amount) => {
-    return (amount || 0.0).toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD"
-    });
-  };
+  const formatCurrency = (amount) => formatINR(amount, 2);
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-IN', {

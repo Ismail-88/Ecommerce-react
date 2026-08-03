@@ -40,7 +40,7 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
       <div className="bg-brand-600 text-white text-center">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-center gap-2 text-xs sm:text-sm font-medium">
           <Zap size={14} className="shrink-0" aria-hidden />
-          <p>Free Premium Shipping on Orders Over $75</p>
+          <p>Free Premium Shipping on Orders Over ₹75</p>
         </div>
       </div>
 

@@ -1,12 +1,13 @@
 // components/Admin/ProductsStats.jsx
 import React from 'react';
 import { AlertCircle, Box, DollarSign, Tag } from 'lucide-react';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 const ProductsStats = ({ products, categories }) => {
   const lowStockCount = products.filter((p) => (p.stock || 0) < 10).length;
   const avgPrice = products.length > 0
-    ? (products.reduce((sum, p) => sum + p.price, 0) / products.length).toFixed(2)
-    : "0.00";
+    ? products.reduce((sum, p) => sum + p.price, 0) / products.length
+    : 0;
 
   const stats = [
     {
@@ -17,7 +18,7 @@ const ProductsStats = ({ products, categories }) => {
     },
     {
       label: "Average Price",
-      value: `$${avgPrice}`,
+      value: formatINR(avgPrice, 2),
       icon: DollarSign,
       iconBg: "bg-success-soft text-success",
     },

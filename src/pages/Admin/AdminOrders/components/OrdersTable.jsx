@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Eye, Trash2 } from 'lucide-react';
+import { formatINR } from '../../../../utils/formatCurrency';
 
 import Badge from '../../../../components/ui/Badge';
 import ConfirmDialog from '../../../../components/ui/ConfirmDialog';
@@ -59,7 +60,7 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
                     {order.items.length} item(s)
                   </td>
                   <td className="py-4 px-6 font-bold text-brand-600 dark:text-brand-400">
-                    ${order.pricing.grandTotal.toFixed(2)}
+                    {formatINR(order.pricing.grandTotal)}
                   </td>
                   <td className="py-4 px-6">
                     <select

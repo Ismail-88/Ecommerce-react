@@ -2,7 +2,7 @@ import { Truck, Shield, Award, Clock } from "lucide-react";
 
 const FeaturesBar = () => {
   const features = [
-    { icon: Truck, text: "Free Express Delivery", subtext: "On orders over $50" },
+    { icon: Truck, text: "Free Express Delivery", subtext: "On orders over ₹50" },
     { icon: Shield, text: "100% Secure Payments", subtext: "SSL Encrypted" },
     { icon: Award, text: "Premium Quality", subtext: "Guaranteed" },
     { icon: Clock, text: "24/7 Support", subtext: "Always here to help" },

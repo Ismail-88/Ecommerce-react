@@ -6,6 +6,7 @@ import { useCart } from "../../context/CartContext";
 
 import EmptyState from "../../components/ui/EmptyState";
 import Button from "../../components/ui/Button";
+import { formatINR } from "../../utils/formatCurrency";
 
 const OrderConfirmation = () => {
   const location = useLocation();
@@ -39,14 +40,14 @@ Address: ${orderData.shippingInfo.address}, ${orderData.shippingInfo.city}, ${or
 
 ITEMS ORDERED
 -------------
-${orderData.items.map((item, i) => `${i + 1}. ${item.title} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`).join('\n')}
+${orderData.items.map((item, i) => `${i + 1}. ${item.title} x${item.quantity} - ${formatINR(item.price * item.quantity, 2)}`).join('\n')}
 
 PAYMENT SUMMARY
 ---------------
-Subtotal: $${orderData.pricing.subtotal.toFixed(2)}
-Delivery Fee: $${orderData.pricing.deliveryFee.toFixed(2)}
-Handling Fee: $${orderData.pricing.handlingFee.toFixed(2)}
-Total: $${orderData.pricing.grandTotal.toFixed(2)}
+Subtotal: ${formatINR(orderData.pricing.subtotal, 2)}
+Delivery Fee: ${formatINR(orderData.pricing.deliveryFee, 2)}
+Handling Fee: ${formatINR(orderData.pricing.handlingFee, 2)}
+Total: ${formatINR(orderData.pricing.grandTotal, 2)}
 
 Payment Method: ${orderData.paymentMethod.toUpperCase()}
 
@@ -224,9 +225,9 @@ Thank you for shopping with us!
                 </div>
                 <div className="text-right flex-shrink-0">
                   <p className="text-lg font-extrabold text-foreground">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatINR(item.price * item.quantity)}
                   </p>
-                  <p className="text-sm text-text-muted">${item.price.toFixed(2)} each</p>
+                  <p className="text-sm text-text-muted">{formatINR(item.price)} each</p>
                 </div>
               </div>
             ))}
@@ -239,23 +240,23 @@ Thank you for shopping with us!
           <div className="space-y-3">
             <div className="flex justify-between text-foreground/90">
               <span className="text-text-muted">Subtotal</span>
-              <span className="font-bold text-foreground">${pricing.subtotal.toFixed(2)}</span>
+              <span className="font-bold text-foreground">{formatINR(pricing.subtotal)}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-text-muted">Delivery Fee</span>
               <span className="text-success font-bold">
-                {pricing.deliveryFee === 0 ? "FREE" : `$${pricing.deliveryFee}`}
+                {pricing.deliveryFee === 0 ? "FREE" : formatINR(pricing.deliveryFee)}
               </span>
             </div>
             <div className="flex justify-between text-foreground/90">
               <span className="text-text-muted">Handling Fee</span>
-              <span className="font-bold text-foreground">${pricing.handlingFee.toFixed(2)}</span>
+              <span className="font-bold text-foreground">{formatINR(pricing.handlingFee)}</span>
             </div>
             <div className="h-px bg-border my-4"></div>
             <div className="flex justify-between items-center p-4 rounded-xl bg-brand-soft border border-brand-500/20">
               <span className="text-lg font-bold text-foreground">Grand Total</span>
               <span className="text-3xl font-black text-brand-600 dark:text-brand-400">
-                ${pricing.grandTotal.toFixed(2)}
+                {formatINR(pricing.grandTotal)}
               </span>
             </div>
           </div>
