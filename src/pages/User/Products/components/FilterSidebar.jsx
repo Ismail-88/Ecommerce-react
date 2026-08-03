@@ -1,6 +1,4 @@
-
-import { IoSearchOutline } from 'react-icons/io5';
-import { SlidersHorizontal, Sparkles } from 'lucide-react';
+import { SlidersHorizontal, Search, RotateCcw, X } from "lucide-react";
 
 const FilterSidebar = ({
   search,
@@ -15,125 +13,165 @@ const FilterSidebar = ({
   setPriceRange,
   resetFilters,
   isMobile = false,
-  onClose
+  onClose,
+  products,
 }) => {
+  const sectionTitle = "text-[11px] font-black uppercase tracking-widest text-text-muted mb-3";
+
+  const counts = (products || []).reduce((acc, p) => {
+    const name = p.category?.name;
+    if (name) acc[name] = (acc[name] || 0) + 1;
+    return acc;
+  }, {});
+
   return (
-    <div className={`${isMobile ? 'relative' : 'sticky top-28'} rounded-3xl border border-white/10 bg-gradient-to-br ${isMobile ? 'from-gray-900/98 to-black/98' : 'from-white/[0.07] to-white/[0.02]'} backdrop-blur-3xl p-${isMobile ? '6' : '8'} shadow-2xl`}>
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-      
-      <div className="relative">
+    <div
+      className={`${isMobile ? "relative" : "sticky top-24"} rounded-2xl border border-border bg-surface/90 backdrop-blur-xl shadow-card overflow-hidden`}
+    >
+      {/* Gradient header */}
+      <div className="bg-gradient-to-r from-brand-700 to-info px-5 py-4 flex items-center justify-between">
+        <h2 className="flex items-center gap-2 font-black text-white">
+          <SlidersHorizontal size={17} aria-hidden />
+          Filters
+        </h2>
         {isMobile && (
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold">Refine Search</h3>
-            <button 
-              onClick={onClose}
-              className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center transition-all"
-            >
-              ✕
-            </button>
+          <button
+            onClick={onClose}
+            aria-label="Close filters"
+            className="p-1.5 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors"
+          >
+            <X size={18} aria-hidden />
+          </button>
+        )}
+      </div>
+
+      <div className="p-5">
+        {/* Search */}
+        <div className="mb-6">
+          <label htmlFor="filter-search" className="sr-only">
+            Search products
+          </label>
+          <div className="relative">
+            <Search
+              size={16}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-faint"
+              aria-hidden
+            />
+            <input
+              id="filter-search"
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-xl border border-border bg-input-bg pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-text-faint focus:border-brand-500"
+            />
           </div>
-        )}
-
-        {!isMobile && (
-          <h2 className="text-2xl font-black mb-8 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 flex items-center justify-center">
-              <SlidersHorizontal className="w-5 h-5 text-white" />
-            </div>
-            Filters
-          </h2>
-        )}
-
-        <div className="relative mb-6">
-          <IoSearchOutline className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
-          <input
-            type="text"
-            placeholder={isMobile ? "Search luxury items..." : "Search products..."}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl text-white placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none transition-all"
-          />
         </div>
 
         <div className="space-y-6">
+          {/* Category */}
           <div>
-            <h4 className="font-bold mb-4 text-sm uppercase tracking-wider text-gray-400 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              Category
-            </h4>
-            <div className="space-y-2">
-              {categoryNames?.map((item, index) => (
-                <label key={index} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer transition-all group">
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      checked={category === item}
-                      value={item}
-                      onChange={handleCategoryChange}
-                      className="sr-only"
-                    />
-                    <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all ${
-                      category === item 
-                        ? 'border-cyan-500 bg-gradient-to-br from-cyan-500 to-blue-500' 
-                        : 'border-white/20 group-hover:border-cyan-500/50'
-                    }`}>
-                      {category === item && <span className="text-white text-xs">✓</span>}
-                    </div>
-                  </div>
-                  <span className="font-medium">{item}</span>
-                </label>
-              ))}
+            <h4 className={sectionTitle}>Category</h4>
+            <div className="space-y-1">
+              {categoryNames?.filter(Boolean).map((item) => {
+                const active = category === item;
+                return (
+                  <label
+                    key={item}
+                    className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-surface-hover cursor-pointer transition-colors group"
+                  >
+                    <span className="flex items-center gap-2.5 min-w-0">
+                      <input
+                        type="checkbox"
+                        checked={active}
+                        value={item}
+                        onChange={handleCategoryChange}
+                        className="sr-only"
+                      />
+                      <span
+                        className={`flex items-center justify-center w-4 h-4 rounded-md border transition-all flex-shrink-0 ${
+                          active
+                            ? "border-brand-600 bg-gradient-to-r from-brand-600 to-info text-white"
+                            : "border-border-strong group-hover:border-brand-400"
+                        }`}
+                        aria-hidden
+                      >
+                        {active && (
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20 6 9 17l-5-5" />
+                          </svg>
+                        )}
+                      </span>
+                      <span className="text-sm font-medium text-foreground truncate">{item}</span>
+                    </span>
+                    <span
+                      className={`text-[11px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
+                        active ? "bg-brand-600 text-white" : "bg-surface-alt text-text-muted"
+                      }`}
+                    >
+                      {counts[item] || 0}
+                    </span>
+                  </label>
+                );
+              })}
             </div>
           </div>
 
+          {/* Brand */}
           <div>
-            <h4 className="font-bold mb-4 text-sm uppercase tracking-wider text-gray-400">Brand</h4>
+            <h4 className={sectionTitle}>Brand</h4>
             <select
               value={brand}
               onChange={handleBrandChange}
-              className="w-full p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl text-white focus:border-cyan-500/50 focus:outline-none transition-all"
+              className="w-full rounded-xl border border-border bg-input-bg px-3 py-2.5 text-sm text-foreground focus:border-brand-500 appearance-none"
             >
-              {brandNames?.map((item, index) => (
-                <option key={index} value={item} className="bg-black">{item}</option>
+              {brandNames?.filter(Boolean).map((item) => (
+                <option key={item} value={item} className="bg-surface text-foreground">
+                  {item}
+                </option>
               ))}
             </select>
           </div>
 
+          {/* Price Range */}
           <div>
-            <h4 className="font-bold mb-4 text-sm uppercase tracking-wider text-gray-400">Price Range</h4>
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                  ${priceRange[0]}
-                </span>
-                <span className="text-gray-500">-</span>
-                <span className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                  ${priceRange[1]}
-                </span>
+            <h4 className={sectionTitle}>Price Range</h4>
+            <div className="rounded-xl border border-border bg-surface-alt p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-black text-foreground">₹{priceRange[0]}</span>
+                <span className="text-text-faint">—</span>
+                <span className="font-black text-brand-600 dark:text-brand-400">₹{priceRange[1]}</span>
               </div>
+              <label htmlFor="price-range" className="sr-only">
+                Max price
+              </label>
               <input
+                id="price-range"
                 type="range"
                 min="0"
                 max="5000"
                 value={priceRange[1]}
                 onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-                className="w-full h-3 bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gradient-to-r [&::-webkit-slider-thumb]:from-cyan-500 [&::-webkit-slider-thumb]:to-blue-500 [&::-webkit-slider-thumb]:shadow-lg"
+                className="w-full h-2 bg-border-strong rounded-full appearance-none cursor-pointer accent-brand-600"
               />
+              <div className="flex justify-between text-[10px] font-semibold text-text-faint mt-1.5">
+                <span>₹0</span>
+                <span>₹5,000</span>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Reset */}
         <button
           onClick={() => {
             resetFilters();
             if (isMobile && onClose) onClose();
           }}
-          className="relative w-full mt-6 overflow-hidden group rounded-2xl"
+          className="w-full mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-info px-4 py-2.5 text-sm font-bold text-white hover:opacity-90 transition-opacity shadow-sm shadow-brand-600/25"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <span className="relative block py-4 font-bold text-white">
-            Reset All Filters
-          </span>
+          <RotateCcw size={15} aria-hidden />
+          Reset All Filters
         </button>
       </div>
     </div>

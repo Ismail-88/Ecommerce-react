@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ShoppingBag, Crown } from "lucide-react";
+import { ShoppingBag, ShieldCheck } from "lucide-react";
 import toast from 'react-hot-toast';
 
 // Components
@@ -13,6 +13,9 @@ import OrderSummary from "./components/OrderSummary";
 import { useCheckout } from "./hooks/useCheckout";
 import { useRazorpay } from "./hooks/useRazorpay";
 import ShippingForm from "./components/ShippingForm";
+import EmptyState from "../../../components/ui/EmptyState";
+import Button from "../../../components/ui/Button";
+import PageHeader from "../../../components/ui/PageHeader";
 
 // Zod validation schema
 const checkoutSchema = z.object({
@@ -134,73 +137,52 @@ const Checkout = () => {
   // Empty cart state
   if (cartItem.length === 0) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
-        <div className="text-center">
-          <div className="relative inline-block mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-purple-500/30 rounded-full blur-3xl"></div>
-            <ShoppingBag className="relative w-32 h-32 text-gray-600" />
-          </div>
-          <h1 className="text-4xl font-black mb-4">Your Cart is Empty</h1>
-          <p className="text-gray-400 text-lg mb-8">
-            Add items to your cart before checkout
-          </p>
-          <button
-            onClick={() => navigate("/products")}
-            className="group relative overflow-hidden rounded-2xl"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <span className="relative block px-8 py-4 text-white font-bold">
+      <div className="min-h-[70vh] bg-background flex items-center justify-center px-4">
+        <EmptyState
+          icon={ShoppingBag}
+          title="Your Cart is Empty"
+          description="Add items to your cart before checkout."
+          action={
+            <Button size="lg" onClick={() => navigate("/products")}>
               Continue Shopping
-            </span>
-          </button>
-        </div>
+            </Button>
+          }
+        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Premium Header */}
-      <div className="relative py-16 overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05),transparent_70%)]"></div>
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-2xl px-5 py-2 mb-6">
-            <Crown className="w-5 h-5 text-yellow-400 animate-pulse" />
-            <span className="text-sm font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              SECURE CHECKOUT
-            </span>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-black mb-4">
-            <span className="block mb-2">Complete Your</span>
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-              Premium Order
-            </span>
-          </h1>
-          <p className="text-gray-400 text-xl">
-            Just a few steps away from luxury
-          </p>
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Header */}
+      <div className="border-b border-border bg-surface-alt">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+          <PageHeader
+            icon={ShieldCheck}
+            title="Secure Checkout"
+            description="Just a few steps away from completing your order."
+          />
         </div>
       </div>
 
       {/* Checkout Form */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Section - Forms */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2 space-y-6">
               <ShippingForm register={register} errors={errors} />
-              <PaymentMethodSelector 
-                register={register} 
-                errors={errors} 
-                paymentMethod={paymentMethod} 
+              <PaymentMethodSelector
+                register={register}
+                errors={errors}
+                paymentMethod={paymentMethod}
               />
             </div>
 
             {/* Right Section - Order Summary */}
-            <OrderSummary 
-              cartItem={cartItem} 
-              pricing={pricing} 
+            <OrderSummary
+              cartItem={cartItem}
+              pricing={pricing}
               isSubmitting={isProcessing || isLoading}
             />
           </div>

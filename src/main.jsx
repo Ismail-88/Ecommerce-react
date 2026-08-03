@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { DataProvider } from "./context/DataContext.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
-import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { ThemeProvider, useTheme } from "./context/ThemeContext.jsx";
 import { ToastContainer } from "react-toastify";
 import CustomScrollToTop from "./components/CustomScrollToTop.jsx";
 
@@ -16,32 +16,36 @@ if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
 }
 
+const ThemedToaster = () => {
+  const { isDark } = useTheme();
+  return (
+    <ToastContainer
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme={isDark ? "dark" : "light"}
+    />
+  );
+};
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-        <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-        
-    <DataProvider>
-      <CartProvider>
-      <ThemeProvider>  
-          <App />
-          <CustomScrollToTop />
-          {/* <ScrollToTop smooth color="white" style={{backgroundColor:'#fa2d37', display:'flex',alignItems:'center', justifyContent:'center'}}/> */}
-          <ToastContainer
-            position="bottom-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-       </ThemeProvider>
-      </CartProvider>
-    </DataProvider>
-        </ClerkProvider>
-       
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <DataProvider>
+        <CartProvider>
+          <ThemeProvider>
+            <App />
+            <CustomScrollToTop />
+            <ThemedToaster />
+          </ThemeProvider>
+        </CartProvider>
+      </DataProvider>
+    </ClerkProvider>
   </StrictMode>
 );

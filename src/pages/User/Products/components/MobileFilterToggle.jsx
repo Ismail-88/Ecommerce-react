@@ -1,24 +1,24 @@
-
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from "lucide-react";
 
 const MobileFilterToggle = ({ openFilter, setOpenFilter, itemCount }) => {
   return (
-    <div className="md:hidden mb-6">
+    <div className="md:hidden mb-5">
       <button
         onClick={() => setOpenFilter(!openFilter)}
-        className="w-full rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-2xl p-5 flex items-center justify-between transition-all hover:border-cyan-500/30"
+        aria-expanded={openFilter}
+        className="w-full rounded-2xl border border-border bg-surface p-4 flex items-center justify-between transition-all hover:border-border-strong active:scale-[0.99]"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 flex items-center justify-center">
-            <SlidersHorizontal className="w-5 h-5 text-white" />
-          </div>
-          <span className="font-bold text-lg">Filters & Sort</span>
+          <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-info text-white">
+            <SlidersHorizontal size={17} aria-hidden />
+          </span>
+          <span className="font-black text-foreground">Filters & Sort</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">{itemCount} items</span>
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-xs font-bold">
+          <span className="text-sm text-text-muted font-medium">{itemCount} items</span>
+          <span className="flex items-center justify-center min-w-7 h-7 px-1.5 rounded-lg bg-gradient-to-r from-brand-600 to-info text-white text-xs font-black">
             {itemCount}
-          </div>
+          </span>
         </div>
       </button>
     </div>

@@ -1,6 +1,5 @@
 import { RadialBarChart, RadialBar, ResponsiveContainer, Tooltip } from 'recharts';
 import { Target } from 'lucide-react';
-import { useTheme } from '../../../../context/ThemeContext';
 
 const PerformanceChart = ({ stats }) => {
   const performanceData = [
@@ -9,17 +8,13 @@ const PerformanceChart = ({ stats }) => {
     { name: 'Products', value: Math.min(((stats.totalProducts / 100) * 100), 100), fill: '#8b5cf6' },
   ];
 
-   const {isDark} = useTheme();
-
   return (
-    <div className={`rounded-3xl border p-6 ${
-      isDark ? 'bg-gradient-to-br from-white/[0.07] to-white/[0.02] border-white/10' : 'bg-white border-gray-200 shadow-lg'
-    }`}>
+    <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
       <div className="flex items-center gap-2 mb-6">
-        <Target className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+        <Target size={20} className="text-brand-600 dark:text-brand-400" aria-hidden />
         <div>
-          <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Performance</h2>
-          <p className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Targets achieved</p>
+          <h2 className="text-xl font-bold text-foreground">Performance</h2>
+          <p className="text-sm text-text-muted">Targets achieved</p>
         </div>
       </div>
       <ResponsiveContainer width="100%" height={220}>
@@ -27,11 +22,11 @@ const PerformanceChart = ({ stats }) => {
           <RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#fff', fontSize: 14 }} background clockWise dataKey="value" />
           <Tooltip
             contentStyle={{
-              backgroundColor: isDark ? '#1f2937' : '#fff',
-              border: 'none',
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--border)',
               borderRadius: '12px',
               boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-              color: isDark ? '#fff' : '#1f2937',
+              color: 'var(--foreground)',
             }}
           />
         </RadialBarChart>
@@ -41,9 +36,9 @@ const PerformanceChart = ({ stats }) => {
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.fill }}></div>
-              <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{item.name}</span>
+              <span className="text-sm text-text-muted">{item.name}</span>
             </div>
-            <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            <span className="text-sm font-bold text-foreground">
               {Math.round(item.value)}%
             </span>
           </div>

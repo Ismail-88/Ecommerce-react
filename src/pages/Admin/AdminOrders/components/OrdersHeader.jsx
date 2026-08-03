@@ -1,24 +1,25 @@
-import { FaDownload } from "react-icons/fa"
+import { Download, Package } from "lucide-react";
 
-export const OrdersHeader = ({totalOrders, onExport}) => {
+import Button from "../../../../components/ui/Button";
+
+export const OrdersHeader = ({ totalOrders, onExport }) => {
   return (
-    
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                  Order Management
-                </h1>
-                <p className="text-gray-600">Total Orders: {totalOrders}</p>
-              </div>
-              <button
-                onClick={onExport}
-                className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 font-semibold transition"
-              >
-                <FaDownload /> Export Orders
-              </button>
-            </div>
-   
-  )
-}
-
-
+    <div className="rounded-2xl border border-border bg-surface shadow-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+      <div className="flex items-center gap-3">
+        <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
+          <Package size={24} aria-hidden />
+        </span>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground mb-1">
+            Order Management
+          </h1>
+          <p className="text-text-muted">Total Orders: {totalOrders}</p>
+        </div>
+      </div>
+      <Button variant="success" onClick={onExport}>
+        <Download size={17} aria-hidden />
+        Export Orders
+      </Button>
+    </div>
+  );
+};

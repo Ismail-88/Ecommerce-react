@@ -1,16 +1,16 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Store, X, LogOut, Sparkles } from 'lucide-react';
-import { MenuItems } from '../data/MenuItems';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Store, X, LogOut, Sparkles } from "lucide-react";
+import { MenuItems } from "../data/MenuItems";
 
-export const Sidebar = ({ 
-  sidebarOpen, 
-  setSidebarOpen, 
+export const Sidebar = ({
+  sidebarOpen,
+  setSidebarOpen,
   adminInfo,
   getAdminName,
   getAdminRole,
   getAdminInitials,
   hasValidProfileImage,
-  onLogout 
+  onLogout,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,51 +23,45 @@ export const Sidebar = ({
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fadeIn"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
+          aria-hidden
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-gray-900 via-black to-gray-900 border-r border-white/10 text-white transform transition-all duration-300 ease-out lg:translate-x-0 lg:static ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-surface border-r border-border text-foreground transform transition-all duration-300 ease-out lg:translate-x-0 lg:static flex flex-col ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Logo Section */}
-        <div className="relative flex items-center justify-between p-6 border-b border-white/10">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-          <div className="relative flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-2xl blur-lg opacity-60"></div>
-              <div className="relative bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 p-3 rounded-2xl">
-                <Store className="w-6 h-6" />
-              </div>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-border">
+          <Link to="/admin/dashboard" className="flex items-center gap-3" onClick={() => setSidebarOpen(false)}>
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 shadow-sm shadow-brand-600/30">
+              <Store className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                ShopSphere
-              </h1>
-              <p className="text-xs text-gray-500 font-medium">Admin Portal</p>
+              <h1 className="text-lg font-extrabold tracking-tight text-foreground">ShopSphere</h1>
+              <p className="text-xs text-text-muted font-medium">Admin Portal</p>
             </div>
-          </div>
+          </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden relative p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+            aria-label="Close sidebar"
+            className="lg:hidden p-2 rounded-lg text-text-muted hover:bg-surface-hover hover:text-foreground transition-all"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Admin Profile Card */}
-        <div className="p-6 border-b border-white/10">
-          <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl p-4">
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-            <div className="relative flex items-center gap-3">
+        <div className="px-6 py-5 border-b border-border">
+          <div className="rounded-xl border border-border bg-surface-alt p-4">
+            <div className="flex items-center gap-3">
               {hasValidProfileImage() ? (
                 <img
                   src={adminInfo.profileImage}
                   alt={getAdminName()}
-                  className="w-12 h-12 rounded-xl object-cover border-2 border-white/20"
+                  className="w-11 h-11 rounded-full object-cover border-2 border-brand-500/50"
                   onError={(e) => {
                     e.target.style.display = "none";
                     e.target.nextSibling.style.display = "flex";
@@ -75,15 +69,15 @@ export const Sidebar = ({
                 />
               ) : null}
               <div
-                className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg"
+                className="w-11 h-11 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white font-bold text-base"
                 style={{ display: hasValidProfileImage() ? "none" : "flex" }}
               >
                 {getAdminInitials()}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-bold text-sm truncate">{getAdminName()}</p>
-                <p className="text-xs text-gray-500 flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-cyan-400" />
+                <p className="font-semibold text-sm truncate">{getAdminName()}</p>
+                <p className="text-xs text-text-muted flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-brand-500" />
                   {getAdminRole()}
                 </p>
               </div>
@@ -92,48 +86,51 @@ export const Sidebar = ({
         </div>
 
         {/* Navigation Menu */}
-        <nav className="p-4 space-y-1 overflow-y-auto" style={{ maxHeight: "calc(100vh - 300px)" }}>
-          {MenuItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={() => setSidebarOpen(false)}
-              className={`group relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                isActive(item.path)
-                  ? "bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-500/30 text-white shadow-lg shadow-cyan-500/20"
-                  : "text-gray-400 hover:bg-white/5 hover:text-white border border-transparent"
-              }`}
-            >
-              {isActive(item.path) && (
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10"></div>
-              )}
-              <span className={`relative text-xl transition-transform group-hover:scale-110 ${isActive(item.path) ? 'text-cyan-400' : ''}`}>
-                {item.icon}
-              </span>
-              <span className="relative font-semibold text-sm">{item.title}</span>
-            </Link>
-          ))}
+        <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto" aria-label="Admin navigation">
+          <p className="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-text-faint">Menu</p>
+          {MenuItems.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.path);
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setSidebarOpen(false)}
+                aria-current={active ? "page" : undefined}
+                className={`group relative flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all duration-200 ${
+                  active
+                    ? "bg-brand-600 text-white shadow-sm shadow-brand-600/25"
+                    : "text-text-secondary hover:bg-surface-hover hover:text-foreground"
+                }`}
+              >
+                <Icon
+                  size={18}
+                  className={`transition-transform group-hover:scale-110 ${
+                    active ? "text-white" : "text-text-muted group-hover:text-brand-600 dark:group-hover:text-brand-400"
+                  }`}
+                  aria-hidden
+                />
+                <span className="font-medium text-sm">{item.title}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Bottom Actions */}
-        <div className="absolute bottom-0 w-full p-4 border-t border-white/10 bg-black/50 backdrop-blur-xl space-y-2">
+        <div className="px-4 py-4 border-t border-border space-y-2">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white border border-white/10 hover:border-white/20 transition-all"
+            className="flex items-center gap-3 w-full px-3.5 py-2.5 rounded-lg text-text-secondary hover:bg-surface-hover hover:text-foreground transition-all"
           >
-            <Store className="w-5 h-5" />
-            <span className="font-semibold text-sm">View Store</span>
+            <Store size={18} aria-hidden />
+            <span className="font-medium text-sm">View Store</span>
           </button>
           <button
             onClick={onLogout}
-            className="relative overflow-hidden group w-full rounded-xl"
+            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-danger text-white font-semibold text-sm hover:opacity-90 transition-opacity"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-pink-600"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="relative flex items-center justify-center gap-3 px-4 py-3 text-white font-semibold text-sm">
-              <LogOut className="w-5 h-5" />
-              <span>Logout</span>
-            </div>
+            <LogOut size={16} aria-hidden />
+            Logout
           </button>
         </div>
       </aside>

@@ -8,11 +8,14 @@ import { BasicInfoCard } from "./components/BasicInfoCard";
 import { PricingInventoryCard } from "./components/PricingInventoryCard";
 import { FormActionButtons } from "./components/FormActionButtons";
 import { ColorVariantsCard } from "../../../components/ColorVariantsCard";
+import { useTheme } from "../../../context/ThemeContext";
+import { FullPageSpinner } from "../../../components/ui/Spinner";
 
 const AddEditProduct = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
+  const { isDark } = useTheme();
 
   const {
     register,
@@ -30,23 +33,20 @@ const AddEditProduct = () => {
     watchedDiscount,
     finalPrice,
     categories,
-    colors, // ✨ NEW: Get colors from hook
-    setColors, // ✨ NEW: Get setColors from hook
+    colors,
+    setColors,
   } = useAddEditProduct(id, isEditMode);
 
   if (loading && isEditMode) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-red-500 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-semibold text-lg">Loading Product...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <FullPageSpinner label="Loading Product..." />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Toast Container */}
       <ToastContainer
         position="top-right"
@@ -58,7 +58,7 @@ const AddEditProduct = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme={isDark ? "dark" : "light"}
       />
 
       <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
@@ -70,7 +70,7 @@ const AddEditProduct = () => {
 
         <form
           onSubmit={handleSubmit(onSubmit, (errors) => {
-            console.log("🚨 Validation errors:", errors);
+            console.log("Validation errors:", errors);
           })}
           className="space-y-6"
         >
@@ -94,7 +94,7 @@ const AddEditProduct = () => {
             finalPrice={finalPrice}
           />
 
-          {/* ✨ NEW: Color Variants Card */}
+          {/* Color Variants Card */}
           <ColorVariantsCard colors={colors} setColors={setColors} />
 
           {/* Action Buttons */}

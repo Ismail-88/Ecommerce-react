@@ -1,94 +1,189 @@
+import React, { useState } from "react";
+import { Heart, Share2, Tag, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 
-import React from 'react';
-import { Heart, Share2, Tag } from 'lucide-react';
-
-const ProductImageGallery = ({ 
-  currentImages, 
-  selectedImage, 
-  setSelectedImage, 
+const ProductImageGallery = ({
+  currentImages,
+  selectedImage,
+  setSelectedImage,
   productTitle,
   discount,
   isWishlisted,
   setIsWishlisted,
   showShareMenu,
   setShowShareMenu,
-  handleShare
+  handleShare,
 }) => {
-  return (
-    <div className="lg:sticky lg:top-28">
-      {/* Main Image */}
-      <div className="relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] overflow-hidden p-8 mb-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-        <img
-          src={currentImages[selectedImage] || currentImages[0]}
-          alt={productTitle}
-          className="relative w-full h-[400px] lg:h-[500px] object-contain"
-        />
-        
-        {/* Action Buttons */}
-        <div className="absolute top-6 right-6 flex gap-3">
-          <button
-            onClick={() => setIsWishlisted(!isWishlisted)}
-            className={`p-3 rounded-xl border backdrop-blur-2xl transition-all ${
-              isWishlisted 
-                ? 'bg-gradient-to-r from-pink-500/30 to-rose-500/30 border-pink-500/50' 
-                : 'bg-black/50 border-white/10 hover:border-white/30'
-            }`}
-          >
-            <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-pink-500 text-pink-500' : ''}`} />
-          </button>
-          
-          <div className="relative">
-            <button
-              onClick={() => setShowShareMenu(!showShareMenu)}
-              className="p-3 rounded-xl border border-white/10 bg-black/50 backdrop-blur-2xl hover:border-white/30 transition-all"
-            >
-              <Share2 className="w-5 h-5" />
-            </button>
-            
-            {showShareMenu && (
-              <div className="absolute right-0 mt-3 rounded-2xl border border-white/10 bg-black/95 backdrop-blur-3xl p-3 w-48 z-20 shadow-2xl">
-                {['facebook', 'twitter', 'whatsapp', 'copy'].map((platform) => (
-                  <button
-                    key={platform}
-                    onClick={() => handleShare(platform)}
-                    className="w-full text-left px-4 py-2 hover:bg-white/5 rounded-xl text-sm transition capitalize"
-                  >
-                    {platform === 'copy' ? 'Copy Link' : platform}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+  const [zoom, setZoom] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-        {/* Discount Badge */}
-        {discount > 0 && (
-          <div className="absolute top-6 left-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 text-white text-sm font-bold shadow-lg">
-            <Tag className="w-4 h-4" />
-            {discount}% OFF
+  const shareOptions = [
+    { key: "facebook", label: "Facebook" },
+    { key: "twitter", label: "Twitter" },
+    { key: "whatsapp", label: "WhatsApp" },
+    { key: "copy", label: "Copy Link" },
+  ];
+
+  const images = currentImages?.length ? currentImages : [];
+  const activeImage = images[selectedImage] || images[0];
+  const showArrows = images.length > 1;
+
+  const step = (dir) => {
+    if (!showArrows) return;
+    const next = (selectedImage + dir + images.length) % images.length;
+    setSelectedImage(next);
+    setImageLoaded(false);
+  };
+
+  return (
+    <div className="lg:sticky lg:top-24">
+      <div className="flex gap-3">
+        {/* Vertical Thumbnail Rail - Desktop */}
+        {images.length > 1 && (
+          <div className="hidden lg:flex flex-col gap-2.5">
+            {images.map((url, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setSelectedImage(index);
+                  setImageLoaded(false);
+                }}
+                aria-label={`View image ${index + 1}`}
+                aria-current={selectedImage === index}
+                className={`relative w-[76px] h-[76px] rounded-xl overflow-hidden transition-all border-2 ${
+                  selectedImage === index
+                    ? "border-brand-600 ring-2 ring-brand-600/20"
+                    : "border-border hover:border-border-strong"
+                }`}
+              >
+                <img src={url} alt={`${productTitle} ${index + 1}`} className="w-full h-full object-cover" />
+                {selectedImage === index && (
+                  <span className="absolute inset-0 bg-brand-600/10" aria-hidden />
+                )}
+              </button>
+            ))}
           </div>
         )}
-      </div>
 
-      {/* Thumbnails */}
-      {currentImages.length > 1 && (
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          {currentImages.map((url, index) => (
+        {/* Main Image */}
+        <div
+          className="relative flex-1 rounded-2xl border border-border bg-surface overflow-hidden group/main"
+          onMouseEnter={() => setZoom(true)}
+          onMouseLeave={() => setZoom(false)}
+        >
+          <div className="p-4 sm:p-6">
+            <img
+              src={activeImage}
+              alt={productTitle}
+              onLoad={() => setImageLoaded(true)}
+              className={`w-full h-[320px] lg:h-[440px] object-contain rounded-xl transition-transform duration-300 ${
+                zoom ? "scale-125 cursor-zoom-in" : "scale-100 cursor-zoom-out"
+              }`}
+            />
+          </div>
+
+          {/* Prev / Next arrows */}
+          {showArrows && (
+            <>
+              <button
+                onClick={() => step(-1)}
+                aria-label="Previous image"
+                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-surface-alt/90 backdrop-blur border border-border text-text-muted hover:text-foreground hover:border-border-strong transition-all opacity-0 group-hover/main:opacity-100 active:scale-90"
+              >
+                <ChevronLeft size={18} aria-hidden />
+              </button>
+              <button
+                onClick={() => step(1)}
+                aria-label="Next image"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-surface-alt/90 backdrop-blur border border-border text-text-muted hover:text-foreground hover:border-border-strong transition-all opacity-0 group-hover/main:opacity-100 active:scale-90"
+              >
+                <ChevronRight size={18} aria-hidden />
+              </button>
+            </>
+          )}
+
+          {/* Zoom hint */}
+          <span className="absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-full bg-surface/90 backdrop-blur border border-border px-2.5 py-1 text-[11px] font-semibold text-text-muted">
+            <ZoomIn size={12} aria-hidden />
+            Hover to zoom
+          </span>
+
+          {/* Image counter */}
+          {images.length > 1 && (
+            <span className="absolute bottom-3 left-3 rounded-full bg-foreground/90 backdrop-blur text-background px-2.5 py-1 text-[11px] font-bold tabular-nums">
+              {selectedImage + 1} / {images.length}
+            </span>
+          )}
+
+          {/* Action Buttons */}
+          <div className="absolute top-4 right-4 flex gap-2">
             <button
-              key={index}
-              onClick={() => setSelectedImage(index)}
-              className={`flex-shrink-0 rounded-2xl border-2 overflow-hidden transition-all ${
-                selectedImage === index
-                  ? "border-cyan-500 scale-105"
-                  : "border-white/10 hover:border-white/30"
+              onClick={() => setIsWishlisted(!isWishlisted)}
+              aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+              aria-pressed={isWishlisted}
+              className={`p-2.5 rounded-xl border backdrop-blur transition-all active:scale-90 ${
+                isWishlisted
+                  ? "bg-danger-soft border-danger/40 text-danger"
+                  : "bg-surface-alt border-border text-text-secondary hover:text-foreground hover:border-border-strong"
               }`}
             >
-              <img
-                src={url}
-                alt={`${productTitle} ${index + 1}`}
-                className="w-20 h-20 object-cover"
-              />
+              <Heart size={18} className={isWishlisted ? "fill-current" : ""} aria-hidden />
+            </button>
+
+            <div className="relative">
+              <button
+                onClick={() => setShowShareMenu(!showShareMenu)}
+                aria-label="Share product"
+                aria-expanded={showShareMenu}
+                className="p-2.5 rounded-xl border border-border bg-surface-alt text-text-secondary hover:text-foreground hover:border-border-strong transition-all active:scale-90"
+              >
+                <Share2 size={18} aria-hidden />
+              </button>
+
+              {showShareMenu && (
+                <div className="absolute right-0 mt-2 rounded-xl border border-border bg-surface shadow-overlay p-1.5 w-44 z-20 animate-scale-in">
+                  {shareOptions.map(({ key, label }) => (
+                    <button
+                      key={key}
+                      onClick={() => handleShare(key)}
+                      className="w-full text-left px-3.5 py-2 hover:bg-surface-hover rounded-lg text-sm transition capitalize"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Discount Badge */}
+          {discount > 0 && (
+            <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-brand-600 to-info text-white text-xs font-bold shadow-sm">
+              <Tag size={13} aria-hidden />
+              {discount}% OFF
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Horizontal Thumbnails - Mobile / Tablet */}
+      {images.length > 1 && (
+        <div className="lg:hidden flex gap-3 overflow-x-auto pb-1.5 mt-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {images.map((url, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setSelectedImage(index);
+                setImageLoaded(false);
+              }}
+              aria-label={`View image ${index + 1}`}
+              aria-current={selectedImage === index}
+              className={`flex-shrink-0 rounded-xl border-2 overflow-hidden transition-all ${
+                selectedImage === index
+                  ? "border-brand-600 ring-2 ring-brand-600/20"
+                  : "border-border hover:border-border-strong"
+              }`}
+            >
+              <img src={url} alt={`${productTitle} ${index + 1}`} className="w-16 h-16 object-cover" />
             </button>
           ))}
         </div>

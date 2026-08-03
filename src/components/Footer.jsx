@@ -1,55 +1,82 @@
-// components/Footer.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaFacebook, FaInstagram, FaPinterest, FaTwitterSquare } from 'react-icons/fa';
-import { Mail, Phone, MapPin, Send, Sparkles, Crown, Shield, Truck, Award } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { FaFacebookF, FaInstagram, FaPinterestP, FaXTwitter } from "react-icons/fa6";
+import { Mail, Phone, MapPin, Send, Shield, Truck, Award, Headphones } from "lucide-react";
+
+const socials = [
+  { icon: FaFacebookF, label: "Facebook" },
+  { icon: FaInstagram, label: "Instagram" },
+  { icon: FaXTwitter, label: "Twitter" },
+  { icon: FaPinterestP, label: "Pinterest" },
+];
+
+const quickLinks = [
+  { name: "Products", path: "/products" },
+  { name: "My Orders", path: "/my-orders" },
+  { name: "Track Order", path: "/track-order" },
+  { name: "Cart", path: "/cart" },
+  { name: "About Us", path: "/about" },
+];
+
+const customerService = ["Contact Us", "Shipping & Returns", "FAQs", "Order Tracking", "Size Guide"];
+
+const features = [
+  { icon: Truck, title: "Free Shipping", desc: "On orders over $50" },
+  { icon: Shield, title: "Secure Payment", desc: "100% protected" },
+  { icon: Award, title: "Quality Products", desc: "Premium selection" },
+  { icon: Headphones, title: "24/7 Support", desc: "Always here to help" },
+];
 
 const Footer = () => {
   return (
-    <footer className='relative bg-black text-white border-t border-white/5 overflow-hidden'>
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[150px]"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[150px]"></div>
-      </div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.03),transparent_70%)]"></div>
-
-      {/* Main Footer Content */}
-      <div className='relative max-w-7xl mx-auto px-4 md:px-6 py-16'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12'>
-          {/* Brand Info */}
-          <div className='space-y-6'>
-            <Link to='/' className='inline-block'>
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <h1 className='relative text-3xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent'>
-                  ShopSphere
-                </h1>
+    <footer className="bg-surface-alt border-t border-border">
+      {/* Features Bar */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {features.map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="flex items-center gap-3.5 rounded-xl border border-border bg-surface p-4 hover:border-border-strong hover:shadow-card transition-all"
+            >
+              <div className="flex items-center justify-center w-11 h-11 rounded-lg bg-primary-soft text-brand-600 dark:text-brand-400 flex-shrink-0">
+                <Icon size={20} aria-hidden />
               </div>
-            </Link>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl px-4 py-2">
-              <Crown className="w-4 h-4 text-yellow-400" />
-              <span className="text-xs font-bold text-gray-300">PREMIUM MARKETPLACE</span>
+              <div>
+                <p className="font-semibold text-sm text-foreground">{title}</p>
+                <p className="text-xs text-text-muted">{desc}</p>
+              </div>
             </div>
-            <p className='text-gray-400 leading-relaxed'>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Footer */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-14 border-t border-border">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Brand */}
+          <div className="space-y-5">
+            <Link to="/" className="inline-flex items-center gap-2">
+              <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-500 bg-clip-text text-transparent">
+                ShopSphere
+              </span>
+            </Link>
+            <p className="text-sm text-text-muted leading-relaxed">
               Powering Your World with the Best in Electronics. Experience luxury shopping redefined.
             </p>
-            
-            {/* Contact Info */}
-            <div className='space-y-3'>
-              <div className='flex items-start gap-3 text-sm'>
-                <MapPin className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
-                <span className='text-gray-400'>123 Electronics St, Style City, NY 10001</span>
+            <div className="space-y-2.5 text-sm">
+              <div className="flex items-start gap-2.5 text-text-muted">
+                <MapPin size={16} className="text-brand-500 mt-0.5 flex-shrink-0" aria-hidden />
+                <span>123 Electronics St, Style City, NY 10001</span>
               </div>
-              <div className='flex items-center gap-3 text-sm'>
-                <Mail className="w-5 h-5 text-cyan-400 flex-shrink-0" />
-                <a href="mailto:support@shopsphere.com" className='text-gray-400 hover:text-cyan-400 transition-colors'>
+              <div className="flex items-center gap-2.5 text-text-muted">
+                <Mail size={16} className="text-brand-500 flex-shrink-0" aria-hidden />
+                <a href="mailto:support@shopsphere.com" className="hover:text-foreground transition-colors">
                   support@shopsphere.com
                 </a>
               </div>
-              <div className='flex items-center gap-3 text-sm'>
-                <Phone className="w-5 h-5 text-cyan-400 flex-shrink-0" />
-                <a href="tel:+11234567890" className='text-gray-400 hover:text-cyan-400 transition-colors'>
+              <div className="flex items-center gap-2.5 text-text-muted">
+                <Phone size={16} className="text-brand-500 flex-shrink-0" aria-hidden />
+                <a href="tel:+11234567890" className="hover:text-foreground transition-colors">
                   (123) 456-7890
                 </a>
               </div>
@@ -58,24 +85,11 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className='text-xl font-bold mb-6 flex items-center gap-2'>
-              <Sparkles className="w-5 h-5 text-cyan-400" />
-              Quick Links
-            </h3>
-            <ul className='space-y-3'>
-              {[
-                { name: 'Products', path: '/products' },
-                { name: 'My Orders', path: '/orders' },
-                { name: 'Track Order', path: '/track-order' },
-                { name: 'Cart', path: '/cart' },
-                { name: 'About Us', path: '/about' }
-              ].map((link, i) => (
-                <li key={i}>
-                  <Link 
-                    to={link.path}
-                    className='text-gray-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group'
-                  >
-                    <span className="w-1 h-1 bg-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground mb-5">Quick Links</h3>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.path} className="text-sm text-text-muted hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -85,24 +99,11 @@ const Footer = () => {
 
           {/* Customer Service */}
           <div>
-            <h3 className='text-xl font-bold mb-6 flex items-center gap-2'>
-              <Shield className="w-5 h-5 text-cyan-400" />
-              Customer Service
-            </h3>
-            <ul className='space-y-3'>
-              {[
-                'Contact Us',
-                'Shipping & Returns',
-                'FAQs',
-                'Order Tracking',
-                'Size Guide'
-              ].map((item, i) => (
-                <li key={i}>
-                  <a 
-                    href="#"
-                    className='text-gray-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group'
-                  >
-                    <span className="w-1 h-1 bg-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground mb-5">Customer Service</h3>
+            <ul className="space-y-3">
+              {customerService.map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-sm text-text-muted hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                     {item}
                   </a>
                 </li>
@@ -112,95 +113,63 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className='text-xl font-bold mb-6'>Stay in the Loop</h3>
-            <p className='text-gray-400 text-sm mb-6 leading-relaxed'>
-              Subscribe to get special offers, free giveaways, and exclusive updates
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground mb-5">Stay in the Loop</h3>
+            <p className="text-sm text-text-muted mb-5 leading-relaxed">
+              Subscribe to get special offers, free giveaways, and exclusive updates.
             </p>
-            
-            <form className='space-y-4'>
+            <form onSubmit={(e) => e.preventDefault()} className="space-y-3">
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                <input 
-                  type="email" 
-                  placeholder='Your email address'
-                  className='w-full pl-12 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl text-white placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none transition-all'
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-faint" aria-hidden />
+                <label htmlFor="newsletter-email" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="newsletter-email"
+                  type="email"
+                  placeholder="Your email address"
+                  className="w-full rounded-lg border border-border bg-input-bg pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-text-faint focus:border-brand-500 focus:outline-none"
                 />
               </div>
-              <button 
-                type='submit' 
-                className='group relative w-full overflow-hidden rounded-xl'
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 transition-colors"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <span className="relative flex items-center justify-center gap-2 py-3 text-white font-bold">
-                  <Send className="w-4 h-4" />
-                  Subscribe
-                </span>
+                <Send size={15} aria-hidden />
+                Subscribe
               </button>
             </form>
-
-            {/* Social Media */}
-            <div className='mt-8'>
-              <h4 className='text-sm font-bold mb-4 text-gray-400 uppercase tracking-wider'>Follow Us</h4>
-              <div className='flex gap-3'>
-                {[
-                  { icon: FaFacebook, color: 'from-blue-500/20 to-blue-600/20', hoverColor: 'hover:border-blue-500/50' },
-                  { icon: FaInstagram, color: 'from-pink-500/20 to-purple-600/20', hoverColor: 'hover:border-pink-500/50' },
-                  { icon: FaTwitterSquare, color: 'from-cyan-500/20 to-blue-600/20', hoverColor: 'hover:border-cyan-500/50' },
-                  { icon: FaPinterest, color: 'from-red-500/20 to-rose-600/20', hoverColor: 'hover:border-red-500/50' }
-                ].map((social, i) => (
+            <div className="mt-6">
+              <p className="text-xs font-bold uppercase tracking-wider text-text-muted mb-3">Follow Us</p>
+              <div className="flex gap-2.5">
+                {socials.map(({ icon: Icon, label }) => (
                   <a
-                    key={i}
+                    key={label}
                     href="#"
-                    className={`group w-12 h-12 rounded-xl border border-white/10 bg-gradient-to-br ${social.color} backdrop-blur-xl flex items-center justify-center ${social.hoverColor} transition-all hover:scale-110`}
+                    aria-label={label}
+                    className="flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-surface text-text-secondary hover:text-white hover:bg-brand-600 hover:border-brand-600 transition-all"
                   >
-                    <social.icon className="text-xl text-gray-300 group-hover:text-white transition-colors" />
+                    <Icon size={15} aria-hidden />
                   </a>
                 ))}
               </div>
             </div>
           </div>
         </div>
-
-        {/* Features Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 pt-12 border-t border-white/10">
-          {[
-            { icon: Truck, title: 'Free Shipping', desc: 'On orders over $50' },
-            { icon: Shield, title: 'Secure Payment', desc: '100% protected' },
-            { icon: Award, title: 'Quality Products', desc: 'Premium selection' },
-            { icon: Phone, title: '24/7 Support', desc: 'Always here to help' }
-          ].map((feature, i) => (
-            <div key={i} className="flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl hover:border-cyan-500/30 transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <feature.icon className="w-6 h-6 text-cyan-400" />
-              </div>
-              <div>
-                <p className="font-bold text-sm text-white">{feature.title}</p>
-                <p className="text-xs text-gray-400">{feature.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* Bottom Section */}
-      <div className='relative border-t border-white/10'>
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-        <div className='relative max-w-7xl mx-auto px-4 md:px-6 py-8'>
-          <div className='flex flex-col md:flex-row justify-between items-center gap-4 text-sm'>
-            <p className='text-gray-400'>
-              &copy; {new Date().getFullYear()}{' '}
-              <span className='font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent'>
-                ShopSphere
-              </span>
-              . All rights reserved
+      {/* Bottom */}
+      <div className="border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+            <p className="text-text-muted">
+              © {new Date().getFullYear()} ShopSphere. All rights reserved.
             </p>
-            <div className='flex items-center gap-6 text-gray-400'>
-              <a href="#" className='hover:text-cyan-400 transition-colors'>Privacy Policy</a>
-              <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
-              <a href="#" className='hover:text-cyan-400 transition-colors'>Terms of Service</a>
-              <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
-              <a href="#" className='hover:text-cyan-400 transition-colors'>Cookie Policy</a>
+            <div className="flex items-center gap-5 text-text-muted">
+              <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
+              <span className="w-1 h-1 rounded-full bg-border-strong" aria-hidden />
+              <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
+              <span className="w-1 h-1 rounded-full bg-border-strong" aria-hidden />
+              <a href="#" className="hover:text-foreground transition-colors">Cookie Policy</a>
             </div>
           </div>
         </div>

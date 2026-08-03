@@ -1,34 +1,43 @@
 import React from 'react'
+import { Clock } from 'lucide-react';
 
-const RecentOrdersList = ({orders}) => {
+import Badge from '../../../../components/ui/Badge';
+
+const statusTones = {
+  delivered: 'success',
+  shipped: 'brand',
+  cancelled: 'danger',
+  pending: 'warning',
+  processing: 'info',
+};
+
+const RecentOrdersList = ({ orders }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Orders</h3>
-          <div className="space-y-4">
-            {orders.map((order) => (
-              <div key={order.orderId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div>
-                  <p className="font-semibold text-gray-800 text-sm">{order.orderId}</p>
-                  <p className="text-xs text-gray-600">{order.shippingInfo?.fullName}</p>
-                  <p className="text-xs text-gray-500">
-                    {new Date(order.orderDate).toLocaleDateString()}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold text-gray-800">₹{order.pricing?.grandTotal.toFixed(0)}</p>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                    order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
-                    order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {order.status}
-                  </span>
-                </div>
-              </div>
-            ))}
+    <div className="bg-surface border border-border shadow-card p-6 rounded-2xl">
+      <div className="flex items-center gap-2 mb-4">
+        <Clock size={18} className="text-warning" aria-hidden />
+        <h3 className="text-lg font-semibold text-foreground">Recent Orders</h3>
+      </div>
+      <div className="space-y-3">
+        {orders.map((order) => (
+          <div key={order.orderId} className="flex items-center justify-between p-3 bg-surface-alt border border-border rounded-xl">
+            <div className="min-w-0">
+              <p className="font-semibold text-foreground text-sm">{order.orderId}</p>
+              <p className="text-xs text-text-muted">{order.shippingInfo?.fullName}</p>
+              <p className="text-xs text-text-muted">
+                {new Date(order.orderDate).toLocaleDateString()}
+              </p>
+            </div>
+            <div className="text-right flex-shrink-0 ml-2">
+              <p className="font-bold text-foreground">${order.pricing?.grandTotal.toFixed(2)}</p>
+              <Badge tone={statusTones[order.status] || 'neutral'}>
+                {order.status}
+              </Badge>
+            </div>
           </div>
-        </div>
+        ))}
+      </div>
+    </div>
   )
 }
 

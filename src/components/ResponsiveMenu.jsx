@@ -1,33 +1,108 @@
-import { UserButton, useUser } from '@clerk/clerk-react'
-import React from 'react'
-import { FaUserCircle } from 'react-icons/fa'
-import { Link, NavLink } from 'react-router-dom'
+import { UserButton, useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import { Home, Package, ShoppingBag, Info, Mail, LogIn } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const items = [
+  { to: "/", label: "Home", icon: Home },
+  { to: "/products", label: "Products", icon: Package },
+  { to: "/my-orders", label: "My Orders", icon: ShoppingBag },
+  { to: "/about", label: "About", icon: Info },
+  { to: "/contact", label: "Contact", icon: Mail },
+];
 
 const ResponsiveMenu = ({ openNav, setOpenNav }) => {
-    const { user } = useUser()
-    return (
-        <div className={`${openNav ? "left-0" : "-left-[100%]"} fixed bottom-0 top-0 z-20 flex h-screen w-[75%] flex-col justify-between bg-white px-8 pb-6 pt-16 text-black md:hidden rounded-r-xl shadow-md transition-all`}>
-            <div>
-                <div className='flex items-center justify-start gap-3'>
-                    {
-                        user ? <UserButton size={50} /> : <FaUserCircle size={50} />
-                    }
-                    <div>
-                        <h1>Hello, {user?.firstName}</h1>
-                        <h1 className='text-sm text-slate-500'>Premium User</h1>
-                    </div>
-                </div>
-                <nav className='mt-12'>
-                    <ul className='flex flex-col gap-7 text-2xl font-semibold'>
-                        <Link to={'/'} onClick={()=>setOpenNav(false)} className="cursor-pointer"><li>Home</li></Link>
-                        <Link to={"/products"} onClick={()=>setOpenNav(false)} className="cursor-pointer"><li>Products</li></Link>
-                        <Link to={"/about"} onClick={()=>setOpenNav(false)} className="cursor-pointer"><li>About</li></Link>
-                        <Link to={"/contact"} onClick={()=>setOpenNav(false)} className="cursor-pointer"><li>Contact</li></Link>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    )
-}
+  const { user } = useUser();
+  const navigate = useNavigate();
 
-export default ResponsiveMenu
+  const handleNavigate = (to) => {
+    setOpenNav(false);
+    navigate(to);
+  };
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          openNav ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setOpenNav(false)}
+        aria-hidden
+      />
+      {/* Drawer */}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 flex w-[80%] max-w-sm flex-col bg-surface border-r border-border transition-transform duration-300 ease-in-out lg:hidden ${
+          openNav ? "translate-x-0" : "-translate-x-full"
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile menu"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <span className="text-lg font-extrabold bg-gradient-to-r from-brand-600 to-brand-500 bg-clip-text text-transparent">
+            ShopSphere
+          </span>
+          <button
+            onClick={() => setOpenNav(false)}
+            aria-label="Close menu"
+            className="p-2 rounded-lg text-text-muted hover:bg-surface-hover hover:text-foreground transition-colors"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        {/* User */}
+        <div className="px-5 py-5 border-b border-border">
+          <SignedIn>
+            <div className="flex items-center gap-3">
+              <UserButton />
+              <div>
+                <p className="font-semibold text-foreground text-sm">Hello, {user?.firstName || "there"}</p>
+                <p className="text-xs text-text-muted">Welcome back</p>
+              </div>
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <button
+              onClick={() => {
+                setOpenNav(false);
+                window.location.assign("/sign-in");
+              }}
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white hover:bg-brand-700 transition-colors"
+            >
+              <LogIn size={16} aria-hidden />
+              Sign In
+            </button>
+          </SignedOut>
+        </div>
+
+        {/* Links */}
+        <nav className="flex-1 px-3 py-4 overflow-y-auto" aria-label="Mobile navigation">
+          <ul className="space-y-1">
+            {items.map(({ to, label, icon: Icon }) => (
+              <li key={to}>
+                <Link
+                  to={to}
+                  onClick={() => setOpenNav(false)}
+                  className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-text-secondary hover:bg-surface-hover hover:text-foreground transition-colors"
+                >
+                  <Icon size={18} aria-hidden />
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Footer */}
+        <div className="px-5 py-4 border-t border-border">
+          <p className="text-xs text-text-faint">© {new Date().getFullYear()} ShopSphere</p>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ResponsiveMenu;

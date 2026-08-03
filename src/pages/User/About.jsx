@@ -1,142 +1,111 @@
-// pages/About.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { Crown, Sparkles, Target, Eye, Award, Users, Zap, Shield, ArrowRight } from "lucide-react";
+import PageHeader from "../../components/ui/PageHeader";
+import Button from "../../components/ui/Button";
+import SectionHeading from "../../components/ui/SectionHeading";
+import Card from "../../components/ui/Card";
 
 const About = () => {
   const features = [
     { icon: Award, title: "Premium Quality", desc: "Top-quality products from trusted brands" },
     { icon: Zap, title: "Lightning Fast", desc: "Quick and secure shipping" },
     { icon: Shield, title: "Reliable Support", desc: "24/7 customer assistance" },
-    { icon: Users, title: "Easy Returns", desc: "Hassle-free shopping experience" }
+    { icon: Users, title: "Easy Returns", desc: "Hassle-free shopping experience" },
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero Section */}
-      <div className="relative py-20 overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[150px]"></div>
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[150px]"></div>
-        </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05),transparent_70%)]"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-2xl px-5 py-2 mb-6">
-            <Crown className="w-5 h-5 text-yellow-400 animate-pulse" />
-            <span className="text-sm font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              ABOUT US
-            </span>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-black mb-6">
-            <span className="block mb-2">Welcome to</span>
-            <span className="relative inline-block">
-              <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 blur-2xl opacity-50"></span>
-              <span className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                ShopSphere
-              </span>
+      <section className="bg-hero-bg border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 text-center">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-200 dark:border-brand-800 bg-primary-soft text-sm font-semibold text-brand-700 dark:text-brand-300 mb-6">
+            <Crown size={15} className="text-warning" aria-hidden />
+            About Us
+          </span>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-5">
+            Welcome to{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-500">
+              ShopSphere
             </span>
           </h1>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Your one-stop destination for the latest and greatest in electronics. From cutting-edge gadgets to must-have accessories, we're here to power up your tech life.
+          <p className="text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed">
+            Your one-stop destination for the latest and greatest in electronics. From cutting-edge gadgets to
+            must-have accessories, we're here to power up your tech life.
           </p>
         </div>
-      </div>
+      </section>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
-        {/* Mission Section */}
-        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-3xl p-12 mb-12">
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-          <div className="relative">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 flex items-center justify-center">
-                <Target className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-4xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                Our Mission
-              </h2>
-            </div>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              At ShopSphere, our mission is to make innovative technology accessible to everyone. We're passionate about connecting people with the tools and tech they need to thrive in a digital world — all at competitive prices and delivered with speed and care.
-            </p>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-16">
+        {/* Mission */}
+        <Card className="mb-12 !p-8 md:!p-12">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+            <span className="flex items-center justify-center w-14 h-14 rounded-xl bg-primary-soft text-brand-600 dark:text-brand-400 flex-shrink-0">
+              <Target size={28} aria-hidden />
+            </span>
+            <h2 className="text-2xl md:text-3xl font-extrabold">Our Mission</h2>
           </div>
-        </div>
+          <p className="text-lg text-text-secondary leading-relaxed">
+            At ShopSphere, our mission is to make innovative technology accessible to everyone. We're passionate
+            about connecting people with the tools and tech they need to thrive in a digital world — all at
+            competitive prices and delivered with speed and care.
+          </p>
+        </Card>
 
         {/* Why Choose Us */}
         <div className="mb-12">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">
-              Why Choose{" "}
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                ShopSphere?
-              </span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, i) => (
-              <div
-                key={i}
-                className="group relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-3xl p-8 hover:border-cyan-500/30 transition-all"
-              >
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/0 via-blue-500/0 to-purple-500/0 group-hover:from-cyan-500/5 group-hover:via-blue-500/5 group-hover:to-purple-500/5 transition-all"></div>
-                <div className="relative">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <feature.icon className="w-8 h-8 text-cyan-400" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                  <p className="text-gray-400 leading-relaxed">{feature.desc}</p>
-                </div>
-              </div>
+          <SectionHeading
+            eyebrow="Why ShopSphere"
+            title="Why Choose ShopSphere?"
+            description="We combine premium products with an effortless shopping experience."
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {features.map(({ icon: Icon, title, desc }) => (
+              <Card key={title} hoverable className="group">
+                <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary-soft text-brand-600 dark:text-brand-400 mb-5 transition-transform group-hover:scale-110">
+                  <Icon size={24} aria-hidden />
+                </span>
+                <h3 className="font-bold text-lg mb-2">{title}</h3>
+                <p className="text-text-muted leading-relaxed text-sm">{desc}</p>
+              </Card>
             ))}
           </div>
         </div>
 
-        {/* Vision Section */}
-        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-3xl p-12 mb-12">
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-          <div className="relative">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-600 flex items-center justify-center">
-                <Eye className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-4xl font-black bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                Our Vision
-              </h2>
-            </div>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              We envision a future where technology elevates everyday life. At ShopSphere, we're committed to staying ahead of the curve, offering cutting-edge solutions that are both practical and affordable.
-            </p>
+        {/* Vision */}
+        <Card className="mb-12 !p-8 md:!p-12">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+            <span className="flex items-center justify-center w-14 h-14 rounded-xl bg-primary-soft text-brand-600 dark:text-brand-400 flex-shrink-0">
+              <Eye size={28} aria-hidden />
+            </span>
+            <h2 className="text-2xl md:text-3xl font-extrabold">Our Vision</h2>
           </div>
-        </div>
+          <p className="text-lg text-text-secondary leading-relaxed">
+            We envision a future where technology elevates everyday life. At ShopSphere, we're committed to
+            staying ahead of the curve, offering cutting-edge solutions that are both practical and affordable.
+          </p>
+        </Card>
 
-        {/* CTA Section */}
-        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 backdrop-blur-3xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-          <div className="relative p-12 text-center">
-            <Sparkles className="w-16 h-16 mx-auto mb-6 text-cyan-400" />
-            <h3 className="text-3xl md:text-4xl font-black mb-4">
-              Join the{" "}
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                ShopSphere Family
-              </span>
-            </h3>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Whether you're a tech enthusiast, a professional, or just looking for something cool and functional — ShopSphere has something for everyone.
-            </p>
-            <Link to="/products">
-              <button className="group relative overflow-hidden rounded-2xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <span className="relative flex items-center justify-center gap-3 px-10 py-5 text-white font-bold text-lg">
-                  <Sparkles className="w-5 h-5" />
-                  Start Shopping
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </button>
-            </Link>
-          </div>
+        {/* CTA */}
+        <div className="rounded-2xl border border-border bg-hero-bg p-10 md:p-14 text-center">
+          <Sparkles size={32} className="mx-auto mb-5 text-brand-600 dark:text-brand-400 animate-pulse-soft" aria-hidden />
+          <h3 className="text-2xl md:text-4xl font-extrabold mb-4">
+            Join the{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-500">
+              ShopSphere Family
+            </span>
+          </h3>
+          <p className="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+            Whether you're a tech enthusiast, a professional, or just looking for something cool and functional —
+            ShopSphere has something for everyone.
+          </p>
+          <Link to="/products">
+            <Button size="lg">
+              Start Shopping
+              <ArrowRight size={18} aria-hidden />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

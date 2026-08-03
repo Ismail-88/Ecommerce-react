@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Boxes } from 'lucide-react';
 import useInventory from './hooks/useInventory';
 import { ToastContainer } from 'react-toastify';
 import InventoryStats from './components/InventoryStats';
@@ -6,10 +7,12 @@ import InventoryFilters from './components/InventoryFilters';
 import InventoryTable from './components/InventoryTable';
 import UpdateStockModal from './components/UpdateStockModal';
 import AdminPagination from '../../../components/Admin/AdminPagination';
+import { FullPageSpinner } from '../../../components/ui/Spinner';
+import { useTheme } from '../../../context/ThemeContext';
 
 const Inventory = () => {
-  
-    const {
+  const { isDark } = useTheme();
+  const {
     products,
     loading,
     searchTerm,
@@ -20,9 +23,9 @@ const Inventory = () => {
     setCurrentPage,
     totalPages,
     updateStock,
-    stats
+    stats,
   } = useInventory();
- 
+
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -31,17 +34,16 @@ const Inventory = () => {
     setShowModal(true);
   };
 
-
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-xl text-gray-600">Loading inventory...</div>
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <FullPageSpinner label="Loading inventory..." />
       </div>
     );
   }
 
   return (
-     <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-background min-h-screen">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -52,10 +54,18 @@ const Inventory = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme={isDark ? "dark" : "light"}
       />
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Inventory Management</h1>
+      <div className="flex items-center gap-3 mb-6">
+        <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
+          <Boxes size={24} aria-hidden />
+        </span>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground mb-1">Inventory Management</h1>
+          <p className="text-sm text-text-muted">Monitor and update stock levels</p>
+        </div>
+      </div>
 
       <InventoryStats stats={stats} />
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Users } from 'lucide-react';
 import { ToastContainer } from 'react-toastify';
 
 import { useCustomers } from './hooks/useCustomers';
@@ -6,8 +7,11 @@ import { CustomerStats } from './components/CustomerStats';
 import { CustomerFilters } from './components/CustomerFilters';
 import { CustomerTable } from './components/CustomerTable';
 import { CustomerDetailsModal } from './components/CustomerDetailsModal';
+import { FullPageSpinner } from '../../../components/ui/Spinner';
+import { useTheme } from '../../../context/ThemeContext';
 
 const AdminCustomers = () => {
+  const { isDark } = useTheme();
   const {
     customers,
     loading,
@@ -33,19 +37,24 @@ const AdminCustomers = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-red-500 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-semibold text-lg">Loading Customers...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <FullPageSpinner label="Loading Customers..." />
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-background min-h-screen">
+      <div className="flex items-center gap-3 mb-6">
+        <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
+          <Users size={24} aria-hidden />
+        </span>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground mb-1">Customer Management</h1>
+          <p className="text-sm text-text-muted">View and manage your customers</p>
+        </div>
+      </div>
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Customer Management</h1>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -56,7 +65,7 @@ const AdminCustomers = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme={isDark ? "dark" : "light"}
       />
 
       <CustomerStats stats={stats} />

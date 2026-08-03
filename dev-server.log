@@ -1,0 +1,168 @@
+
+> tailwind-project@0.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v7.1.5[39m  [2mready in [0m[1m495[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m4:52:09 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:52:28 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsToolbar.jsx[22m
+[2m4:52:48 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductCard.jsx[22m
+[2m4:52:56 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsGrid.jsx[22m
+[2m4:53:25 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/Products/index.jsx, /src/index.css[22m
+[2m4:53:59 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/PriceCard.jsx[22m
+[2m4:54:10 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/DeliveryInfo.jsx[22m
+[2m4:54:20 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/ProductHeader.jsx[22m
+[2m4:54:32 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/ProductImageGallery.jsx[22m
+[2m4:54:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/ProductDescription.jsx[22m
+[2m4:54:55 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[22m
+[2m4:54:55 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../../../../context/DataContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:3:24
+[33m  18 |  import { useNavigate } from "react-router-dom";
+  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../context/DataContext";
+     |                           ^
+  21 |  import { useCart } from "../../../../context/CartContext";
+  22 |  const RelatedProducts = ({ products }) => {[39m
+      at TransformPluginContext._formatLog (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31527:43)
+      at TransformPluginContext.error (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31524:14)
+      at normalizeUrl (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:29996:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30054:32
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30022:4)
+      at async EnvironmentPluginContainer.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31325:14)
+      at async loadAndTransform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:26407:26)
+      at async viteTransformMiddleware (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:27492:20)
+[2m4:54:55 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../../../../context/DataContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:3:24
+[33m  18 |  import { useNavigate } from "react-router-dom";
+  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../context/DataContext";
+     |                           ^
+  21 |  import { useCart } from "../../../../context/CartContext";
+  22 |  const RelatedProducts = ({ products }) => {[39m
+      at TransformPluginContext._formatLog (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31527:43)
+      at TransformPluginContext.error (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31524:14)
+      at normalizeUrl (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:29996:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30054:32
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30022:4)
+      at async EnvironmentPluginContainer.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31325:14)
+      at async loadAndTransform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:26407:26)
+      at async viteTransformMiddleware (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:27492:20)
+[2m4:55:00 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../../../../context/DataContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:3:24
+[33m  18 |  import { useNavigate } from "react-router-dom";
+  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../context/DataContext";
+     |                           ^
+  21 |  import { useCart } from "../../../../context/CartContext";
+  22 |  const RelatedProducts = ({ products }) => {[39m
+[2m4:55:09 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/SingleProducts/index.jsx, /src/index.css[22m
+[2m4:55:09 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../../../../context/DataContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:3:24
+[33m  18 |  import { useNavigate } from "react-router-dom";
+  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../context/DataContext";
+     |                           ^
+  21 |  import { useCart } from "../../../../context/CartContext";
+  22 |  const RelatedProducts = ({ products }) => {[39m
+[2m4:55:19 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/SingleProducts/index.jsx, /src/index.css[22m
+[2m4:55:19 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../../../../context/DataContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:3:24
+[33m  18 |  import { useNavigate } from "react-router-dom";
+  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../context/DataContext";
+     |                           ^
+  21 |  import { useCart } from "../../../../context/CartContext";
+  22 |  const RelatedProducts = ({ products }) => {[39m
+[2m4:55:35 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/SingleProducts/index.jsx, /src/index.css[22m
+[2m4:55:35 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../../../../context/DataContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:3:24
+[33m  18 |  import { useNavigate } from "react-router-dom";
+  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../context/DataContext";
+     |                           ^
+  21 |  import { useCart } from "../../../../context/CartContext";
+  22 |  const RelatedProducts = ({ products }) => {[39m
+[2m4:55:44 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsHeroBanner.jsx[22m
+[2m4:55:51 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsHeroBanner.jsx[22m
+[2m4:56:17 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/index.jsx[22m
+[2m4:56:17 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../../../../context/CartContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:4:24
+[33m  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../../context/DataContext";
+  21 |  import { useCart } from "../../../../context/CartContext";
+     |                           ^
+  22 |  const RelatedProducts = ({ products }) => {
+  23 |    _s();[39m
+      at TransformPluginContext._formatLog (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31527:43)
+      at TransformPluginContext.error (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31524:14)
+      at normalizeUrl (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:29996:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30054:32
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30022:4)
+      at async EnvironmentPluginContainer.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31325:14)
+      at async loadAndTransform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:26407:26)
+[2m4:56:17 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "../../../../context/CartContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:4:24
+[33m  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../../context/DataContext";
+  21 |  import { useCart } from "../../../../context/CartContext";
+     |                           ^
+  22 |  const RelatedProducts = ({ products }) => {
+  23 |    _s();[39m
+[2m4:56:17 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "../../../../context/CartContext" from "src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mF:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/src/pages/User/SingleProducts/components/SingleProduct/RelatedProducts.jsx[39m:4:24
+[33m  19 |  import { Star, ShoppingBag, ArrowRight } from "lucide-react";
+  20 |  import { getData } from "../../../../../context/DataContext";
+  21 |  import { useCart } from "../../../../context/CartContext";
+     |                           ^
+  22 |  const RelatedProducts = ({ products }) => {
+  23 |    _s();[39m
+      at TransformPluginContext._formatLog (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31527:43)
+      at TransformPluginContext.error (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31524:14)
+      at normalizeUrl (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:29996:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30054:32
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:30022:4)
+      at async EnvironmentPluginContainer.transform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:31325:14)
+      at async loadAndTransform (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:26407:26)
+      at async viteTransformMiddleware (file:///F:/MERN/React/ShopSphere-Ecom-React/ShopSphere-Ecom-React/node_modules/vite/dist/node/chunks/dep-M_KD0XSK.js:27492:20)
+[2m4:56:35 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/index.jsx[22m
+[2m4:57:00 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/FilterSidebar.jsx[22m
+[2m5:04:44 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsHeroBanner.jsx[22m
+[2m5:05:42 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductCard.jsx[22m
+[2m5:05:51 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsGrid.jsx[22m
+[2m5:06:02 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsToolbar.jsx[22m
+[2m5:06:16 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/FilterSidebar.jsx[22m
+[2m5:06:25 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/MobileFilterToggle.jsx[22m
+[2m5:06:35 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/ProductsSkeleton.jsx[22m
+[2m5:06:50 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/Products/index.jsx, /src/index.css[22m
+[2m5:06:59 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/Products/components/CategoryPills.jsx[22m
+[2m5:08:36 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/ProductImageGallery.jsx[22m
+[2m5:08:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/ProductHeader.jsx[22m
+[2m5:08:58 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/PriceCard.jsx[22m
+[2m5:09:22 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/SingleProducts/index.jsx, /src/index.css[22m
+[2m5:09:35 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/SingleProducts/index.jsx, /src/index.css[22m
+[2m6:06:00 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/PriceCard.jsx[22m
+[2m6:06:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/PurchasePanel.jsx[22m
+[2m6:06:14 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/PurchasePanel.jsx[22m
+[2m6:06:24 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/User/SingleProducts/components/SingleProduct/TrustBadges.jsx[22m
+[2m6:06:31 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/User/SingleProducts/index.jsx, /src/index.css[22m

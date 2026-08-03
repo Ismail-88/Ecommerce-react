@@ -1,53 +1,53 @@
 import {
-  FaTachometerAlt,
-  FaBoxOpen,
-  FaShoppingCart,
-  FaUsers,
-  FaChartBar,
-  FaCog,
-  FaBoxes,
-  FaTags,
-} from "react-icons/fa";
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Users,
+  BarChart3,
+  Boxes,
+  Tags,
+  Settings,
+} from "lucide-react";
 
 export const MenuItems = [
   {
     title: "Dashboard",
-    icon: <FaTachometerAlt />,
+    icon: LayoutDashboard,
     path: "/admin/dashboard",
   },
   {
     title: "Products",
-    icon: <FaBoxOpen />,
+    icon: Package,
     path: "/admin/products",
   },
   {
     title: "Orders",
-    icon: <FaShoppingCart />,
+    icon: ShoppingCart,
     path: "/admin/orders",
   },
   {
     title: "Customers",
-    icon: <FaUsers />,
+    icon: Users,
     path: "/admin/customers",
   },
   {
     title: "Analytics",
-    icon: <FaChartBar />,
+    icon: BarChart3,
     path: "/admin/analytics",
   },
   {
     title: "Inventory",
-    icon: <FaBoxes />,
+    icon: Boxes,
     path: "/admin/inventory",
   },
   {
     title: "Category",
-    icon: <FaTags />,
+    icon: Tags,
     path: "/admin/category",
   },
   {
     title: "Settings",
-    icon: <FaCog />,
+    icon: Settings,
     path: "/admin/settings",
   },
 ];

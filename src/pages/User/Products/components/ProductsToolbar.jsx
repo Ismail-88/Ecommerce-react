@@ -1,55 +1,82 @@
-// components/products/ProductsToolbar.jsx
-import React from 'react';
-import { IoGridOutline, IoListOutline } from 'react-icons/io5';
-import { TrendingUp } from 'lucide-react';
+import React from "react";
+import { LayoutGrid, List, FilterX } from "lucide-react";
 
-const ProductsToolbar = ({ itemCount, sortBy, setSortBy, viewMode, setViewMode }) => {
+const ProductsToolbar = ({
+  itemCount,
+  sortBy,
+  setSortBy,
+  viewMode,
+  setViewMode,
+  hasActiveFilters,
+  onClearFilters,
+  startIndex,
+  endIndex,
+  total,
+}) => {
   return (
-    <div className="relative rounded-3xl border w-full border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-3xl p-6 mb-8 shadow-xl">
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-      <div className="relative flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <TrendingUp className="w-6 h-6 text-cyan-400" />
-          <div>
-            <span className="font-black text-2xl bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              {itemCount}
-            </span>
-            <span className="text-gray-400 font-medium ml-2">Premium Items</span>
-          </div>
+    <div className="rounded-2xl border border-border bg-surface/90 backdrop-blur-xl shadow-card p-4 mb-6 sticky top-24 z-30">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="font-black text-foreground text-lg leading-tight">
+            {itemCount} {itemCount === 1 ? "Product" : "Products"}
+          </p>
+          {typeof startIndex === "number" && total > 0 && (
+            <p className="text-xs text-text-muted font-medium">
+              Showing {startIndex + 1}–{Math.min(endIndex, total)} of {total}
+            </p>
+          )}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          {hasActiveFilters && (
+            <button
+              onClick={onClearFilters}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-danger/30 bg-danger-soft px-3.5 py-2 text-xs font-bold text-danger hover:bg-danger/10 transition-colors"
+            >
+              <FilterX size={14} aria-hidden />
+              Clear
+            </button>
+          )}
+
+          <label className="sr-only" htmlFor="product-sort">
+            Sort products
+          </label>
           <select
+            id="product-sort"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="p-3 pr-10 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl text-white focus:border-cyan-500/50 focus:outline-none font-medium"
+            className="rounded-xl border border-border bg-input-bg px-3 py-2 text-sm text-foreground focus:border-brand-500 font-semibold"
           >
-            <option value="featured" className="bg-black">Featured</option>
-            <option value="price-low" className="bg-black">Price: Low to High</option>
-            <option value="price-high" className="bg-black">Price: High to Low</option>
-            <option value="newest" className="bg-black">Newest First</option>
+            <option value="featured" className="bg-surface text-foreground">✨ Featured</option>
+            <option value="price-low" className="bg-surface text-foreground">Price: Low to High</option>
+            <option value="price-high" className="bg-surface text-foreground">Price: High to Low</option>
+            <option value="newest" className="bg-surface text-foreground">Newest First</option>
           </select>
 
-          <div className="hidden md:flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl p-1.5">
+          <div className="hidden md:flex items-center gap-1 rounded-xl border border-border bg-surface-alt p-1">
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2.5 rounded-lg transition-all ${
-                viewMode === "grid" 
-                  ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white" 
-                  : "text-gray-500 hover:text-white"
+              aria-label="Grid view"
+              aria-pressed={viewMode === "grid"}
+              className={`p-2 rounded-lg transition-colors ${
+                viewMode === "grid"
+                  ? "bg-brand-600 text-white shadow-sm shadow-brand-600/20"
+                  : "text-text-muted hover:text-foreground"
               }`}
             >
-              <IoGridOutline size={20} />
+              <LayoutGrid size={16} aria-hidden />
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2.5 rounded-lg transition-all ${
-                viewMode === "list" 
-                  ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white" 
-                  : "text-gray-500 hover:text-white"
+              aria-label="List view"
+              aria-pressed={viewMode === "list"}
+              className={`p-2 rounded-lg transition-colors ${
+                viewMode === "list"
+                  ? "bg-brand-600 text-white shadow-sm shadow-brand-600/20"
+                  : "text-text-muted hover:text-foreground"
               }`}
             >
-              <IoListOutline size={20} />
+              <List size={16} aria-hidden />
             </button>
           </div>
         </div>

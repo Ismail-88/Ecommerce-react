@@ -1,39 +1,43 @@
-
+import { Check } from "lucide-react";
 
 const ColorSelector = ({ colors, selectedColor, onColorChange }) => {
   if (!colors || colors.length === 0) return null;
 
   return (
-    <div className="relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-3xl p-6">
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-      <div className="relative">
-        <h3 className="text-sm font-bold mb-4">
-          Select Color: <span className="text-cyan-400">{selectedColor?.name}</span>
-        </h3>
-        <div className="flex flex-wrap gap-4">
-          {colors.map((color, index) => (
+    <fieldset className="rounded-2xl border border-border bg-surface shadow-card p-5">
+      <legend className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">
+        Select Color:{" "}
+        <span className="text-foreground normal-case font-semibold">{selectedColor?.name}</span>
+      </legend>
+      <div className="flex flex-wrap gap-3">
+        {colors.map((color, index) => {
+          const active = selectedColor?.name === color.name;
+          return (
             <button
               key={index}
+              type="button"
               onClick={() => onColorChange(color)}
-              className={`relative w-16 h-16 rounded-xl border-2 transition-all ${
-                selectedColor?.name === color.name
-                  ? 'border-cyan-500 scale-110 shadow-lg shadow-cyan-500/50'
-                  : 'border-white/20 hover:border-white/40'
+              aria-label={`Select color ${color.name}`}
+              aria-pressed={active}
+              className={`relative w-12 h-12 rounded-xl border-2 transition-all ${
+                active
+                  ? "border-brand-600 ring-2 ring-brand-600/30"
+                  : "border-border hover:border-border-strong"
               }`}
               style={{ backgroundColor: color.hex }}
             >
-              {selectedColor?.name === color.name && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center">
-                    <span className="text-black text-xs">✓</span>
-                  </div>
-                </div>
+              {active && (
+                <span className="absolute inset-0 flex items-center justify-center">
+                  <span className="w-5 h-5 rounded-full bg-white/90 flex items-center justify-center text-foreground">
+                    <Check size={12} strokeWidth={3} aria-hidden />
+                  </span>
+                </span>
               )}
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </div>
+    </fieldset>
   );
 };
 

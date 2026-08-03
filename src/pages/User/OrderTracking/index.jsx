@@ -1,16 +1,17 @@
-// pages/OrderTracking.jsx
+// pages/OrderTracking/index.jsx
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useOrderTracking } from "./hooks/useOrderTracking";
-import { Crown, MapPin, TrendingUp } from "lucide-react";
+import { MapPin, TrendingUp } from "lucide-react";
 
 // Components
 import TrackingSearchForm from "./components/TrackingSearchForm";
 import OrderInfoBanner from "./components/OrderInfoBanner";
 import TrackingTimeline from "./components/TrackingTimeline";
 import EmptyTrackingState from "./components/EmptyTrackingState";
+import PageHeader from "../../../components/ui/PageHeader";
 
 // Zod validation
 const trackingSchema = z.object({
@@ -38,43 +39,22 @@ const OrderTracking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Premium Header */}
-      <div className="relative py-20 overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[150px] animate-pulse-slow"></div>
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[150px] animate-pulse-slow"></div>
-        </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05),transparent_70%)]"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 md:px-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-2xl px-5 py-2 mb-6">
-            <Crown className="w-5 h-5 text-yellow-400 animate-pulse" />
-            <span className="text-sm font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              ORDER TRACKING
-            </span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-black mb-4">
-            <span className="block mb-2">Track Your</span>
-            <span className="relative inline-block">
-              <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 blur-2xl opacity-50 animate-pulse-slow"></span>
-              <span className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                Premium Order
-              </span>
-            </span>
-          </h1>
-          <p className="text-gray-400 text-xl max-w-2xl mx-auto flex items-center justify-center gap-2">
-            <MapPin className="w-5 h-5 text-cyan-400" />
-            Real-time delivery updates at your fingertips
-          </p>
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Header */}
+      <div className="border-b border-border bg-surface-alt">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+          <PageHeader
+            icon={MapPin}
+            title="Track Your Order"
+            description="Real-time delivery updates at your fingertips"
+          />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-10">
         {/* Search Form */}
-        <div className="mb-12">
+        <div className="mb-10">
           <TrackingSearchForm
             register={register}
             errors={errors}
@@ -85,7 +65,7 @@ const OrderTracking = () => {
 
         {/* Tracking Results */}
         {trackingStatus && orderData ? (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Order Info Banner */}
             <OrderInfoBanner orderData={orderData} trackingStatus={trackingStatus} />
 
@@ -93,40 +73,35 @@ const OrderTracking = () => {
             <TrackingTimeline trackingStatus={trackingStatus} />
 
             {/* Additional Info */}
-            <div className="relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-3xl p-8">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5"></div>
-              <div className="relative">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-emerald-400" />
-                  </div>
-                  <h3 className="text-2xl font-bold">Delivery Information</h3>
-                </div>
+            <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-success-soft text-success">
+                  <TrendingUp size={24} aria-hidden />
+                </span>
+                <h3 className="text-xl font-bold text-foreground">Delivery Information</h3>
+              </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-                    <p className="text-sm text-gray-400 mb-2">Delivery Address</p>
-                    <p className="font-bold text-lg mb-1">{orderData.shippingInfo.address}</p>
-                    <p className="text-gray-300">
-                      {orderData.shippingInfo.city}, {orderData.shippingInfo.state} {orderData.shippingInfo.zipCode}
-                    </p>
-                    <p className="text-gray-300">{orderData.shippingInfo.country}</p>
-                  </div>
-
-                  <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-                    <p className="text-sm text-gray-400 mb-2">Contact Information</p>
-                    <p className="font-bold text-lg mb-1">{orderData.shippingInfo.fullName}</p>
-                    <p className="text-gray-300">{orderData.shippingInfo.phone}</p>
-                    <p className="text-gray-300">{orderData.shippingInfo.email}</p>
-                  </div>
-                </div>
-
-                <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30">
-                  <p className="text-sm text-cyan-400 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-                    Need help? Contact our support team 24/7
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-5 rounded-xl border border-border bg-surface-alt">
+                  <p className="text-sm text-text-muted mb-2">Delivery Address</p>
+                  <p className="font-semibold text-foreground mb-1">{orderData.shippingInfo.address}</p>
+                  <p className="text-text-muted">
+                    {orderData.shippingInfo.city}, {orderData.shippingInfo.state} {orderData.shippingInfo.zipCode}
                   </p>
+                  <p className="text-text-muted">{orderData.shippingInfo.country}</p>
                 </div>
+
+                <div className="p-5 rounded-xl border border-border bg-surface-alt">
+                  <p className="text-sm text-text-muted mb-2">Contact Information</p>
+                  <p className="font-semibold text-foreground mb-1">{orderData.shippingInfo.fullName}</p>
+                  <p className="text-text-muted">{orderData.shippingInfo.phone}</p>
+                  <p className="text-text-muted">{orderData.shippingInfo.email}</p>
+                </div>
+              </div>
+
+              <div className="mt-5 p-4 rounded-xl bg-info-soft text-info border border-info/20 flex items-center gap-2 text-sm">
+                <span className="w-2 h-2 bg-info rounded-full animate-pulse" aria-hidden></span>
+                Need help? Contact our support team 24/7
               </div>
             </div>
           </div>
@@ -134,16 +109,6 @@ const OrderTracking = () => {
           <EmptyTrackingState />
         )}
       </div>
-
-      <style jsx>{`
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.6; }
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 3s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };

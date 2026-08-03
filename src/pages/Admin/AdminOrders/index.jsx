@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaSearch, FaEye, FaDownload, FaFilter, FaTrash } from "react-icons/fa";
 
 import AdminPagination from "../../../components/Admin/AdminPagination";
 import { useOrders } from "./hooks/useOrders";
@@ -7,10 +6,10 @@ import { OrdersHeader } from "./components/OrdersHeader";
 import { OrdersFilters } from "./components/OrdersFilters";
 import { OrdersTable } from "./components/OrdersTable";
 import { OrderDetailsModal } from "./components/OrderDetailsModal";
+import { FullPageSpinner } from "../../../components/ui/Spinner";
 
 const AdminOrders = () => {
-
-    const {
+  const {
     orders,
     currentOrders,
     loading,
@@ -25,7 +24,7 @@ const AdminOrders = () => {
     deleteOrder,
     exportOrders,
   } = useOrders();
-  
+
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -44,20 +43,19 @@ const AdminOrders = () => {
   const handleDelete = async (orderId) => {
     await deleteOrder(orderId);
   };
-  
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-lg font-semibold text-gray-700">Loading orders...</p>
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <FullPageSpinner label="Loading orders..." />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-8">
+    <div className="min-h-screen bg-background p-4 md:p-8">
       {/* Header */}
-      <OrdersHeader totalOrders={orders.length} onExport={exportOrders}/>
+      <OrdersHeader totalOrders={orders.length} onExport={exportOrders} />
 
       {/* Filters */}
       <OrdersFilters
@@ -74,15 +72,15 @@ const AdminOrders = () => {
         onStatusChange={handleStatusChange}
         onDelete={handleDelete}
       />
-      
-      <AdminPagination 
-      currentPage={currentPage}
-      totalPages={totalPages}
-      onPageChange={setCurrentPage}/>
+
+      <AdminPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
 
       {/* Modal */}
-      
-     {showModal && selectedOrder && (
+      {showModal && selectedOrder && (
         <OrderDetailsModal
           order={selectedOrder}
           onClose={() => setShowModal(false)}

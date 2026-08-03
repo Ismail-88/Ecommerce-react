@@ -1,4 +1,4 @@
-import { TrendingUp, Package, ShoppingCart, Users, DollarSign, ArrowUpRight, Sparkles } from 'lucide-react';
+import { TrendingUp, Package, ShoppingCart, Users, DollarSign } from 'lucide-react';
 
 import useDashboardData from './hooks/useDashboardData';
 import DashboardHeader from './components/DashboardHeader';
@@ -10,11 +10,10 @@ import CategoryDistributionChart from './components/CategoryDistributionChart';
 import PerformanceChart from './components/PerformanceChart';
 import RecentOrdersList from './components/RecentOrdersList';
 import TopProductsGrids from './components/TopProductsGrids';
-import { useTheme } from '../../../context/ThemeContext';
+import { FullPageSpinner } from '../../../components/ui/Spinner';
 
 const AdminDashboard = () => {
   const { stats, recentOrders, topProducts, loading, categoryData, salesData } = useDashboardData();
-   const { isDark } = useTheme();
 
   const statsCards = [
     {
@@ -53,18 +52,8 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className={`flex items-center justify-center ${
-        isDark ? 'bg-black' : 'bg-gray-50'
-      }`}>
-        <div className="text-center">
-          <div className="relative w-20 h-20 mx-auto mb-6">
-            <div className="absolute inset-0 border-4 border-cyan-500/30 rounded-full"></div>
-            <div className="absolute inset-0 border-4 border-t-cyan-500 rounded-full animate-spin"></div>
-          </div>
-          <p className={`font-bold text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            Loading Dashboard...
-          </p>
-        </div>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <FullPageSpinner label="Loading Dashboard..." />
       </div>
     );
   }
@@ -72,37 +61,36 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
-      <DashboardHeader  />
+      <DashboardHeader />
 
       {/* Alerts */}
       <AlertsBanner
         pendingOrders={stats?.pendingOrders || 0}
         lowStock={stats?.lowStock || 0}
-        
       />
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statsCards.map((card, index) => (
-          <StatsCard key={index} card={card}  />
+          <StatsCard key={index} card={card} />
         ))}
       </div>
 
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SaleOverviewChart salesData={salesData}  />
-        <WeeklyRevenueChart  />
+        <SaleOverviewChart salesData={salesData} />
+        <WeeklyRevenueChart />
       </div>
 
       {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <CategoryDistributionChart categoryData={categoryData}  />
-        <PerformanceChart stats={stats}  />
-        <RecentOrdersList recentOrders={recentOrders}  />
+        <CategoryDistributionChart categoryData={categoryData} />
+        <PerformanceChart stats={stats} />
+        <RecentOrdersList recentOrders={recentOrders} />
       </div>
 
       {/* Top Products */}
-      <TopProductsGrids topProducts={topProducts}  />
+      <TopProductsGrids topProducts={topProducts} />
     </div>
   );
 };

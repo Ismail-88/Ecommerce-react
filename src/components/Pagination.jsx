@@ -1,53 +1,69 @@
-import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Pagination = ({ page, pageHandler, dynamicPage }) => {
-  const getPages = (current, total) => {
+  const total = Math.max(1, dynamicPage || 1);
+
+  const getPages = (current, totalPages) => {
     const pages = [];
-    if (total <= 5) {
-      for (let i = 1; i <= total; i++) {
-        pages.push(i);
-      }
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
-      if (current <= 3) {
-        pages.push(1, 2, 3, "...", total);
-      } else if (current >= total - 2) {
-        pages.push(1, "...", total - 2, total - 1, total);
+      if (current <= 4) {
+        pages.push(1, 2, 3, 4, 5, "...", totalPages);
+      } else if (current >= totalPages - 3) {
+        pages.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
       } else {
-        pages.push(1, "...", current - 1, current, current + 1, "...", total);
+        pages.push(1, "...", current - 1, current, current + 1, "...", totalPages);
       }
     }
-    return pages
+    return pages;
   };
+
+  const btnBase =
+    "inline-flex items-center justify-center min-w-9 h-9 rounded-lg border text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed";
+
   return (
-    <div className="mt-10 space-x-4">
+    <nav className="flex items-center justify-center gap-1.5 mt-10 flex-wrap" aria-label="Pagination">
       <button
-        disabled={page === 1}
-        className={`${
-          page === 1 ? "bg-red-400" : "bg-red-500"
-        } text-white rounded-md px-3 py-1 cursor-pointer`}
-        onClick={()=>pageHandler(page-1)}
+        disabled={page <= 1}
+        onClick={() => pageHandler(page - 1)}
+        aria-label="Previous page"
+        className={`${btnBase} border-border bg-surface text-text-secondary hover:border-border-strong hover:text-foreground disabled:hover:border-border`}
       >
-        Prev
+        <ChevronLeft size={16} aria-hidden />
       </button>
-      {getPages(page, dynamicPage).map((item, index) => {
-        return (
-          <span
-            key={index}
-            onClick={() => typeof item === "number" && pageHandler(item)}
-            className={`cursor-pointer ${item === page ? "font-bold text-red-600" : "text-black"}`}
-          >{item}</span>
-        );
-      })}
+
+      {getPages(page, total).map((item, index) =>
+        item === "..." ? (
+          <span key={`e-${index}`} className="px-1 text-text-faint select-none" aria-hidden>
+            …
+          </span>
+        ) : (
+          <button
+            key={item}
+            onClick={() => pageHandler(item)}
+            aria-current={item === page ? "page" : undefined}
+            aria-label={`Page ${item}`}
+            className={`${btnBase} ${
+              item === page
+                ? "bg-brand-600 border-brand-600 text-white shadow-sm shadow-brand-600/20"
+                : "border-border bg-surface text-text-secondary hover:border-border-strong hover:text-foreground"
+            }`}
+          >
+            {item}
+          </button>
+        )
+      )}
+
       <button
-        disabled={page === dynamicPage}
-        className={`${
-          page === dynamicPage ? "bg-red-400" : "bg-red-500"
-        } text-white rounded-md px-3 py-1 cursor-pointer`}
-        onClick={()=>pageHandler(page+1)}
+        disabled={page >= total}
+        onClick={() => pageHandler(page + 1)}
+        aria-label="Next page"
+        className={`${btnBase} border-border bg-surface text-text-secondary hover:border-border-strong hover:text-foreground disabled:hover:border-border`}
       >
-        Next
+        <ChevronRight size={16} aria-hidden />
       </button>
-    </div>
+    </nav>
   );
 };
 

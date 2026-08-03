@@ -6,8 +6,13 @@ import { CategoriesHeader } from './components/CategoriesHeader';
 import { CategorySearch } from './components/CategorySearch';
 import { CategoryCard } from './components/CategoryCard';
 import { CategoryModal } from './components/CategoryModal';
+import EmptyState from '../../../components/ui/EmptyState';
+import { FullPageSpinner } from '../../../components/ui/Spinner';
+import { useTheme } from '../../../context/ThemeContext';
+import { FolderOpen } from 'lucide-react';
 
 const AdminCategories = () => {
+  const { isDark } = useTheme();
   const {
     categories,
     loading,
@@ -45,14 +50,14 @@ const AdminCategories = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-xl text-gray-600">Loading categories...</div>
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <FullPageSpinner label="Loading categories..." />
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-background min-h-screen">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -63,7 +68,7 @@ const AdminCategories = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme={isDark ? "dark" : "light"}
       />
 
       <CategoriesHeader
@@ -76,22 +81,26 @@ const AdminCategories = () => {
         setSearchTerm={setSearchTerm}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {categories.length === 0 ? (
-          <div className="col-span-full text-center py-12 text-gray-500">
-            No categories found
-          </div>
-        ) : (
-          categories.map((category) => (
+      {categories.length === 0 ? (
+        <EmptyState
+          icon={<FolderOpen size={40} aria-hidden />}
+          eyebrow="Categories"
+          title="No categories found"
+          description="Try adjusting your search, or add a new category to get started."
+          action={<button onClick={handleAddClick}>Add Category</button>}
+        />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {categories.map((category) => (
             <CategoryCard
               key={category._id}
               category={category}
               onEdit={handleEditClick}
               onDelete={handleDelete}
             />
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
 
       {showModal && (
         <CategoryModal

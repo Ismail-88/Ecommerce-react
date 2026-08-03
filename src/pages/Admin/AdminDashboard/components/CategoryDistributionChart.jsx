@@ -1,12 +1,9 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { PieChart as PieIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useTheme } from '../../../../context/ThemeContext';
 
-const CategoryDistributionChart = ({ categoryData}) => {
+const CategoryDistributionChart = ({ categoryData }) => {
   const [mounted, setMounted] = useState(false);
-  
-   const {isDark} = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -15,14 +12,12 @@ const CategoryDistributionChart = ({ categoryData}) => {
   if (!mounted) return null;
 
   return (
-    <div className={`rounded-3xl border p-6 ${
-      isDark ? 'bg-gradient-to-br from-white/[0.07] to-white/[0.02] border-white/10' : 'bg-white border-gray-200 shadow-lg'
-    }`}>
+    <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
       <div className="flex items-center gap-2 mb-6">
-        <PieIcon className={`w-5 h-5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
+        <PieIcon size={20} className="text-brand-600 dark:text-brand-400" aria-hidden />
         <div>
-          <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Top Categories</h2>
-          <p className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Products by category</p>
+          <h2 className="text-xl font-bold text-foreground">Top Categories</h2>
+          <p className="text-sm text-text-muted">Products by category</p>
         </div>
       </div>
       {categoryData.length > 0 ? (
@@ -44,11 +39,11 @@ const CategoryDistributionChart = ({ categoryData}) => {
               </Pie>
               <Tooltip
                 contentStyle={{
-                  backgroundColor: isDark ? '#1f2937' : '#fff',
-                  border: 'none',
+                  backgroundColor: 'var(--surface)',
+                  border: '1px solid var(--border)',
                   borderRadius: '12px',
                   boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-                  color: isDark ? '#fff' : '#1f2937',
+                  color: 'var(--foreground)',
                 }}
               />
             </PieChart>
@@ -58,16 +53,16 @@ const CategoryDistributionChart = ({ categoryData}) => {
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.fill }}></div>
-                  <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{cat.name}</span>
+                  <span className="text-sm text-text-muted">{cat.name}</span>
                 </div>
-                <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{cat.value}</span>
+                <span className="text-sm font-bold text-foreground">{cat.value}</span>
               </div>
             ))}
           </div>
         </>
       ) : (
         <div className="flex items-center justify-center h-64">
-          <p className={isDark ? 'text-gray-600' : 'text-gray-400'}>No data available</p>
+          <p className="text-text-faint">No data available</p>
         </div>
       )}
     </div>

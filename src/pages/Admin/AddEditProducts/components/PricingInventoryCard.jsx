@@ -8,44 +8,48 @@ export const PricingInventoryCard = ({
   watchedDiscount,
   finalPrice,
 }) => {
+  const inputClass = (hasError) =>
+    `w-full pl-11 pr-4 py-3 border rounded-xl outline-none transition-all ${
+      hasError
+        ? "border-danger focus:ring-2 focus:ring-danger/20"
+        : "border-border bg-background text-foreground focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+    }`;
+
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 space-y-6">
+    <div className="bg-surface rounded-2xl border border-border shadow-card p-6 md:p-8 space-y-6">
       <div className="flex items-center gap-3 mb-4">
-        <div className="bg-green-100 p-3 rounded-xl">
-          <DollarSign className="text-green-600" size={24} />
-        </div>
+        <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-success-soft text-success">
+          <DollarSign size={24} aria-hidden />
+        </span>
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Pricing & Inventory</h2>
-          <p className="text-sm text-gray-500">Set price and stock levels</p>
+          <h2 className="text-xl font-bold text-foreground">Pricing & Inventory</h2>
+          <p className="text-sm text-text-muted">Set price and stock levels</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Price */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-gray-700">
-            Price ($) <span className="text-red-500">*</span>
+          <label className="block text-sm font-bold text-foreground">
+            Price ($) <span className="text-danger">*</span>
           </label>
           <div className="relative">
             <DollarSign
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-text-faint"
               size={20}
+              aria-hidden
             />
             <input
               type="number"
               step="0.01"
               {...register("price", { valueAsNumber: true })}
-              className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl outline-none transition-all ${
-                errors.price
-                  ? "border-red-500 focus:ring-2 focus:ring-red-200"
-                  : "border-gray-200 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-              }`}
+              className={inputClass(Boolean(errors.price))}
               placeholder="0.00"
             />
           </div>
           {errors.price && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
+            <p className="text-danger text-sm flex items-center gap-1">
+              <AlertCircle size={14} aria-hidden />
               {errors.price.message}
             </p>
           )}
@@ -53,28 +57,25 @@ export const PricingInventoryCard = ({
 
         {/* Stock */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-gray-700">
-            Stock Quantity <span className="text-red-500">*</span>
+          <label className="block text-sm font-bold text-foreground">
+            Stock Quantity <span className="text-danger">*</span>
           </label>
           <div className="relative">
             <Box
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-text-faint"
               size={20}
+              aria-hidden
             />
             <input
               type="number"
               {...register("stock", { valueAsNumber: true })}
-              className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl outline-none transition-all ${
-                errors.stock
-                  ? "border-red-500 focus:ring-2 focus:ring-red-200"
-                  : "border-gray-200 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-              }`}
+              className={inputClass(Boolean(errors.stock))}
               placeholder="0"
             />
           </div>
           {errors.stock && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
+            <p className="text-danger text-sm flex items-center gap-1">
+              <AlertCircle size={14} aria-hidden />
               {errors.stock.message}
             </p>
           )}
@@ -82,29 +83,26 @@ export const PricingInventoryCard = ({
 
         {/* Discount */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-gray-700">
+          <label className="block text-sm font-bold text-foreground">
             Discount (%)
           </label>
           <div className="relative">
             <Percent
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-text-faint"
               size={20}
+              aria-hidden
             />
             <input
               type="number"
               step="0.01"
               {...register("discount", { valueAsNumber: true })}
-              className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl outline-none transition-all ${
-                errors.discount
-                  ? "border-red-500 focus:ring-2 focus:ring-red-200"
-                  : "border-gray-200 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-              }`}
+              className={inputClass(Boolean(errors.discount))}
               placeholder="0"
             />
           </div>
           {errors.discount && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
+            <p className="text-danger text-sm flex items-center gap-1">
+              <AlertCircle size={14} aria-hidden />
               {errors.discount.message}
             </p>
           )}
@@ -112,21 +110,18 @@ export const PricingInventoryCard = ({
 
         {/* Category */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-gray-700">
-            Category <span className="text-red-500">*</span>
+          <label className="block text-sm font-bold text-foreground">
+            Category <span className="text-danger">*</span>
           </label>
           <div className="relative">
             <Tag
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-text-faint"
               size={20}
+              aria-hidden
             />
             <select
               {...register("category")}
-              className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl outline-none appearance-none bg-white cursor-pointer transition-all ${
-                errors.category
-                  ? "border-red-500 focus:ring-2 focus:ring-red-200"
-                  : "border-gray-200 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-              }`}
+              className={`${inputClass(Boolean(errors.category))} appearance-none cursor-pointer`}
             >
               <option value="">Select a category</option>
               {categories.map((cat) => (
@@ -137,8 +132,8 @@ export const PricingInventoryCard = ({
             </select>
           </div>
           {errors.category && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
+            <p className="text-danger text-sm flex items-center gap-1">
+              <AlertCircle size={14} aria-hidden />
               {errors.category.message}
             </p>
           )}
@@ -147,22 +142,22 @@ export const PricingInventoryCard = ({
 
       {/* Price Preview */}
       {watchedPrice > 0 && (
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6">
-          <h3 className="font-bold text-gray-900 mb-4">Price Summary</h3>
+        <div className="bg-success-soft border border-success/20 rounded-2xl p-6">
+          <h3 className="font-bold text-foreground mb-4">Price Summary</h3>
           <div className="space-y-2">
-            <div className="flex justify-between text-gray-600">
+            <div className="flex justify-between text-text-muted">
               <span>Original Price:</span>
-              <span className="font-semibold">${watchedPrice.toFixed(2)}</span>
+              <span className="font-semibold text-foreground">${watchedPrice.toFixed(2)}</span>
             </div>
             {watchedDiscount > 0 && (
               <>
-                <div className="flex justify-between text-red-600">
+                <div className="flex justify-between text-danger">
                   <span>Discount ({watchedDiscount}%):</span>
                   <span className="font-semibold">
                     -${((watchedPrice * watchedDiscount) / 100).toFixed(2)}
                   </span>
                 </div>
-                <div className="border-t-2 border-green-300 pt-2 flex justify-between text-lg font-bold text-green-700">
+                <div className="border-t border-success/30 pt-2 flex justify-between text-lg font-bold text-success">
                   <span>Final Price:</span>
                   <span>${finalPrice.toFixed(2)}</span>
                 </div>
