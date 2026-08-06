@@ -121,12 +121,12 @@ const useDashboardData = () => {
           name,
           value,
           fill: [
-            "#ef4444",
-            "#f59e0b",
-            "#10b981",
-            "#3b82f6",
-            "#8b5cf6",
-            "#ec4899",
+            "#FF3F6C",
+            "#FB7185",
+            "#FF8AA7",
+            "#EC4899",
+            "#F43F5E",
+            "#E0285C",
           ][index % 6],
         })
       );

@@ -45,7 +45,7 @@ const AdminLayout = () => {
         />
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-alt">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-alt/70">
           <div className="p-4 md:p-6">
             <Outlet context={{ isDark }} />
           </div>

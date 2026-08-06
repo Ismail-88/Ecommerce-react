@@ -27,25 +27,25 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
 
   return (
     <div className="bg-surface rounded-2xl border border-border shadow-card overflow-hidden">
-      <div className="hidden md:block overflow-x-auto">
+      <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-surface-alt border-b border-border">
+          <thead className="bg-gradient-to-r from-brand-soft to-brand-50 dark:from-brand-950 dark:to-brand-900 border-b border-border/50">
             <tr>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted">Order ID</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted">Customer</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted">Date</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted">Items</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted">Total</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted">Status</th>
-              <th className="text-center py-4 px-6 font-semibold text-text-muted">Actions</th>
+              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Order ID</th>
+              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Customer</th>
+              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Date</th>
+              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Items</th>
+              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Total</th>
+              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Status</th>
+              <th className="text-center py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-border">
             {orders.length > 0 ? (
-              orders.map((order) => {
+              orders.map((order, index) => {
                 const statusKey = order.status?.toLowerCase() || 'pending';
                 return (
-                <tr key={order.orderId} className="border-b border-border hover:bg-surface-alt transition">
+                <tr key={order.orderId} className="border-b border-border hover:bg-surface-alt transition-colors ${index % 2 === 0 ? 'bg-transparent' : 'bg-surface-alt/50'}">
                   <td className="py-4 px-6 font-mono text-sm font-semibold text-foreground">
                     {order.orderId}
                   </td>
@@ -78,7 +78,7 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
                           : statusTones[statusKey] === 'info'
                           ? 'bg-info-soft text-info'
                           : 'bg-brand-soft text-brand-600 dark:text-brand-400'
-                      }`}
+                      } hover:opacity-80 transition-opacity`}
                     >
                       {statusOptions.map((status) => (
                         <option key={status} value={status}>
@@ -91,17 +91,17 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
                     <div className="flex items-center justify-center gap-2">
                       <button
                         onClick={() => onViewOrder(order)}
-                        className="p-2 text-info hover:bg-info-soft rounded-lg transition cursor-pointer"
+                        className="p-2.5 text-info hover:bg-info-soft rounded-lg transition-all"
                         title="View Details"
                       >
-                        <Eye size={17} aria-hidden />
+                        <Eye size={18} aria-hidden />
                       </button>
                       <button
                         onClick={() => setOrderToDelete(order._id)}
-                        className="p-2 text-danger hover:bg-danger-soft rounded-lg transition cursor-pointer"
+                        className="p-2.5 text-danger hover:bg-danger-soft rounded-lg transition-all"
                         title="Delete Order"
                       >
-                        <Trash2 size={17} aria-hidden />
+                        <Trash2 size={18} aria-hidden />
                       </button>
                     </div>
                   </td>

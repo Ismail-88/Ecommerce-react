@@ -43,7 +43,7 @@ const Inventory = () => {
   }
 
   return (
-    <div className="p-6 bg-background min-h-screen">
+    <div className="p-6 bg-transparent min-h-screen">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -58,11 +58,11 @@ const Inventory = () => {
       />
 
       <div className="flex items-center gap-3 mb-6">
-        <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
-          <Boxes size={24} aria-hidden />
+        <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
+          <Boxes size={20} aria-hidden />
         </span>
         <div>
-          <h1 className="text-2xl font-bold text-foreground mb-1">Inventory Management</h1>
+          <h1 className="text-xl font-bold text-foreground mb-1">Inventory Management</h1>
           <p className="text-sm text-text-muted">Monitor and update stock levels</p>
         </div>
       </div>

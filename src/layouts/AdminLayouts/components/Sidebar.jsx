@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Store, X, LogOut, Sparkles } from "lucide-react";
-import { MenuItems } from "../data/MenuItems";
+import { MenuSections } from "../data/MenuItems";
 
 export const Sidebar = ({
   sidebarOpen,
@@ -86,34 +86,45 @@ export const Sidebar = ({
         </div>
 
         {/* Navigation Menu */}
-        <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto" aria-label="Admin navigation">
-          <p className="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-text-faint">Menu</p>
-          {MenuItems.map((item) => {
-            const Icon = item.icon;
-            const active = isActive(item.path);
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setSidebarOpen(false)}
-                aria-current={active ? "page" : undefined}
-                className={`group relative flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all duration-200 ${
-                  active
-                    ? "bg-brand-600 text-white shadow-sm shadow-brand-600/25"
-                    : "text-text-secondary hover:bg-surface-hover hover:text-foreground"
-                }`}
-              >
-                <Icon
-                  size={18}
-                  className={`transition-transform group-hover:scale-110 ${
-                    active ? "text-white" : "text-text-muted group-hover:text-brand-600 dark:group-hover:text-brand-400"
-                  }`}
-                  aria-hidden
-                />
-                <span className="font-medium text-sm">{item.title}</span>
-              </Link>
-            );
-          })}
+        <nav className="flex-1 px-4 py-4 space-y-6 overflow-y-auto" aria-label="Admin navigation">
+          {MenuSections.map((section) => (
+            <div key={section.label}>
+              <p className="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-text-faint">
+                {section.label}
+              </p>
+              <div className="space-y-1">
+                {section.items.map((item) => {
+                  const Icon = item.icon;
+                  const active = isActive(item.path);
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setSidebarOpen(false)}
+                      aria-current={active ? "page" : undefined}
+                      className={`group relative flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all duration-200 ${
+                        active
+                          ? "bg-brand-600 text-white shadow-sm shadow-brand-600/25"
+                          : "text-text-secondary hover:bg-surface-hover hover:text-foreground"
+                      }`}
+                    >
+                      {active && (
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full bg-brand-400" aria-hidden />
+                      )}
+                      <Icon
+                        size={18}
+                        className={`transition-transform group-hover:scale-110 ${
+                          active ? "text-white" : "text-text-muted group-hover:text-brand-600 dark:group-hover:text-brand-400"
+                        }`}
+                        aria-hidden
+                      />
+                      <span className="font-medium text-sm">{item.title}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         {/* Bottom Actions */}

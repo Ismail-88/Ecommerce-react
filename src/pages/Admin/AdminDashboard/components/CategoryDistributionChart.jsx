@@ -13,11 +13,11 @@ const CategoryDistributionChart = ({ categoryData }) => {
 
   return (
     <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
-      <div className="flex items-center gap-2 mb-6">
-        <PieIcon size={20} className="text-brand-600 dark:text-brand-400" aria-hidden />
+      <div className="flex items-center gap-2 mb-5">
+        <PieIcon size={18} className="text-brand-600 dark:text-brand-400" aria-hidden />
         <div>
-          <h2 className="text-xl font-bold text-foreground">Top Categories</h2>
-          <p className="text-sm text-text-muted">Products by category</p>
+          <h2 className="text-lg font-bold text-foreground">Top Categories</h2>
+          <p className="text-xs text-text-muted">Products by category</p>
         </div>
       </div>
       {categoryData.length > 0 ? (

@@ -12,10 +12,10 @@ const StatsCard = ({ card }) => {
       <div className="relative p-6">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <p className="text-sm font-bold uppercase tracking-wider mb-2 text-text-muted">
+            <p className="text-xs font-bold uppercase tracking-wider mb-2 text-text-muted">
               {card.title}
             </p>
-            <h3 className="text-3xl md:text-4xl font-black text-foreground">
+            <h3 className="text-2xl md:text-3xl font-bold text-foreground">
               {card.value}
             </h3>
           </div>

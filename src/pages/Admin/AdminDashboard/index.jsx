@@ -22,7 +22,7 @@ const AdminDashboard = () => {
       value: formatINR(stats.totalRevenue, 2),
       growth: stats.revenueGrowth,
       icon: <DollarSign className="w-6 h-6" />,
-      gradient: 'from-emerald-500 via-green-500 to-teal-600',
+      gradient: 'from-brand-500 via-brand-600 to-brand-800',
       link: '/admin/orders',
     },
     {
@@ -30,7 +30,7 @@ const AdminDashboard = () => {
       value: stats.totalOrders,
       growth: stats.ordersGrowth,
       icon: <ShoppingCart className="w-6 h-6" />,
-      gradient: 'from-cyan-500 via-blue-500 to-indigo-600',
+      gradient: 'from-rose-500 via-brand-600 to-brand-800',
       link: '/admin/orders',
     },
     {
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
       value: stats.totalProducts,
       growth: stats.productsGrowth,
       icon: <Package className="w-6 h-6" />,
-      gradient: 'from-purple-500 via-pink-500 to-rose-600',
+      gradient: 'from-brand-400 via-brand-600 to-rose-600',
       link: '/admin/products',
     },
     {
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
       value: stats.totalCustomers,
       growth: stats.customersGrowth,
       icon: <Users className="w-6 h-6" />,
-      gradient: 'from-orange-500 via-red-500 to-pink-600',
+      gradient: 'from-rose-400 via-rose-500 to-brand-700',
       link: '/admin/customers',
     },
   ];

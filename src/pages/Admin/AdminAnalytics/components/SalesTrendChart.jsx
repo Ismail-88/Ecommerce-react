@@ -19,8 +19,8 @@ const SalesTrendChart = ({ data }) => {
           <YAxis stroke="var(--text-muted)" style={{ fontSize: '12px' }} />
           <Tooltip contentStyle={tooltipStyle} />
           <Legend />
-          <Line type="monotone" dataKey="revenue" stroke="#3B82F6" strokeWidth={2} name="Revenue ($)" />
-          <Line type="monotone" dataKey="orders" stroke="#10B981" strokeWidth={2} name="Orders" />
+          <Line type="monotone" dataKey="revenue" stroke="#FF3F6C" strokeWidth={2} name="Revenue ($)" />
+          <Line type="monotone" dataKey="orders" stroke="#FB7185" strokeWidth={2} name="Orders" />
         </LineChart>
       </ResponsiveContainer>
     </div>

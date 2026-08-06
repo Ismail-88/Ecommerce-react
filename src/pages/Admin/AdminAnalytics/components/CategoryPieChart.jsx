@@ -1,7 +1,7 @@
 import React from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+const COLORS = ['#FF3F6C', '#FB7185', '#FF8AA7', '#EC4899', '#F43F5E', '#E0285C'];
 
 const tooltipStyle = {
   backgroundColor: 'var(--surface)',

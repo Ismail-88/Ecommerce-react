@@ -36,8 +36,8 @@ export const WeeklyRevenueChart = () => {
             }}
           />
           <Legend />
-          <Bar dataKey="revenue" fill="#10b981" radius={[8, 8, 0, 0]} />
-          <Bar dataKey="target" fill="var(--border)" radius={[8, 8, 0, 0]} />
+          <Bar dataKey="revenue" fill="#FF3F6C" radius={[8, 8, 0, 0]} />
+          <Bar dataKey="target" fill="#FB7185" opacity={0.35} radius={[8, 8, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -19,6 +19,7 @@ export const TopHeader = ({
 
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
+      <div aria-hidden className="h-0.5 w-full bg-gradient-to-r from-brand-600 via-brand-400 to-brand-700" />
       <div className="flex items-center justify-between px-4 md:px-6 py-3.5 gap-4">
         {/* Left Section */}
         <div className="flex items-center gap-3 flex-1">

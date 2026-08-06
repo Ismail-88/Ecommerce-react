@@ -57,7 +57,7 @@ const AdminCategories = () => {
   }
 
   return (
-    <div className="p-6 bg-background min-h-screen">
+    <div className="p-6 bg-transparent min-h-screen">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -83,7 +83,7 @@ const AdminCategories = () => {
 
       {categories.length === 0 ? (
         <EmptyState
-          icon={<FolderOpen size={40} aria-hidden />}
+          icon={FolderOpen}
           eyebrow="Categories"
           title="No categories found"
           description="Try adjusting your search, or add a new category to get started."

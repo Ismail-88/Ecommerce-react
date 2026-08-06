@@ -3,18 +3,18 @@ import { Target } from 'lucide-react';
 
 const PerformanceChart = ({ stats }) => {
   const performanceData = [
-    { name: 'Sales', value: Math.min(((stats.totalOrders / 200) * 100), 100), fill: '#06b6d4' },
-    { name: 'Orders', value: Math.min(((stats.totalOrders / 150) * 100), 100), fill: '#10b981' },
-    { name: 'Products', value: Math.min(((stats.totalProducts / 100) * 100), 100), fill: '#8b5cf6' },
+    { name: 'Sales', value: Math.min(((stats.totalOrders / 200) * 100), 100), fill: '#FF3F6C' },
+    { name: 'Orders', value: Math.min(((stats.totalOrders / 150) * 100), 100), fill: '#FB7185' },
+    { name: 'Products', value: Math.min(((stats.totalProducts / 100) * 100), 100), fill: '#E0285C' },
   ];
 
   return (
     <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
-      <div className="flex items-center gap-2 mb-6">
-        <Target size={20} className="text-brand-600 dark:text-brand-400" aria-hidden />
+      <div className="flex items-center gap-2 mb-5">
+        <Target size={18} className="text-brand-600 dark:text-brand-400" aria-hidden />
         <div>
-          <h2 className="text-xl font-bold text-foreground">Performance</h2>
-          <p className="text-sm text-text-muted">Targets achieved</p>
+          <h2 className="text-lg font-bold text-foreground">Performance</h2>
+          <p className="text-xs text-text-muted">Targets achieved</p>
         </div>
       </div>
       <ResponsiveContainer width="100%" height={220}>

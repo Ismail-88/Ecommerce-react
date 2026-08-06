@@ -46,7 +46,7 @@ const AddEditProduct = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       {/* Toast Container */}
       <ToastContainer
         position="top-right"

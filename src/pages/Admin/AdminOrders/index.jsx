@@ -53,7 +53,7 @@ const AdminOrders = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="min-h-screen bg-transparent p-4 md:p-8">
       {/* Header */}
       <OrdersHeader totalOrders={orders.length} onExport={exportOrders} />
 
