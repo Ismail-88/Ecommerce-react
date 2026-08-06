@@ -7,7 +7,7 @@ import Button from '../../../../components/ui/Button';
 
 const TrackingSearchForm = ({ register, errors, onSubmit, loading }) => {
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-8 max-w-2xl mx-auto">
+    <div className="rounded-xl border border-border bg-surface p-8 max-w-2xl mx-auto">
       <div className="flex items-center gap-3 mb-8">
         <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-600 text-white">
           <Package size={24} aria-hidden />

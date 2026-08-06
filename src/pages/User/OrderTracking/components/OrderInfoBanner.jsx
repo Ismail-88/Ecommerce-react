@@ -4,7 +4,7 @@ import { Package, Calendar, Truck } from 'lucide-react';
 
 const OrderInfoBanner = ({ orderData, trackingStatus }) => {
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card overflow-hidden">
+    <div className="rounded-xl border border-border bg-surface overflow-hidden">
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-center gap-4 p-4 rounded-xl border border-border bg-surface-alt">

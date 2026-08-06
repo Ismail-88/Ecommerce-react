@@ -16,7 +16,7 @@ const Wishlist = () => {
   const { addToCart } = useCart();
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <div className="border-b border-border bg-surface-alt">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
           <div className="flex flex-wrap items-center justify-between gap-4">

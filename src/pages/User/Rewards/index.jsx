@@ -92,7 +92,7 @@ const Rewards = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <div className="border-b border-border bg-surface-alt">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
           <PageHeader
@@ -106,14 +106,14 @@ const Rewards = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Points Balance */}
-          <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
+          <div className="rounded-xl border border-border bg-surface p-6">
             <div className="flex items-center gap-3 mb-6">
               <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
                 <Sparkles size={24} aria-hidden />
               </span>
               <h2 className="text-xl font-bold text-foreground">Your Points</h2>
             </div>
-            <div className="p-5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 text-white mb-4">
+            <div className="p-5 rounded-xl bg-brand-600 text-white mb-4">
               <p className="text-sm text-white/80 mb-1">Available Balance</p>
               <p className="text-4xl font-black mb-1">{data?.rewardPoints ?? 0} pts</p>
               <p className="text-white/80 text-sm">= ₹{(data?.rewardPoints ?? 0) * 1}</p>
@@ -135,7 +135,7 @@ const Rewards = () => {
           </div>
 
           {/* Referral */}
-          <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
+          <div className="rounded-xl border border-border bg-surface p-6">
             <div className="flex items-center gap-3 mb-6">
               <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-danger-soft text-danger">
                 <Share2 size={24} aria-hidden />

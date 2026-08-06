@@ -9,7 +9,7 @@ const EmptyProductsState = ({ onReset }) => {
       title="No Products Found"
       description="Try adjusting your search or filters to find what you're looking for."
       action={<Button variant="secondary" onClick={onReset}>Clear All Filters</Button>}
-      className="rounded-2xl border border-border bg-surface"
+      className="rounded-xl border border-border bg-surface"
     />
   );
 };

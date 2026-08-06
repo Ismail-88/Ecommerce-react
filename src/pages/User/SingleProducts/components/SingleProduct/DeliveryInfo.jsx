@@ -24,7 +24,7 @@ const DeliveryInfo = () => {
   const isValid = pincode.length === 6;
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-5">
+    <div className="rounded-xl border border-border bg-surface p-5">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider">
           Delivery Options

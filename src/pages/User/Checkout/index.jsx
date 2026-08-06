@@ -190,7 +190,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       {/* Header */}
       <div className="border-b border-border bg-surface-alt">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">

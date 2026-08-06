@@ -7,12 +7,12 @@ const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
   const discount = pricing.discount || 0;
   return (
     <div className="lg:col-span-1">
-      <div className="rounded-2xl border border-border bg-surface shadow-card p-6 lg:sticky lg:top-24">
+      <div className="rounded-xl border border-border bg-surface p-6 lg:sticky lg:top-24">
         <div className="flex items-center gap-3 mb-6">
-          <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft text-brand-600 dark:text-brand-400">
+          <span className="flex items-center justify-center w-11 h-11 rounded-lg bg-primary-soft text-brand-600 dark:text-brand-400">
             <ShoppingBag size={21} aria-hidden />
           </span>
-          <h2 className="text-xl font-bold text-foreground">Order Summary</h2>
+          <h2 className="text-lg font-bold text-foreground">Order Summary</h2>
         </div>
 
         {/* Items List */}
@@ -49,7 +49,7 @@ const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
             <span>Delivery Fee</span>
             <span className="flex items-center gap-1.5">
               <span className="line-through text-text-faint">₹25</span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-success-soft text-success text-xs font-bold px-2.5 py-0.5">
+              <span className="inline-flex items-center gap-1 rounded bg-success-soft text-success text-xs font-bold px-2 py-0.5">
                 <Tag size={10} aria-hidden />
                 FREE
               </span>

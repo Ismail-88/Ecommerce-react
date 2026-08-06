@@ -7,10 +7,7 @@ const ProductHeader = ({ title, brand, category, reviewStats, stock }) => {
   const lowStock = stock > 0 && stock <= 5;
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-6 overflow-hidden relative">
-      {/* Gradient accent line */}
-      <span className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-600 via-info to-success" aria-hidden />
-
+    <div className="rounded-xl border border-border bg-surface p-5">
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         <Badge tone="brand">
           <BadgeCheck size={12} className="fill-current" aria-hidden />
@@ -34,12 +31,12 @@ const ProductHeader = ({ title, brand, category, reviewStats, stock }) => {
         )}
       </div>
 
-      <h1 className="text-2xl md:text-3xl font-black text-foreground mb-3 leading-tight">{title}</h1>
+      <h1 className="text-xl md:text-2xl font-bold text-foreground mb-3 leading-tight">{title}</h1>
 
       {reviewStats.total > 0 ? (
         <div className="flex items-center gap-3 flex-wrap mb-4">
-          <span className="inline-flex items-center gap-1.5 rounded-lg bg-success-soft text-success px-2.5 py-1 font-bold text-sm">
-            <Star size={14} className="fill-current" aria-hidden />
+          <span className="inline-flex items-center gap-1 rounded bg-success px-2 py-0.5 font-bold text-sm text-white">
+            <Star size={13} className="fill-current" aria-hidden />
             {reviewStats.average}
           </span>
           <a

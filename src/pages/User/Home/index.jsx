@@ -1,24 +1,35 @@
 import React from "react";
 import { useHomeData } from "./hooks/useHomeData";
-import HeroSection from "./components/HeroSection";
-import FeaturesBar from "./components/FeaturesBar";
-import CategoriesGrid from "./components/CategoriesGrid";
-import FeaturedProductsSection from "./components/FeaturedProductsSection";
-import DealsOfTheDaySection from "./components/DealsOfTheDaySection";
-import CTASection from "./components/CTASection";
+import { getDealProducts } from "../../../utils/deals";
+import CategoryRibbon from "./components/CategoryRibbon";
+import BannerCarousel from "./components/BannerCarousel";
+import ProductRail from "./components/ProductRail";
+import TrustStrip from "./components/TrustStrip";
 import HomeAnimations from "./components/HomeAnimations";
 
 const Home = () => {
-  const { data, featuredProducts, heroProduct } = useHomeData();
+  const { data, featuredProducts } = useHomeData();
+  const deals = getDealProducts(data).slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <HeroSection heroProduct={heroProduct} />
-      <FeaturesBar />
-      <CategoriesGrid />
-      <FeaturedProductsSection products={featuredProducts} />
-      <DealsOfTheDaySection products={data} />
-      <CTASection />
+    <div className="min-h-screen text-foreground">
+      <CategoryRibbon />
+      <BannerCarousel />
+      <ProductRail
+        eyebrow="Handpicked for you"
+        title="Featured Picks"
+        to="/products"
+        products={featuredProducts}
+      />
+      {deals.length > 0 && (
+        <ProductRail
+          eyebrow="Limited time only"
+          title="Deals of the Day"
+          to="/deals"
+          products={deals}
+        />
+      )}
+      <TrustStrip />
       <HomeAnimations />
     </div>
   );

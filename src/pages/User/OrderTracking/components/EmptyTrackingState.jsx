@@ -9,7 +9,7 @@ const EmptyTrackingState = () => {
     <EmptyState
       icon={Search}
       eyebrow={
-        <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-bold text-text-muted">
+        <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-1.5 text-xs font-bold text-text-muted">
           <Package size={14} aria-hidden />
           READY TO TRACK
         </span>

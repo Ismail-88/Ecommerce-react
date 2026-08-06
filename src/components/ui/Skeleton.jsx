@@ -1,7 +1,7 @@
 const Skeleton = ({ className = "", ...props }) => (
   <div
     aria-hidden
-    className={`animate-pulse rounded-md bg-surface-strong ${className}`}
+    className={`skeleton-shimmer rounded-md ${className}`}
     {...props}
   />
 );

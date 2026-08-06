@@ -82,7 +82,7 @@ const OrderCard = ({ order, formatDate, onCancelOrder }) => {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card overflow-hidden">
+    <div className="rounded-xl border border-border bg-surface overflow-hidden">
       {/* Order Header */}
       <div className="flex flex-wrap justify-between items-start gap-4 p-6 pb-5 border-b border-border bg-surface-alt">
         <div>

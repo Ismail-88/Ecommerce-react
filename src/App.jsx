@@ -5,10 +5,11 @@ import Home from './pages/User/Home'
 import About from './pages/User/About'
 import Contact from './pages/User/Contact'
 import Cart from './pages/User/Cart'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import axios from 'axios'
 import Footer from './components/Footer'
+import BackgroundDecor from './components/BackgroundDecor'
 // import SingleProduct from './pages/User/SingleProduct'
 import CategoryProduct from './pages/User/CategoryProduct'
 import { useCart } from './context/CartContext'
@@ -43,6 +44,36 @@ import Rewards from './pages/User/Rewards'
 import CustomScrollToTop from "./components/CustomScrollToTop"
 import LiveChatWidget from "./components/LiveChatWidget"
 
+function UserRoutes({ location, getLocation }) {
+  const routerLocation = useLocation();
+  return (
+    <div key={routerLocation.pathname} className="animate-page-enter">
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/products' element={<Products />} />
+        <Route path='/products/:id' element={<SingleProduct />} />
+        <Route path='/product/:id' element={<SingleProduct />} />
+        <Route path='/category/:id' element={<CategoryProduct />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/cart' element={
+          <ProtectedRoute>
+            <Cart location={location} getLocation={getLocation} />
+          </ProtectedRoute>
+        } />
+        <Route path='/checkout' element={<Checkout />} />
+        <Route path='/order-confirmation' element={<OrderConfirmation />} />
+        <Route path="/track-order" element={<OrderTracking />} />
+        <Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/deals" element={<Deals />} />
+        <Route path="/rewards" element={<Rewards />} />
+        <Route path="/order/:orderId" element={<OrderDetails />} />
+      </Routes>
+    </div>
+  );
+}
+
 function App() {
 const {cartItem, setCartItem} = useCart()
   const [location, setLocation]= useState();
@@ -76,6 +107,7 @@ useEffect(()=>{const storedCart = localStorage.getItem('cartItem')
 useEffect(()=>{localStorage.setItem('cartItem',JSON.stringify(cartItem))},[cartItem])
   return (
    <>
+    <BackgroundDecor />
     <BrowserRouter>
         <SignedIn>
            <ClerkUserSync />
@@ -90,29 +122,9 @@ useEffect(()=>{localStorage.setItem('cartItem',JSON.stringify(cartItem))},[cartI
               openDropDown={openDropDown} 
               setOpenDropDown={setOpenDropDown}
             />
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/products' element={<Products />} />
-              <Route path='/products/:id' element={<SingleProduct />} />
-              <Route path='/product/:id' element={<SingleProduct />} />
-              <Route path='/category/:id' element={<CategoryProduct />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/contact' element={<Contact />} />
-              <Route path='/cart' element={
-                <ProtectedRoute>
-                  <Cart location={location} getLocation={getLocation} />
-                </ProtectedRoute>
-              } />
-              <Route path='/checkout' element={<Checkout />} />
-              <Route path='/order-confirmation' element={<OrderConfirmation />} />
-              <Route path="/track-order" element={<OrderTracking />} />
-              <Route path="/my-orders" element={<MyOrders />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/deals" element={<Deals />} />
-              <Route path="/rewards" element={<Rewards />} />
-              <Route path="/order/:orderId" element={<OrderDetails />} />
-            </Routes>
+            <UserRoutes location={location} getLocation={getLocation} />
             <Footer />
+            <div className="h-16 lg:hidden" aria-hidden />
             <LiveChatWidget />
           </>
         } />

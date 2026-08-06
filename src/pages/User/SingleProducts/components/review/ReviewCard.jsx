@@ -30,7 +30,7 @@ const ReviewCard = ({ review, currentUser, onLike, onEdit, onDelete }) => {
   );
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-6 mb-4 hover:border-border-strong transition-all">
+    <div className="rounded-xl border border-border bg-surface p-6 mb-4 hover:border-border-strong transition-all">
       <div className="flex items-start gap-4">
         <div className="flex-shrink-0">
           {review.userId?.profileImage ? (

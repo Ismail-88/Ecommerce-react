@@ -11,8 +11,10 @@ const WriteReviewModal = ({ isOpen, onClose, onSubmit, editingReview, productTit
   const [comment, setComment] = useState("");
   const [existingImages, setExistingImages] = useState([]);
   const [newImages, setNewImages] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    setError("");
     if (editingReview) {
       setRating(editingReview.rating);
       setTitle(editingReview.title || "");
@@ -42,10 +44,16 @@ const WriteReviewModal = ({ isOpen, onClose, onSubmit, editingReview, productTit
   };
 
   const handleSubmit = async () => {
-    if (rating === 0 || comment.trim().length < 10) {
-      alert("Please provide a rating and a review (minimum 10 characters)");
+    if (rating === 0) {
+      setError("Please select a star rating before submitting.");
       return;
     }
+    if (comment.trim().length < 10) {
+      setError("Please write a review of at least 10 characters.");
+      return;
+    }
+
+    setError("");
 
     const newImagePromises = newImages.map((file) => {
       return new Promise((resolve, reject) => {
@@ -105,13 +113,17 @@ const WriteReviewModal = ({ isOpen, onClose, onSubmit, editingReview, productTit
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={rating === 0 || comment.trim().length < 10}
           >
             {editingReview ? "Update Review" : "Submit Review"}
           </Button>
         </>
       }
     >
+      {error && (
+        <div className="rounded-lg border border-danger/30 bg-danger-soft px-4 py-3 text-sm font-semibold text-danger">
+          {error}
+        </div>
+      )}
       <div className="space-y-6">
         {/* Rating */}
         <div>

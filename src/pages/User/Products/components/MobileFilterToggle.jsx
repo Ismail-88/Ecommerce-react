@@ -6,7 +6,7 @@ const MobileFilterToggle = ({ openFilter, setOpenFilter, itemCount }) => {
       <button
         onClick={() => setOpenFilter(!openFilter)}
         aria-expanded={openFilter}
-        className="w-full rounded-2xl border border-border bg-surface p-4 flex items-center justify-between transition-all hover:border-border-strong active:scale-[0.99]"
+        className="w-full rounded-xl border border-border bg-surface p-4 flex items-center justify-between transition-all hover:border-border-strong active:scale-[0.99]"
       >
         <div className="flex items-center gap-3">
           <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-info text-white">

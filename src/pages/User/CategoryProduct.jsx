@@ -16,7 +16,7 @@ const CategoryProduct = () => {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <div className="border-b border-border bg-surface-alt">
         <div className="max-w-6xl mx-auto px-4 py-8">
           <button

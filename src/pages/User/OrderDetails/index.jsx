@@ -126,7 +126,7 @@ const OrderDetails = () => {
   const pricing = order.pricing || {};
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       {/* Header */}
       <div className="border-b border-border bg-surface-alt">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
@@ -168,7 +168,7 @@ const OrderDetails = () => {
         {/* Shipping + Order Info Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
           {/* Shipping Information */}
-          <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
+          <div className="rounded-xl border border-border bg-surface p-6">
             <div className="flex items-center gap-3 mb-6">
               <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
                 <MapPin size={24} aria-hidden />
@@ -200,7 +200,7 @@ const OrderDetails = () => {
           </div>
 
           {/* Order Information */}
-          <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
+          <div className="rounded-xl border border-border bg-surface p-6">
             <div className="flex items-center gap-3 mb-6">
               <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-info-soft text-info">
                 <Package size={24} aria-hidden />
@@ -234,7 +234,7 @@ const OrderDetails = () => {
         </div>
 
         {/* Order Items */}
-        <div className="rounded-2xl border border-border bg-surface shadow-card p-6 mb-10">
+        <div className="rounded-xl border border-border bg-surface p-6 mb-10">
           <h2 className="text-xl font-bold text-foreground mb-6">Order Items</h2>
           <div className="space-y-3">
             {items.length > 0 ? (
@@ -271,7 +271,7 @@ const OrderDetails = () => {
         </div>
 
         {/* Price Summary */}
-        <div className="rounded-2xl border border-border bg-surface shadow-card p-6 max-w-2xl mx-auto">
+        <div className="rounded-xl border border-border bg-surface p-6 max-w-2xl mx-auto">
           <h2 className="text-xl font-bold text-foreground mb-6">Payment Summary</h2>
           <div className="space-y-3">
             <div className="flex justify-between text-foreground/90">

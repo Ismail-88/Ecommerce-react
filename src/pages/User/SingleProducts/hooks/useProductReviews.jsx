@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { api } from "../../../../context/DataContext";
+import { API_BASE_URL } from "../../../../context/DataContext";
 
-// const DEFAULT_BASE = "http://localhost:5000";
-
-export default function useProductReviews(productId, currentUser, baseUrl = api) {
+export default function useProductReviews(productId, currentUser, baseUrl = API_BASE_URL) {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterRating, setFilterRating] = useState(0);

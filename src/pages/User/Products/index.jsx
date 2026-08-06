@@ -5,10 +5,7 @@ import FilterSidebar from "./components/FilterSidebar";
 import ProductsToolbar from "./components/ProductsToolbar";
 import ProductsGrid from "./components/ProductsGrid";
 import ProductsPagination from "./components/ProductsPagination";
-import ProductsHeroBanner from "./components/ProductsHeroBanner";
 import CategoryPills from "./components/CategoryPills";
-import CategoryShowcase from "./components/CategoryShowcase";
-import TrendingStrip from "./components/TrendingStrip";
 import ProductsSkeleton from "./components/ProductsSkeleton";
 import EmptyProductsState from "./components/EmptyProductsState";
 import BreadCrumbs from "../../../components/BreadCrumbs";
@@ -50,33 +47,31 @@ const Products = () => {
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + (paginatedProducts?.length || 0);
 
-  const trending = (data || []).slice(0, 10);
-  const categoryCount = (categoryNames || []).filter(Boolean).length;
-
   const selectCategoryPill = (value) => {
     handleCategoryChange({ target: { value } });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <BreadCrumbs title="All Products" parent="Shop" parentPath="/products" />
 
       <div className="px-4 md:px-6 pb-16">
         <div className="max-w-7xl mx-auto">
-          {/* Hero */}
-          <ProductsHeroBanner itemCount={data?.length || 0} categoryCount={categoryCount} />
-
-          {/* Trending carousel */}
-          <TrendingStrip products={trending} />
-
-          {/* Category showcase tiles */}
-          <CategoryShowcase
-            products={data || []}
-            categories={categoryNames}
-            onSelect={selectCategoryPill}
-            activeCategory={category}
-          />
+          {/* Page header */}
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pt-2">
+            <div>
+              <h1 className="text-xl md:text-2xl font-extrabold text-foreground tracking-tight">
+                All Products
+              </h1>
+              <p className="text-xs text-text-muted mt-0.5">
+                {data?.length || 0} products · {categoryNames?.filter(Boolean).length || 0} categories
+              </p>
+            </div>
+            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-success-soft px-3 py-1 text-xs font-bold text-success">
+              Free Shipping Over ₹499
+            </span>
+          </div>
 
           {/* Mobile Filter Toggle */}
           <MobileFilterToggle
@@ -109,7 +104,7 @@ const Products = () => {
 
           <div className="flex gap-8">
             {/* Desktop Sidebar */}
-            <div className="hidden md:block flex-shrink-0 w-72">
+            <div className="hidden md:block flex-shrink-0 w-64">
               <FilterSidebar
                 search={search}
                 setSearch={setSearch}

@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingBag, Zap } from "lucide-react";
+import { ShoppingBag, Zap, Truck } from "lucide-react";
 import Button from "../../../../../components/ui/Button";
 import PriceCard from "./PriceCard";
 import QuantitySelector from "./QuantitySelector";
@@ -26,7 +26,7 @@ const PurchasePanel = ({
       />
 
       {/* Quantity + actions */}
-      <div className="hidden lg:block rounded-2xl border border-border bg-surface shadow-card p-5 mt-4">
+      <div className="hidden lg:block rounded-xl border border-border bg-surface p-5 mt-4">
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1.5">
@@ -48,6 +48,19 @@ const PurchasePanel = ({
           </div>
         </div>
 
+        <p className="flex items-center gap-1.5 text-xs text-text-muted mb-4">
+          <Truck size={13} className="text-success" aria-hidden />
+          Delivery by{" "}
+          <span className="font-bold text-foreground">
+            {new Date(Date.now() + 3 * 86400000).toLocaleDateString("en-IN", {
+              weekday: "short",
+              day: "numeric",
+              month: "short",
+            })}
+          </span>
+          <span className="text-success font-semibold">· FREE</span>
+        </p>
+
         <div className="flex flex-col gap-3">
           <Button
             onClick={onAddToCart}
@@ -56,7 +69,7 @@ const PurchasePanel = ({
             className="w-full justify-center"
           >
             <ShoppingBag size={18} aria-hidden />
-            Add to Cart
+            Add to Bag
           </Button>
           <Button
             onClick={onBuyNow}

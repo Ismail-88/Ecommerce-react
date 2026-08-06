@@ -18,8 +18,8 @@ const DiscountPanel = ({
   const [code, setCode] = useState("");
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-6 lg:sticky lg:top-24 space-y-5">
-      <h2 className="text-xl font-bold text-foreground">Discounts &amp; Offers</h2>
+    <div className="rounded-xl border border-border bg-surface p-6 lg:sticky lg:top-24 space-y-5">
+      <h2 className="text-lg font-bold text-foreground">Discounts &amp; Offers</h2>
 
       {/* Coupon */}
       <div>
@@ -51,7 +51,7 @@ const DiscountPanel = ({
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Enter coupon code"
-              className="flex-1 min-w-0 px-4 py-2.5 rounded-xl border border-border bg-background text-foreground placeholder:text-text-faint focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-sm transition-all"
+              className="flex-1 min-w-0 px-4 py-2.5 rounded-lg border border-border bg-background text-foreground placeholder:text-text-faint focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-sm transition-all"
             />
             <button
               onClick={() => {
@@ -60,7 +60,7 @@ const DiscountPanel = ({
                 });
               }}
               disabled={validating}
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-brand-700 transition-colors flex-shrink-0"
+              className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-brand-700 transition-colors flex-shrink-0"
             >
               {validating ? <Loader2 size={15} className="animate-spin" aria-hidden /> : <Tag size={15} aria-hidden />}
               Apply
@@ -90,7 +90,7 @@ const DiscountPanel = ({
               onChange={(e) => onPointsChange(e.target.value)}
               disabled={rewardPoints <= 0}
               placeholder="0"
-              className="flex-1 min-w-0 px-4 py-2.5 rounded-xl border border-border bg-background text-foreground placeholder:text-text-faint focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-sm transition-all disabled:opacity-50"
+              className="flex-1 min-w-0 px-4 py-2.5 rounded-lg border border-border bg-background text-foreground placeholder:text-text-faint focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 text-sm transition-all disabled:opacity-50"
             />
             <span className="text-sm font-bold text-foreground flex-shrink-0">{formatINR(pointsDiscount)}</span>
           </div>

@@ -15,17 +15,17 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       {/* Hero Section */}
       <section className="bg-hero-bg border-b border-border">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 text-center">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-200 dark:border-brand-800 bg-primary-soft text-sm font-semibold text-brand-700 dark:text-brand-300 mb-6">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border border-brand-200 dark:border-brand-800 bg-primary-soft text-sm font-semibold text-brand-700 dark:text-brand-300 mb-6">
             <Crown size={15} className="text-warning" aria-hidden />
             About Us
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-5">
             Welcome to{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-500">
+            <span className="text-brand-600 dark:text-brand-400">
               ShopSphere
             </span>
           </h1>
@@ -88,11 +88,11 @@ const About = () => {
         </Card>
 
         {/* CTA */}
-        <div className="rounded-2xl border border-border bg-hero-bg p-10 md:p-14 text-center">
+        <div className="rounded-xl border border-border bg-hero-bg p-10 md:p-14 text-center">
           <Sparkles size={32} className="mx-auto mb-5 text-brand-600 dark:text-brand-400 animate-pulse-soft" aria-hidden />
           <h3 className="text-2xl md:text-4xl font-extrabold mb-4">
             Join the{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-500">
+            <span className="text-brand-600 dark:text-brand-400">
               ShopSphere Family
             </span>
           </h3>

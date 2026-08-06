@@ -46,21 +46,20 @@ const LiveCountdownTimer = ({ compact = false }) => {
   }
 
   return (
-    <div className="rounded-2xl bg-gradient-to-r from-danger to-orange-500 p-[1px]">
-      <div className="rounded-2xl bg-surface px-4 py-3 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-danger-soft text-danger flex-shrink-0">
-            <Clock size={18} aria-hidden />
-          </span>
-          <div className="min-w-0">
-            <p className="text-xs font-black text-danger uppercase tracking-wide leading-none mb-1">
-              ⚡ Flash Sale Ends In
-            </p>
-            <p className="text-[11px] text-text-muted font-medium truncate">
-              Today's mega deals expire at midnight
-            </p>
-          </div>
+    <div className="rounded-xl border border-danger/30 bg-danger-soft px-4 py-3 flex items-center justify-between gap-3">
+      <div className="flex items-center gap-2 min-w-0">
+        <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-surface border border-danger/20 text-danger flex-shrink-0">
+          <Clock size={18} aria-hidden />
+        </span>
+        <div className="min-w-0">
+          <p className="text-xs font-black text-danger uppercase tracking-wide leading-none mb-1">
+            Flash Sale Ends In
+          </p>
+          <p className="text-[11px] text-text-muted font-medium truncate">
+            Today's mega deals expire at midnight
+          </p>
         </div>
+      </div>
 
         <div className="flex items-center gap-1.5" aria-live="polite">
           {units.map((unit, i) => (
@@ -81,7 +80,6 @@ const LiveCountdownTimer = ({ compact = false }) => {
             </React.Fragment>
           ))}
         </div>
-      </div>
     </div>
   );
 };

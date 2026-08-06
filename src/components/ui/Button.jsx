@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { Loader2 } from "lucide-react";
 
 const baseStyles =
-  "inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 disabled:opacity-60 disabled:cursor-not-allowed select-none whitespace-nowrap";
+  "inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 disabled:opacity-60 disabled:cursor-not-allowed select-none whitespace-nowrap active:scale-[0.97]";
 
 const variants = {
   primary:

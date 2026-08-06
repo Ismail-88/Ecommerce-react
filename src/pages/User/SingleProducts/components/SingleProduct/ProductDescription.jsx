@@ -19,7 +19,7 @@ const ProductDescription = ({ description, brand, category, stock, discount }) =
   );
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-6" id="description">
+    <div className="rounded-xl border border-border bg-surface p-5" id="description">
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <h3 className="text-lg font-bold text-foreground">Product Description</h3>
         {isOutOfStock ? (

@@ -17,7 +17,7 @@ const ReviewFilters = ({ activeFilter, onFilterChange, activeSort, onSortChange 
   ];
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-5 mb-6">
+    <div className="rounded-xl border border-border bg-surface p-5 mb-6">
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-3 flex-wrap">
           <span className="text-sm font-bold text-text-muted uppercase tracking-wider">Filter:</span>

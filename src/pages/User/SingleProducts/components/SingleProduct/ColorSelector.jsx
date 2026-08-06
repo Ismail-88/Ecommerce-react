@@ -4,7 +4,7 @@ const ColorSelector = ({ colors, selectedColor, onColorChange }) => {
   if (!colors || colors.length === 0) return null;
 
   return (
-    <fieldset className="rounded-2xl border border-border bg-surface shadow-card p-5">
+    <fieldset className="rounded-xl border border-border bg-surface p-5">
       <legend className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">
         Select Color:{" "}
         <span className="text-foreground normal-case font-semibold">{selectedColor?.name}</span>

@@ -1,7 +1,7 @@
 import { Star } from 'lucide-react';
 
 const RatingOverview = ({ stats, onFilterChange, activeFilter }) => (
-  <div className="rounded-2xl border border-border bg-surface shadow-card p-6 mb-6">
+  <div className="rounded-xl border border-border bg-surface p-6 mb-6">
     <h3 className="text-xl font-bold text-foreground mb-6">Ratings & Reviews</h3>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="flex items-center justify-center">

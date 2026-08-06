@@ -40,11 +40,11 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       {/* Hero */}
       <section className="bg-hero-bg border-b border-border">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 text-center">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-200 dark:border-brand-800 bg-primary-soft text-sm font-semibold text-brand-700 dark:text-brand-300 mb-6">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border border-brand-200 dark:border-brand-800 bg-primary-soft text-sm font-semibold text-brand-700 dark:text-brand-300 mb-6">
             <MessageSquare size={15} aria-hidden />
             Get in Touch
           </span>
@@ -73,7 +73,7 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left - Info */}
           <Card className="!p-8 md:!p-10">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-200 dark:border-brand-800 bg-primary-soft text-xs font-bold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-5">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-lg border border-brand-200 dark:border-brand-800 bg-primary-soft text-xs font-bold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-5">
               Premium Support
             </span>
             <h2 className="text-3xl font-extrabold mb-4">Let's Talk</h2>
@@ -146,7 +146,7 @@ const Contact = () => {
         </div>
 
         {/* CTA */}
-        <div className="mt-12 rounded-2xl border border-border bg-hero-bg p-10 text-center">
+        <div className="mt-12 rounded-xl border border-border bg-hero-bg p-10 text-center">
           <h3 className="text-2xl md:text-3xl font-extrabold mb-3">Need Immediate Assistance?</h3>
           <p className="text-lg text-text-secondary mb-7 max-w-2xl mx-auto">
             Our support team is always ready to help. Reach out via phone or email for immediate assistance with

@@ -38,7 +38,7 @@ const OrderTracking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       {/* Header */}
       <div className="border-b border-border bg-surface-alt">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
@@ -72,7 +72,7 @@ const OrderTracking = () => {
             <TrackingTimeline trackingStatus={trackingStatus} />
 
             {/* Additional Info */}
-            <div className="rounded-2xl border border-border bg-surface shadow-card p-6">
+            <div className="rounded-xl border border-border bg-surface p-6">
               <div className="flex items-center gap-3 mb-6">
                 <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-success-soft text-success">
                   <TrendingUp size={24} aria-hidden />

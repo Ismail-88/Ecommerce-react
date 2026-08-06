@@ -4,7 +4,7 @@ import { CheckCircle2, Circle } from 'lucide-react';
 
 const TrackingTimeline = ({ trackingStatus }) => {
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-card p-6 md:p-8">
+    <div className="rounded-xl border border-border bg-surface p-6 md:p-8">
       <h2 className="text-2xl font-bold text-foreground mb-10">
         Order Status
       </h2>
