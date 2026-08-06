@@ -4,6 +4,7 @@ import Button from "../../../../components/ui/Button";
 import { formatINR } from "../../../../utils/formatCurrency";
 
 const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
+  const discount = pricing.discount || 0;
   return (
     <div className="lg:col-span-1">
       <div className="rounded-2xl border border-border bg-surface shadow-card p-6 lg:sticky lg:top-24">
@@ -58,6 +59,16 @@ const OrderSummary = ({ cartItem, pricing, isSubmitting }) => {
             <span>Handling Fee</span>
             <span className="font-semibold text-foreground">{formatINR(pricing.handlingFee)}</span>
           </div>
+
+          {discount > 0 && (
+            <div className="flex justify-between items-center text-text-muted">
+              <span className="flex items-center gap-1.5">
+                <Tag size={13} aria-hidden />
+                Discount
+              </span>
+              <span className="font-semibold text-success">- {formatINR(discount)}</span>
+            </div>
+          )}
 
           <div className="border-t border-border pt-3 flex justify-between items-center">
             <span className="font-bold text-foreground">Total</span>

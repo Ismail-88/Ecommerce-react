@@ -78,7 +78,7 @@ const useDashboardData = () => {
         return sum + orderTotal;
       }, 0);
 
-      const pendingOrders = ordersData.filter((o) => o.status === "pending").length;
+      const pendingOrders = ordersData.filter((o) => o.status?.toLowerCase() === "pending").length;
       const lowStock = productsData.filter((p) => (p.stock || 0) < 10).length;
 
       const uniqueCustomers = new Set(

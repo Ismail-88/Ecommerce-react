@@ -153,8 +153,10 @@ const fetchProductsByCategoryName = async (categorySlugOrName) => {
   const fetchOrderById = async(orderId)=>{
     try {
       const res = await api.get(`/order/${orderId}`);
-      console.log(res.data)
-      return res.data;
+      const payload = res.data;
+      const order = payload?.order || payload?.data || payload;
+      console.log(order)
+      return order;
     } catch (error) {
       console.log(error)
     }

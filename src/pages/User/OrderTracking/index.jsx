@@ -17,8 +17,7 @@ import PageHeader from "../../../components/ui/PageHeader";
 const trackingSchema = z.object({
   orderId: z
     .string()
-    .min(10, "Order ID must be at least 10 characters")
-    .regex(/^ORD-/, "Order ID must start with 'ORD-'"),
+    .min(10, "Order ID must be at least 10 characters"),
   email: z.string().email("Invalid email address").optional().or(z.literal("")),
 });
 

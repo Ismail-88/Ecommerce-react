@@ -24,7 +24,7 @@ const TrackingSearchForm = ({ register, errors, onSubmit, loading }) => {
             id="orderId"
             type="text"
             {...register("orderId")}
-            placeholder="Enter your Order ID (e.g., ORD-1234567890)"
+            placeholder="Enter your Order ID (e.g., COD-1234567890 or order_xxxx)"
             error={errors.orderId?.message}
           />
         </div>

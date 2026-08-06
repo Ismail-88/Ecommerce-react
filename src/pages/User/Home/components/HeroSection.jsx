@@ -78,7 +78,7 @@ const HeroSection = ({ heroProduct }) => {
                   Lifestyle
                 </span>
               </h1>
-              <p className="text-lg text-text-secondary leading-relaxed max-w-xl">
+              <p className="text-lg text-text-secondary lead  ing-relaxed max-w-xl">
                 Discover premium products handpicked by experts. Quality, innovation, and style in perfect harmony.
               </p>
             </div>

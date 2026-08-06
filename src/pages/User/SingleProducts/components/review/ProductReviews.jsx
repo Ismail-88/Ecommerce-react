@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { MessageSquarePlus, Star } from "lucide-react";
 import useProductReviews from "../../hooks/useProductReviews";
 import RatingOverview from './RatingOverview';
+import AIReviewSummary from './AIReviewSummary';
 import ReviewFilters from './ReviewFilters';
 import ReviewCard from './ReviewCard';
 import WriteReviewModal from './WriteReviewModal';
@@ -11,6 +12,7 @@ import EmptyState from '../../../../../components/ui/EmptyState';
 
 const ProductReviews = ({ productId, productTitle, currentUser }) => {
   const {
+    reviews,
     loading,
     stats,
     filteredReviews,
@@ -53,6 +55,7 @@ const ProductReviews = ({ productId, productTitle, currentUser }) => {
       </div>
 
       <RatingOverview stats={stats} onFilterChange={setFilterRating} activeFilter={filterRating} />
+      <AIReviewSummary reviews={reviews} />
       <ReviewFilters
         activeFilter={filterRating}
         onFilterChange={setFilterRating}

@@ -1,10 +1,12 @@
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import { getData } from '../../../../context/DataContext';
 
 export const useProductsFilter = () => {
   const { data, fetchAllProducts, categoryNames, brandNames } = getData();
-  
+  const location = useLocation();
+
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [brand, setBrand] = useState("All");
@@ -17,6 +19,16 @@ export const useProductsFilter = () => {
     fetchAllProducts();
     // window.scrollTo(0, 0);
   }, []);
+
+  // Sync search from URL ?q= param (e.g. from navbar Smart Search)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get("q");
+    if (q) {
+      setSearch(q);
+      setPage(1);
+    }
+  }, [location.search]);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {

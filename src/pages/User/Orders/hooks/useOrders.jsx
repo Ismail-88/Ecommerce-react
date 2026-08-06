@@ -1,7 +1,8 @@
 
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useUser } from '@clerk/clerk-react';
-import { getData } from '../../../../context/DataContext';
+import { toast } from 'react-toastify';
+import { api, getData } from '../../../../context/DataContext';
 
 export const useOrders = () => {
   const { user, isLoaded } = useUser();
@@ -60,6 +61,22 @@ export const useOrders = () => {
     return count;
   }, [orders]);
 
+  // Cancel an order (only allowed while pending/processing)
+  const cancelOrder = useCallback(async (orderId) => {
+    try {
+      await api.put(`/orders/${orderId}`, { status: "cancelled" });
+      toast.success("Order cancelled successfully");
+      if (user?.id) {
+        fetchOrdersByUser(user.id);
+      }
+      return { success: true };
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+      toast.error("Failed to cancel order!");
+      return { success: false };
+    }
+  }, [fetchOrdersByUser, user?.id]);
+
   return {
     user,
     isLoaded,
@@ -69,6 +86,7 @@ export const useOrders = () => {
     filter,
     setFilter,
     formatDate,
-    getOrderCount
+    getOrderCount,
+    cancelOrder
   };
 };

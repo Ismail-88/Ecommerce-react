@@ -31,8 +31,8 @@ const RecentOrdersList = ({ orders }) => {
             </div>
             <div className="text-right flex-shrink-0 ml-2">
               <p className="font-bold text-foreground">{formatINR(order.pricing?.grandTotal)}</p>
-              <Badge tone={statusTones[order.status] || 'neutral'}>
-                {order.status}
+              <Badge tone={statusTones[order.status?.toLowerCase()] || 'neutral'}>
+                {order.status?.toLowerCase()}
               </Badge>
             </div>
           </div>

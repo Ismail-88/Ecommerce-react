@@ -1,14 +1,26 @@
 // components/orders/OrderCard.jsx
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, CreditCard, Package, Truck, CheckCircle2, XCircle, Clock, Eye } from 'lucide-react';
 
 import Badge from '../../../../components/ui/Badge';
 import Button from '../../../../components/ui/Button';
+import ConfirmDialog from '../../../../components/ui/ConfirmDialog';
 import { formatINR } from '../../../../utils/formatCurrency';
 
-const OrderCard = ({ order, formatDate }) => {
+const OrderCard = ({ order, formatDate, onCancelOrder }) => {
   const navigate = useNavigate();
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+
+  const handleCancel = async () => {
+    setCancelling(true);
+    const result = await onCancelOrder(order.orderId);
+    setCancelling(false);
+    if (result?.success) {
+      setCancelOpen(false);
+    }
+  };
 
   const statusConfig = useMemo(() => ({
     pending: {
@@ -87,7 +99,7 @@ const OrderCard = ({ order, formatDate }) => {
             <StatusIcon size={13} aria-hidden />
             {statusStyle.label}
           </Badge>
-          <Button variant="outline" size="sm" onClick={() => navigate(`/order/${order._id}`)}>
+          <Button variant="outline" size="sm" onClick={() => navigate(`/order/${order.orderId}`)}>
             <Eye size={15} aria-hidden />
             View
           </Button>
@@ -171,30 +183,53 @@ const OrderCard = ({ order, formatDate }) => {
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3 p-6 pt-0">
         {statusKey === "delivered" && (
-          <button className="flex-1 min-w-[160px] rounded-xl border border-border bg-surface-alt px-4 py-3 text-sm font-bold text-foreground hover:border-brand-500/50 hover:text-brand-600 transition-all">
+          <button
+            onClick={() => {
+              const productId = orderItems[0]?._id;
+              if (productId) {
+                navigate(`/products/${productId}#reviews`);
+              } else {
+                navigate("/products");
+              }
+            }}
+            className="flex-1 min-w-[160px] rounded-xl border border-border bg-surface-alt px-4 py-3 text-sm font-bold text-foreground hover:border-brand-500/50 hover:text-brand-600 transition-all"
+          >
             Write Review
           </button>
         )}
         {(statusKey === "pending" || statusKey === "processing") && (
-          <button className="flex-1 min-w-[160px] rounded-xl border border-danger/40 px-4 py-3 text-sm font-bold text-danger hover:bg-danger/10 transition-all">
+          <button
+            onClick={() => setCancelOpen(true)}
+            className="flex-1 min-w-[160px] rounded-xl border border-danger/40 px-4 py-3 text-sm font-bold text-danger hover:bg-danger/10 transition-all"
+          >
             Cancel Order
           </button>
         )}
-        {statusKey === "shipped" && (
+        {statusKey !== "cancelled" && (
           <button
-            onClick={() => navigate(`/track-order`)}
+            onClick={() => navigate("/track-order", { state: { orderId: order.orderId } })}
             className="flex-1 min-w-[160px] rounded-xl bg-brand-600 px-4 py-3 text-sm font-bold text-white hover:bg-brand-700 transition-all"
           >
             Track Order
           </button>
         )}
         <button
-          onClick={() => navigate(`/order/${order._id}`)}
+          onClick={() => navigate(`/order/${order.orderId}`)}
           className="flex-1 min-w-[160px] rounded-xl border border-border bg-surface px-4 py-3 text-sm font-bold text-foreground hover:border-brand-500/50 hover:text-brand-600 transition-all"
         >
           View Details
         </button>
       </div>
+
+      <ConfirmDialog
+        open={cancelOpen}
+        onClose={() => setCancelOpen(false)}
+        onConfirm={handleCancel}
+        title="Cancel this order?"
+        message={`Order #${order.orderId} will be cancelled. This action cannot be undone.`}
+        confirmText="Yes, Cancel Order"
+        loading={cancelling}
+      />
     </div>
   );
 };

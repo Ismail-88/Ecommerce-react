@@ -35,8 +35,13 @@ import SingleProduct from './pages/User/SingleProducts'
 import Products from './pages/User/Products'
 import Checkout from './pages/User/Checkout'
 import MyOrders from './pages/User/Orders'
+import Wishlist from './pages/User/Wishlist'
+import Deals from './pages/User/Deals'
+import OrderDetails from './pages/User/OrderDetails'
 import OrderTracking from './pages/User/OrderTracking'
+import Rewards from './pages/User/Rewards'
 import CustomScrollToTop from "./components/CustomScrollToTop"
+import LiveChatWidget from "./components/LiveChatWidget"
 
 function App() {
 const {cartItem, setCartItem} = useCart()
@@ -102,8 +107,13 @@ useEffect(()=>{localStorage.setItem('cartItem',JSON.stringify(cartItem))},[cartI
               <Route path='/order-confirmation' element={<OrderConfirmation />} />
               <Route path="/track-order" element={<OrderTracking />} />
               <Route path="/my-orders" element={<MyOrders />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/deals" element={<Deals />} />
+              <Route path="/rewards" element={<Rewards />} />
+              <Route path="/order/:orderId" element={<OrderDetails />} />
             </Routes>
             <Footer />
+            <LiveChatWidget />
           </>
         } />
 

@@ -107,7 +107,7 @@ export const OrderDetailsModal = ({ order, onClose, onStatusChange }) => {
             Update Order Status
           </label>
           <select
-            value={order.status}
+            value={order.status?.toLowerCase() || 'pending'}
             onChange={(e) => onStatusChange(order.orderId, e.target.value)}
             className={statusSelectClass}
           >

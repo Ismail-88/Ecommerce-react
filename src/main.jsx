@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { DataProvider } from "./context/DataContext.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
+import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { ThemeProvider, useTheme } from "./context/ThemeContext.jsx";
 import { ToastContainer } from "react-toastify";
 import CustomScrollToTop from "./components/CustomScrollToTop.jsx";
@@ -39,11 +40,13 @@ createRoot(document.getElementById("root")).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <DataProvider>
         <CartProvider>
-          <ThemeProvider>
-            <App />
-            <CustomScrollToTop />
-            <ThemedToaster />
-          </ThemeProvider>
+          <WishlistProvider>
+            <ThemeProvider>
+              <App />
+              <CustomScrollToTop />
+              <ThemedToaster />
+            </ThemeProvider>
+          </WishlistProvider>
         </CartProvider>
       </DataProvider>
     </ClerkProvider>

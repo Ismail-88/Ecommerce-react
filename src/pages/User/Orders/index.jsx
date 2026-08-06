@@ -24,7 +24,8 @@ const MyOrders = () => {
     filter,
     setFilter,
     formatDate,
-    getOrderCount
+    getOrderCount,
+    cancelOrder
   } = useOrders();
 
   // Loading state
@@ -86,6 +87,7 @@ const MyOrders = () => {
                 key={order._id}
                 order={order}
                 formatDate={formatDate}
+                onCancelOrder={cancelOrder}
               />
             ))}
           </div>

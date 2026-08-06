@@ -3,15 +3,18 @@ import { useState } from "react";
 import { ShoppingBag, Heart, Star, Eye, TrendingUp, BadgeCheck } from "lucide-react";
 import { getData } from "../../../../context/DataContext";
 import { useCart } from "../../../../context/CartContext";
+import { useWishlist } from "../../../../context/WishlistContext";
 
 const ProductCard = ({ product, viewMode, featured = false }) => {
   const navigate = useNavigate();
   const { addToCart, cartItem } = useCart();
   const { getProductImageUrl } = getData();
+  const { toggleWishlist, isWishlisted: isInWishlist } = useWishlist();
   const imageUrl = getProductImageUrl(product);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  const isWishlisted = isInWishlist(product._id);
 
   const isInCart = cartItem?.some((item) => item._id === product._id);
   const stock = product.stock ?? 10;
@@ -28,7 +31,10 @@ const ProductCard = ({ product, viewMode, featured = false }) => {
 
   const wishlistButton = (
     <button
-      onClick={() => setIsWishlisted(!isWishlisted)}
+      onClick={(e) => {
+        e.stopPropagation();
+        toggleWishlist(product);
+      }}
       aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
       aria-pressed={isWishlisted}
       className={`flex items-center justify-center w-9 h-9 rounded-full backdrop-blur border transition-all hover:scale-110 active:scale-90 ${

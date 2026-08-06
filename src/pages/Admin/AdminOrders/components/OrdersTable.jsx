@@ -42,7 +42,9 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
           </thead>
           <tbody>
             {orders.length > 0 ? (
-              orders.map((order) => (
+              orders.map((order) => {
+                const statusKey = order.status?.toLowerCase() || 'pending';
+                return (
                 <tr key={order.orderId} className="border-b border-border hover:bg-surface-alt transition">
                   <td className="py-4 px-6 font-mono text-sm font-semibold text-foreground">
                     {order.orderId}
@@ -64,16 +66,16 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
                   </td>
                   <td className="py-4 px-6">
                     <select
-                      value={order.status}
+                      value={statusKey}
                       onChange={(e) => onStatusChange(order.orderId, e.target.value)}
                       className={`px-3 py-1 rounded-full text-sm font-semibold cursor-pointer border border-transparent ${
-                        statusTones[order.status] === 'success'
+                        statusTones[statusKey] === 'success'
                           ? 'bg-success-soft text-success'
-                          : statusTones[order.status] === 'warning'
+                          : statusTones[statusKey] === 'warning'
                           ? 'bg-warning-soft text-warning'
-                          : statusTones[order.status] === 'danger'
+                          : statusTones[statusKey] === 'danger'
                           ? 'bg-danger-soft text-danger'
-                          : statusTones[order.status] === 'info'
+                          : statusTones[statusKey] === 'info'
                           ? 'bg-info-soft text-info'
                           : 'bg-brand-soft text-brand-600 dark:text-brand-400'
                       }`}
@@ -104,7 +106,8 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
                     </div>
                   </td>
                 </tr>
-              ))
+                );
+              })
             ) : (
               <tr>
                 <td colSpan="7" className="text-center py-12">

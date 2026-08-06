@@ -80,7 +80,7 @@ Thank you for shopping with us!
     );
   }
 
-  const { orderId, items, shippingInfo, paymentMethod, pricing, orderDate } = orderData;
+  const { orderId, items = [], shippingInfo = {}, paymentMethod = "", pricing = {}, orderDate = new Date() } = orderData;
 
   const estimatedDelivery = new Date();
   estimatedDelivery.setDate(estimatedDelivery.getDate() + 7);
@@ -124,6 +124,10 @@ Thank you for shopping with us!
           <Button variant="outline" onClick={handlePrint}>
             <Printer size={17} aria-hidden />
             Print Order
+          </Button>
+          <Button variant="outline" onClick={() => navigate("/track-order", { state: { orderId } })}>
+            <Truck size={17} aria-hidden />
+            Track Order
           </Button>
           <Button variant="outline" onClick={() => navigate("/products")}>
             <ShoppingBag size={17} aria-hidden />

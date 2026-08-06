@@ -1,11 +1,14 @@
 import { UserButton, useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import { Home, Package, ShoppingBag, Info, Mail, LogIn } from "lucide-react";
+import { Home, Package, ShoppingBag, Info, Mail, LogIn, Zap, Heart, Gift } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const items = [
   { to: "/", label: "Home", icon: Home },
   { to: "/products", label: "Products", icon: Package },
+  { to: "/deals", label: "Deals", icon: Zap },
+  { to: "/wishlist", label: "Wishlist", icon: Heart },
+  { to: "/rewards", label: "Rewards", icon: Gift },
   { to: "/my-orders", label: "My Orders", icon: ShoppingBag },
   { to: "/about", label: "About", icon: Info },
   { to: "/contact", label: "Contact", icon: Mail },

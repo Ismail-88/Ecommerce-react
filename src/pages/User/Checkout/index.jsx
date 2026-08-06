@@ -10,8 +10,10 @@ import toast from 'react-hot-toast';
 // Components
 import PaymentMethodSelector from "./components/PaymentMethodSelector";
 import OrderSummary from "./components/OrderSummary";
+import DiscountPanel from "./components/DiscountPanel";
 import { useCheckout } from "./hooks/useCheckout";
 import { useRazorpay } from "./hooks/useRazorpay";
+import { useDiscounts } from "./hooks/useDiscounts";
 import ShippingForm from "./components/ShippingForm";
 import EmptyState from "../../../components/ui/EmptyState";
 import Button from "../../../components/ui/Button";
@@ -36,6 +38,20 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { cartItem, user, pricing } = useCheckout();
   const { initiatePayment, createCODOrder, isLoading } = useRazorpay();
+  const {
+    mongoUserId,
+    rewardPoints,
+    coupon,
+    couponDiscount,
+    pointsUsed,
+    pointsDiscount,
+    totalDiscount,
+    effectivePricing,
+    validating,
+    applyCoupon,
+    removeCoupon,
+    handlePointsChange,
+  } = useDiscounts(pricing);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
@@ -60,6 +76,22 @@ const Checkout = () => {
 
   const paymentMethod = watch("paymentMethod");
 
+  // Merge backend response with locally submitted order so the
+  // confirmation page always has complete data (shippingInfo, items, pricing).
+  const finalizeOrder = (order, orderData, paymentMethod) => {
+    const fullOrder = {
+      ...(order || {}),
+      orderId: order?.orderId || order?._id || orderData.orderId,
+      shippingInfo: order?.shippingInfo || orderData.shippingInfo,
+      pricing: order?.pricing || orderData.pricing,
+      items: order?.items || orderData.items,
+      orderDate: order?.orderDate || new Date().toISOString(),
+      paymentMethod: order?.paymentMethod || paymentMethod,
+      status: order?.status || "pending",
+    };
+    navigate("/order-confirmation", { state: { orderData: fullOrder } });
+  };
+
   // Handle form submission
   const onSubmit = async (formData) => {
     setIsProcessing(true);
@@ -68,7 +100,11 @@ const Checkout = () => {
       // Prepare order data
       const orderData = {
         userId: user?.id || 'guest',
+        mongoUserId: mongoUserId || undefined,
+        couponCode: coupon?.code || undefined,
+        pointsUsed: pointsUsed || 0,
         items: cartItem.map(item => ({
+          _id: item._id,
           title: item.title,
           price: item.price,
           quantity: item.quantity,
@@ -85,17 +121,18 @@ const Checkout = () => {
           country: formData.country
         },
         pricing: {
-          subtotal: pricing.subtotal,
-          deliveryFee: pricing.deliveryFee,
-          handlingFee: pricing.handlingFee,
-          grandTotal: pricing.grandTotal
+          subtotal: effectivePricing.subtotal,
+          deliveryFee: effectivePricing.deliveryFee,
+          handlingFee: effectivePricing.handlingFee,
+          discount: effectivePricing.discount,
+          grandTotal: effectivePricing.grandTotal
         }
       };
 
       if (formData.paymentMethod === 'razorpay') {
         // Razorpay Payment
         await initiatePayment({
-          amount: pricing.grandTotal,
+          amount: effectivePricing.grandTotal,
           orderData: orderData,
           customerDetails: {
             name: formData.fullName,
@@ -105,7 +142,7 @@ const Checkout = () => {
           onSuccess: (order) => {
             toast.success('Payment successful! 🎉');
             // Clear cart here if you have cart context
-            navigate(`/order-success?orderId=${order.id}`);
+            finalizeOrder(order, orderData, formData.paymentMethod);
           },
           onFailure: (error) => {
             toast.error(error.message || 'Payment failed. Please try again.');
@@ -119,7 +156,7 @@ const Checkout = () => {
           (order) => {
             toast.success('Order placed successfully! 🎉');
             // Clear cart here if you have cart context
-            navigate(`/order-success?orderId=${order.id}`);
+            finalizeOrder(order, orderData, formData.paymentMethod);
           },
           (error) => {
             toast.error(error.message || 'Failed to place order. Please try again.');
@@ -180,11 +217,25 @@ const Checkout = () => {
             </div>
 
             {/* Right Section - Order Summary */}
-            <OrderSummary
-              cartItem={cartItem}
-              pricing={pricing}
-              isSubmitting={isProcessing || isLoading}
-            />
+            <div className="lg:col-span-1 space-y-6">
+              <DiscountPanel
+                rewardPoints={rewardPoints}
+                coupon={coupon}
+                couponDiscount={couponDiscount}
+                pointsUsed={pointsUsed}
+                pointsDiscount={pointsDiscount}
+                totalDiscount={totalDiscount}
+                validating={validating}
+                onApplyCoupon={applyCoupon}
+                onRemoveCoupon={removeCoupon}
+                onPointsChange={handlePointsChange}
+              />
+              <OrderSummary
+                cartItem={cartItem}
+                pricing={effectivePricing}
+                isSubmitting={isProcessing || isLoading}
+              />
+            </div>
           </div>
         </form>
       </div>

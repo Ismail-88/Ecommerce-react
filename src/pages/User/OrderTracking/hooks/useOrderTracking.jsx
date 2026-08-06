@@ -39,7 +39,8 @@ export const useOrderTracking = (setValue) => {
       delivered: FaCheckCircle,
     };
 
-    const currentIndex = statusMap.indexOf(order.status);
+    const currentStatus = String(order.status || "").toLowerCase();
+    const currentIndex = statusMap.indexOf(currentStatus);
 
     return statusMap.map((status, i) => ({
       id: i + 1,

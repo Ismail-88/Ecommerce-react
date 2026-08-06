@@ -15,6 +15,7 @@ import TrustBadges from "./components/SingleProduct/TrustBadges";
 import ProductDescription from "./components/SingleProduct/ProductDescription";
 import RelatedProducts from "./components/SingleProduct/RelatedProducts";
 import ProductReviews from "./components/review/ProductReviews";
+import RecentlyViewedSection from "../../../components/RecentlyViewedSection";
 import BreadCrumbs from "../../../components/BreadCrumbs";
 import Button from "../../../components/ui/Button";
 import { FullPageSpinner } from "../../../components/ui/Spinner";
@@ -164,12 +165,15 @@ const SingleProduct = () => {
         </div>
 
         {/* Related Products */}
-        <RelatedProducts products={relatedProducts} />
+        <RelatedProducts product={singleProduct} products={relatedProducts} />
 
         {/* Reviews */}
         <div id="reviews" className="scroll-mt-28">
           <ProductReviews productId={id} productTitle={singleProduct.title} currentUser={user} />
         </div>
+
+        {/* Recently Viewed */}
+        <RecentlyViewedSection currentProductId={id} />
 
         {/* Mobile Action Buttons */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 backdrop-blur-xl p-4 z-50 animate-slide-down">

@@ -36,7 +36,7 @@ export const useOrders = ()=>{
     }
 
     if (statusFilter !== "all") {
-      filtered = filtered.filter((order) => order.status === statusFilter);
+      filtered = filtered.filter((order) => order.status?.toLowerCase() === statusFilter);
     }
 
     setFilteredOrders(filtered);

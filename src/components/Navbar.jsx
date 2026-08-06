@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import { MapPin, ShoppingBag, Menu, X, ChevronDown, Zap, Moon, Sun } from "lucide-react";
+import { MapPin, ShoppingBag, Heart, Menu, X, ChevronDown, Zap, Moon, Sun } from "lucide-react";
 import ResponsiveMenu from "./ResponsiveMenu";
+import SmartSearch from "./SmartSearch";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 import { useTheme } from "../context/ThemeContext";
 
 const NavItem = ({ to, label, onClick }) => (
@@ -30,6 +32,7 @@ const NavItem = ({ to, label, onClick }) => (
 const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
   const [openNav, setOpenNav] = useState(false);
   const { cartItem } = useCart();
+  const { wishlistCount } = useWishlist();
   const { isDark, toggleTheme } = useTheme();
 
   const toggleDrop = () => setOpenDropDown(!openDropDown);
@@ -111,6 +114,8 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
             <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
               <NavItem to="/" label="Home" />
               <NavItem to="/products" label="Products" />
+              <NavItem to="/deals" label="Deals" />
+              <NavItem to="/rewards" label="Rewards" />
               <NavItem to="/my-orders" label="My Orders" />
               <NavItem to="/about" label="About" />
               <NavItem to="/contact" label="Contact" />
@@ -126,6 +131,20 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
               >
                 {isDark ? <Sun size={18} aria-hidden /> : <Moon size={18} aria-hidden />}
               </button>
+
+              {/* Wishlist */}
+              <Link
+                to="/wishlist"
+                aria-label={`Wishlist with ${wishlistCount} items`}
+                className="relative p-2.5 rounded-xl border border-border bg-surface-alt text-text-secondary hover:text-danger hover:border-danger/30 transition-all"
+              >
+                <Heart size={18} aria-hidden />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-danger text-[11px] font-bold text-white shadow-sm">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
 
               {/* Cart */}
               <Link
@@ -167,6 +186,11 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
                 {openNav ? <X size={18} aria-hidden /> : <Menu size={18} aria-hidden />}
               </button>
             </div>
+          </div>
+
+          {/* Search Row */}
+          <div className="pb-4">
+            <SmartSearch />
           </div>
         </div>
       </header>

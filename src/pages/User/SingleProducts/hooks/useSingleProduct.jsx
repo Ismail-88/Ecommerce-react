@@ -2,16 +2,18 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { api, getData } from '../../../../context/DataContext';
+import { useWishlist } from '../../../../context/WishlistContext';
+import { addToRecentlyViewed } from '../../../../utils/recentlyViewed';
 
 
 export const useSingleProduct = (id) => {
   const { singleProduct, getSingleProduct, data: products, getProductImagesUrls, getImageUrl } = getData();
-  
+  const { toggleWishlist, isWishlisted: isInWishlist } = useWishlist();
+
   const [selectedColor, setSelectedColor] = useState(null);
   const [currentImages, setCurrentImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [reviewStats, setReviewStats] = useState({ average: 0, total: 0 });
 
   // Process color images
@@ -62,6 +64,13 @@ useEffect(() => {
  
 }, [id]);
 
+  // Track recent view once the product loads
+  useEffect(() => {
+    if (singleProduct?._id) {
+      addToRecentlyViewed(singleProduct);
+    }
+  }, [singleProduct]);
+
   // Handle color change
   const handleColorChange = useCallback((color) => {
     setSelectedColor(color);
@@ -108,8 +117,8 @@ useEffect(() => {
     setSelectedImage,
     quantity,
     setQuantity,
-    isWishlisted,
-    setIsWishlisted,
+    isWishlisted: isInWishlist(singleProduct?._id),
+    setIsWishlisted: () => toggleWishlist(singleProduct),
     reviewStats,
     handleColorChange,
     pricing,
