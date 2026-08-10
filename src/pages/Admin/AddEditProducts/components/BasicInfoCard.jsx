@@ -1,12 +1,50 @@
-import { FileText, AlertCircle } from "lucide-react";
+import { useState } from "react";
+import { FileText, AlertCircle, Sparkles, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+import { api } from "../../../../context/DataContext";
 
-export const BasicInfoCard = ({ register, errors }) => {
+export const BasicInfoCard = ({ register, errors, setValue, watch, categories }) => {
+  const [generating, setGenerating] = useState(false);
+
   const inputClass = (hasError) =>
     `w-full px-4 py-3 border rounded-xl outline-none transition-all ${
       hasError
         ? "border-danger focus:ring-2 focus:ring-danger/20"
         : "border-border bg-background text-foreground focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
     }`;
+
+  const generateDescription = async () => {
+    const title = String(watch("title") || "").trim();
+    if (title.length < 3) {
+      toast.error("Please enter a product title first (min 3 characters).");
+      return;
+    }
+
+    const brand = String(watch("brand") || "").trim();
+    const categoryId = String(watch("category") || "");
+    const category = categories?.find((c) => String(c._id) === categoryId)?.name || "";
+    const rawPrice = watch("price");
+
+    setGenerating(true);
+    try {
+      const res = await api.post("/api/ai/generate-description", {
+        title,
+        brand,
+        category,
+        price: rawPrice ? Number(rawPrice) : undefined,
+      });
+      const description = res.data?.description || "";
+      setValue("description", description);
+      toast.success("AI description generated!");
+    } catch (error) {
+      console.error("AI generate description error:", error);
+      toast.error(
+        error.response?.data?.error || "Failed to generate description. Please try again."
+      );
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   return (
     <div className="bg-surface rounded-2xl border border-border shadow-card p-6 md:p-8 space-y-6">
@@ -41,9 +79,24 @@ export const BasicInfoCard = ({ register, errors }) => {
 
       {/* Description */}
       <div className="space-y-2">
-        <label className="block text-sm font-bold text-foreground">
-          Description <span className="text-danger">*</span>
-        </label>
+        <div className="flex items-center justify-between gap-3">
+          <label className="block text-sm font-bold text-foreground">
+            Description <span className="text-danger">*</span>
+          </label>
+          <button
+            type="button"
+            onClick={generateDescription}
+            disabled={generating}
+            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 px-3 py-1.5 text-xs font-bold text-white hover:opacity-90 active:scale-95 transition-all disabled:opacity-50"
+          >
+            {generating ? (
+              <Loader2 size={13} className="animate-spin" aria-hidden />
+            ) : (
+              <Sparkles size={13} aria-hidden />
+            )}
+            {generating ? "Generating..." : "Generate with AI"}
+          </button>
+        </div>
         <textarea
           {...register("description")}
           rows={5}

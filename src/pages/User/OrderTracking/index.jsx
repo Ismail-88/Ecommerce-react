@@ -31,7 +31,7 @@ const OrderTracking = () => {
     resolver: zodResolver(trackingSchema),
   });
 
-  const { orderData, trackingStatus, loading, handleTrackOrder } = useOrderTracking(setValue);
+  const { orderData, trackingStatus, loading, live, handleTrackOrder } = useOrderTracking(setValue);
 
   const onSubmit = (data) => {
     handleTrackOrder(data);
@@ -65,6 +65,23 @@ const OrderTracking = () => {
         {/* Tracking Results */}
         {trackingStatus && orderData ? (
           <div className="space-y-6">
+            {/* Live indicator */}
+            <div className="flex items-center gap-2">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${
+                  live
+                    ? "bg-success-soft text-success"
+                    : "bg-surface-alt text-text-muted border border-border"
+                }`}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full ${live ? "bg-success animate-pulse" : "bg-text-faint"}`}
+                  aria-hidden
+                />
+                {live ? "LIVE — updates in real time" : "Tracking order"}
+              </span>
+            </div>
+
             {/* Order Info Banner */}
             <OrderInfoBanner orderData={orderData} trackingStatus={trackingStatus} />
 

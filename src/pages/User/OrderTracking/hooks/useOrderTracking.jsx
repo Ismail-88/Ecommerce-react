@@ -4,11 +4,13 @@ import { useLocation } from 'react-router-dom';
 import { FaBox, FaShippingFast, FaTruck, FaCheckCircle } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 import { getData } from '../../../../context/DataContext';
+import { socket, joinOrderRoom } from '../../../../services/socket';
 
 export const useOrderTracking = (setValue) => {
   const location = useLocation();
   const [orderData, setOrderData] = useState(null);
   const [trackingStatus, setTrackingStatus] = useState(null);
+  const [live, setLive] = useState(false);
   const [loading, setLoading] = useState(false);
   const { fetchOrderById } = getData();
 
@@ -60,25 +62,49 @@ export const useOrderTracking = (setValue) => {
       if (order) {
         setOrderData(order);
         setTrackingStatus(getTrackingStatuses(order));
+        joinOrderRoom(order.orderId || data.orderId);
+        setLive(socket.connected);
       } else {
         setOrderData(null);
         setTrackingStatus(null);
+        setLive(false);
         alert("Order not found! Please check your Order ID.");
       }
     } catch (error) {
       console.error(error);
       setOrderData(null);
       setTrackingStatus(null);
+      setLive(false);
       alert("Order not found! Please check your Order ID.");
     } finally {
       setLoading(false);
     }
   }, [fetchOrderById, getTrackingStatuses]);
 
+  // Real-time updates via Socket.io
+  useEffect(() => {
+    const onStatusChanged = (payload) => {
+      if (!orderData) return;
+      const currentId = orderData.orderId || orderData._id;
+      if (payload.orderId !== currentId) return;
+
+      setOrderData((prev) => {
+        const updated = { ...prev, status: payload.status };
+        setTrackingStatus(getTrackingStatuses(updated));
+        return updated;
+      });
+      setLive(true);
+    };
+
+    socket.on("order-status-changed", onStatusChanged);
+    return () => socket.off("order-status-changed", onStatusChanged);
+  }, [orderData, getTrackingStatuses]);
+
   return {
     orderData,
     trackingStatus,
     loading,
+    live,
     handleTrackOrder
   };
 };

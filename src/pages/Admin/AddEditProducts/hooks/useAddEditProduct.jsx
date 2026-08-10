@@ -279,8 +279,10 @@ const useAddEditProduct = (productId, isEditMode) => {
     watchedDiscount,
     finalPrice,
     categories,
-    colors, 
-    setColors, 
+    colors,
+    setColors,
+    setValue,
+    watch,
   };
 };
 

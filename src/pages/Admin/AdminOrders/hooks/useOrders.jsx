@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { api, getData } from "../../../../context/DataContext";
 import { formatINR } from "../../../../utils/formatCurrency";
+import { socket } from "../../../../services/socket";
 
 export const useOrders = ()=>{
     const { orders, fetchAllOrders, loadingOrders } = getData();
@@ -18,6 +19,14 @@ export const useOrders = ()=>{
        useEffect(() => {
     filterOrders();
   }, [orders, searchTerm, statusFilter]);
+
+  // Live refresh when an order status changes anywhere
+  useEffect(() => {
+    if (!socket.connected) socket.connect();
+    const handler = () => fetchAllOrders();
+    socket.on("order-status-changed", handler);
+    return () => socket.off("order-status-changed", handler);
+  }, []);
 
     const filterOrders = () => {
     let filtered = orders;

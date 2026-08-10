@@ -35,6 +35,8 @@ const AddEditProduct = () => {
     categories,
     colors,
     setColors,
+    setValue,
+    watch,
   } = useAddEditProduct(id, isEditMode);
 
   if (loading && isEditMode) {
@@ -82,7 +84,13 @@ const AddEditProduct = () => {
           />
 
           {/* Basic Information */}
-          <BasicInfoCard register={register} errors={errors} />
+          <BasicInfoCard
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            watch={watch}
+            categories={categories}
+          />
 
           {/* Pricing & Inventory */}
           <PricingInventoryCard

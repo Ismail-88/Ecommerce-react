@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Sparkles, ArrowRight, PackageSearch } from "lucide-react";
+import { Search, Sparkles, ArrowRight, PackageSearch, Mic } from "lucide-react";
 import { getData } from "../context/DataContext";
 import { searchProducts } from "../utils/aiEngine";
 import { formatINR } from "../utils/formatCurrency";
@@ -10,8 +10,53 @@ const SmartSearch = ({ placeholder = "Search products..." }) => {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [listening, setListening] = useState(false);
+  const [voiceSupported, setVoiceSupported] = useState(true);
   const navigate = useNavigate();
   const containerRef = useRef(null);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setVoiceSupported(false);
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-IN";
+    recognition.interimResults = true;
+    recognition.continuous = false;
+    recognition.onresult = (e) => {
+      const transcript = Array.from(e.results)
+        .map((r) => r[0].transcript)
+        .join("");
+      setQuery(transcript);
+      setOpen(true);
+      setActiveIndex(-1);
+    };
+    recognition.onend = () => setListening(false);
+    recognition.onerror = () => setListening(false);
+    recognitionRef.current = recognition;
+    return () => {
+      try {
+        recognition.abort();
+      } catch (_) {}
+    };
+  }, []);
+
+  const toggleVoiceSearch = () => {
+    if (listening) {
+      recognitionRef.current?.stop();
+      setListening(false);
+      return;
+    }
+    try {
+      setListening(true);
+      recognitionRef.current?.start();
+    } catch (error) {
+      setListening(false);
+    }
+  };
 
   const results = useMemo(
     () => (query.trim().length >= 2 ? searchProducts(data || [], query, 7) : []),
@@ -82,14 +127,30 @@ const SmartSearch = ({ placeholder = "Search products..." }) => {
           onFocus={() => setOpen(true)}
           onKeyDown={onKeyDown}
           aria-label="Search products"
-          className="w-full h-11 pl-10 pr-4 rounded-xl border border-border bg-surface-alt text-sm font-medium text-foreground placeholder:text-text-faint focus:outline-none focus:ring-2 focus:ring-brand-500/25 focus:border-brand-500 transition-all"
+          className="w-full h-11 pl-10 pr-16 rounded-xl border border-border bg-surface-alt text-sm font-medium text-foreground placeholder:text-text-faint focus:outline-none focus:ring-2 focus:ring-brand-500/25 focus:border-brand-500 transition-all"
         />
-        {results.length > 0 && showResults && (
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-brand-600 dark:text-brand-400 bg-brand-soft rounded-full px-2 py-0.5">
-            <Sparkles size={10} aria-hidden />
-            AI
-          </span>
-        )}
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+          {results.length > 0 && showResults && (
+            <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-brand-600 dark:text-brand-400 bg-brand-soft rounded-full px-2 py-0.5">
+              <Sparkles size={10} aria-hidden />
+              AI
+            </span>
+          )}
+          {voiceSupported && (
+            <button
+              type="button"
+              onClick={toggleVoiceSearch}
+              aria-label={listening ? "Stop voice search" : "Search by voice"}
+              className={`p-1.5 rounded-full transition-all ${
+                listening
+                  ? "bg-danger text-white animate-pulse"
+                  : "text-text-muted hover:text-brand-600 dark:hover:text-brand-400"
+              }`}
+            >
+              <Mic size={16} aria-hidden />
+            </button>
+          )}
+        </div>
       </div>
 
       {showResults && (
