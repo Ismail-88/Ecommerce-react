@@ -155,7 +155,20 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
                       </NavLink>
                       <SignedIn>
                         <div className="px-3 py-2 mt-1 border-t border-border">
-                          <UserButton afterSignOutUrl="/" showName />
+                          <UserButton
+                            afterSignOutUrl="/"
+                            showName
+                            appearance={{
+                              elements: {
+                                userButtonTrigger:
+                                  "rounded-full overflow-hidden focus:shadow-none",
+                                userButtonAvatarBox: "w-7 h-7 rounded-full overflow-hidden",
+                                userButtonAvatarImage: "w-7 h-7 object-cover rounded-full",
+                                userButtonOuterIdentifier:
+                                  "text-sm font-semibold text-foreground truncate",
+                              },
+                            }}
+                          />
                         </div>
                       </SignedIn>
                     </div>
