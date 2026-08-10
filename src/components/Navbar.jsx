@@ -39,7 +39,12 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
 
   useEffect(() => {
     const onClickOutside = (e) => {
-      if (profileRef.current && !profileRef.current.contains(e.target)) setOpenProfile(false);
+      const isClerkPopover =
+        e.target.closest?.('.cl-userButtonPopoverCard') ||
+        e.target.closest?.('.cl-userButtonTrigger');
+      if (profileRef.current && !profileRef.current.contains(e.target) && !isClerkPopover) {
+        setOpenProfile(false);
+      }
     };
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
