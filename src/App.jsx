@@ -61,13 +61,29 @@ function UserRoutes({ location, getLocation }) {
             <Cart location={location} getLocation={getLocation} />
           </ProtectedRoute>
         } />
-        <Route path='/checkout' element={<Checkout />} />
+        <Route path='/checkout' element={
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        } />
         <Route path='/order-confirmation' element={<OrderConfirmation />} />
         <Route path="/track-order" element={<OrderTracking />} />
-        <Route path="/my-orders" element={<MyOrders />} />
-        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/my-orders" element={
+          <ProtectedRoute>
+            <MyOrders />
+          </ProtectedRoute>
+        } />
+        <Route path="/wishlist" element={
+          <ProtectedRoute>
+            <Wishlist />
+          </ProtectedRoute>
+        } />
         <Route path="/deals" element={<Deals />} />
-        <Route path="/rewards" element={<Rewards />} />
+        <Route path="/rewards" element={
+          <ProtectedRoute>
+            <Rewards />
+          </ProtectedRoute>
+        } />
         <Route path="/order/:orderId" element={<OrderDetails />} />
       </Routes>
     </div>
