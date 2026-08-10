@@ -4,18 +4,33 @@ import { Edit, Folder, Trash2 } from 'lucide-react';
 import Badge from '../../../../components/ui/Badge';
 import Button from '../../../../components/ui/Button';
 import ConfirmDialog from '../../../../components/ui/ConfirmDialog';
+import { API_BASE_URL } from '../../../../context/DataContext';
+
+const CATEGORY_PLACEHOLDER = 'https://via.placeholder.com/400x300?text=No+Image';
+
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return null;
+  if (imagePath.startsWith('http')) return imagePath;
+  return `${API_BASE_URL}${imagePath.startsWith('/') ? imagePath : `/${imagePath}`}`;
+};
 
 export const CategoryCard = ({ category, onEdit, onDelete }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const categoryImage = getImageUrl(category.image);
 
   return (
     <>
       <div className="bg-surface rounded-2xl border border-border shadow-card overflow-hidden hover:shadow-lg transition-shadow">
         <div className="h-48 bg-surface-alt relative">
-          {category.image ? (
+          {categoryImage ? (
             <img
-              src={category.image}
+              src={categoryImage}
               alt={category.name}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = CATEGORY_PLACEHOLDER;
+              }}
               className="w-full h-full object-cover"
             />
           ) : (

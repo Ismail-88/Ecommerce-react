@@ -58,7 +58,7 @@ const useInventory = () => {
    const updateStock = async (productId, newStock) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`${API_BASE_URL}/products/${selectedProduct._id}`, {
+      const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -71,6 +71,10 @@ const useInventory = () => {
         toast.success('Stock updated successfully!');
         fetchProducts();
         return { success: true };
+      } else {
+        const errorData = await response.json().catch(() => null);
+        toast.error(errorData?.error || 'Failed to update stock');
+        return { success: false };
       }
     } catch (error) {
       console.error('Error updating stock:', error);
@@ -83,7 +87,7 @@ const useInventory = () => {
   const totalProducts = filteredProducts.length;
   const lowStockProducts = filteredProducts.filter(p => p.stock <= 10 && p.stock > 0).length;
   const outOfStockProducts = filteredProducts.filter(p => p.stock === 0).length;
-  const totalStockValue = filteredProducts.reduce((sum, p) => sum + (p.price * p.stock), 0);
+  const totalStockValue = filteredProducts.reduce((sum, p) => sum + (Number(p.price) * Number(p.stock) || 0), 0);
 
   //pagination
   const indexOfLastProduct = currentPage * productsPerPage;

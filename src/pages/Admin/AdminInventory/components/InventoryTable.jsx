@@ -37,11 +37,13 @@ const InventoryTable = ({ products, onUpdateStock }) => {
               </tr>
             ) : (
               products.map((product) => {
-                const status = getStockStatus(product.stock);
-                const stockValue = product.price * product.stock;
-                const imageUrl = product.images?.[0]?.startsWith('http')
-                  ? product.images[0]
-                  : `${API_BASE_URL}${product.images?.[0]}`;
+      const status = getStockStatus(product.stock);
+                const stockValue = Number(product.price) * Number(product.stock) || 0;
+                const imageUrl = product.images?.[0]
+                  ? product.images[0].startsWith('http')
+                    ? product.images[0]
+                    : `${API_BASE_URL}${product.images[0]}`
+                  : 'https://via.placeholder.com/50';
 
                 return (
                   <tr key={product._id} className="hover:bg-surface-alt transition-colors">

@@ -2,6 +2,15 @@ import { useState } from 'react';
 
 import Modal from '../../../../components/ui/Modal';
 import Button from '../../../../components/ui/Button';
+import { API_BASE_URL } from '../../../../context/DataContext';
+
+const CATEGORY_PLACEHOLDER = 'https://via.placeholder.com/400x300?text=No+Image';
+
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return null;
+  if (imagePath.startsWith('http')) return imagePath;
+  return `${API_BASE_URL}${imagePath.startsWith('/') ? imagePath : `/${imagePath}`}`;
+};
 
 export const CategoryModal = ({ category, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -112,8 +121,12 @@ export const CategoryModal = ({ category, onClose, onSave }) => {
           />
           {formData.image && (
             <img
-              src={formData.image}
+              src={getImageUrl(formData.image)}
               alt="Preview"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = CATEGORY_PLACEHOLDER;
+              }}
               className="mt-2 w-32 h-32 object-cover rounded-lg bg-surface-alt"
             />
           )}

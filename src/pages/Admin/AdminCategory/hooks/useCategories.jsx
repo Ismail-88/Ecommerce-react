@@ -57,6 +57,10 @@ export const useCategories = () => {
         toast.success('Category created successfully!');
         fetchCategories();
         return { success: true };
+      } else {
+        const errorData = await response.json().catch(() => null);
+        toast.error(errorData?.err || 'Failed to create category');
+        return { success: false };
       }
     } catch (error) {
       console.error('Error creating category:', error);
@@ -81,6 +85,10 @@ export const useCategories = () => {
         toast.success('Category updated successfully!');
         fetchCategories();
         return { success: true };
+      } else {
+        const errorData = await response.json().catch(() => null);
+        toast.error(errorData?.err || 'Failed to update category');
+        return { success: false };
       }
     } catch (error) {
       console.error('Error updating category:', error);
@@ -101,6 +109,10 @@ export const useCategories = () => {
         toast.success('Category deleted successfully!');
         fetchCategories();
         return { success: true };
+      } else {
+        const errorData = await response.json().catch(() => null);
+        toast.error(errorData?.err || 'Failed to delete category');
+        return { success: false };
       }
     } catch (error) {
       console.error('Error deleting category:', error);
