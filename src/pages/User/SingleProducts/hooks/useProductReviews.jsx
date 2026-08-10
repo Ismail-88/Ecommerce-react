@@ -115,8 +115,14 @@ export default function useProductReviews(productId, currentUser, baseUrl = API_
         setEditingReview(null);
         fetchReviews();
       } else {
-        const err = await resp.json().catch(() => ({ message: "Failed to submit review" }));
-        alert(err.message || "Failed to submit review");
+        let message = `Failed to submit review (HTTP ${resp.status})`;
+        try {
+          const errData = await resp.json();
+          if (errData?.message) message = errData.message;
+        } catch {
+          // Non-JSON response (e.g. missing route on backend) — keep status hint
+        }
+        alert(message);
       }
     } catch (err) {
       console.error("Error submitting review:", err);
