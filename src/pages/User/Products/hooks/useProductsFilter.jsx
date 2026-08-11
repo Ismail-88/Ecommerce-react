@@ -10,7 +10,7 @@ export const useProductsFilter = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [brand, setBrand] = useState("All");
-  const [priceRange, setPriceRange] = useState([0, 5000]);
+  const [priceRange, setPriceRange] = useState([0, Infinity]);
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState("featured");
 
@@ -79,7 +79,7 @@ export const useProductsFilter = () => {
     setSearch("");
     setBrand("All");
     setCategory("All");
-    setPriceRange([0, 5000]);
+    setPriceRange([0, Infinity]);
     setPage(1);
   }, []);
 
