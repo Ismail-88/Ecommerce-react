@@ -1,7 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Store, X, LogOut, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { MenuSections } from "../data/MenuItems";
-
+import lightLogo from "../../../../src/assets/lightmode-3.png";
+import darkLogo from "./../../../assets/darkmode3.png";
 export const Sidebar = ({
   sidebarOpen,
   setSidebarOpen,
@@ -38,27 +39,36 @@ export const Sidebar = ({
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-72 bg-surface border-r border-border text-foreground transform transition-all duration-300 ease-out lg:translate-x-0 lg:static flex flex-col lg:transition-[width] ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } ${collapsed ? "lg:w-[76px]" : "lg:w-72"}`}
+        } ${collapsed ? "lg:w-[76px]" : "lg:w-60"}`}
       >
         {/* Logo Section */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-border">
-          <Link
-            to="/admin/dashboard"
-            className={`flex items-center gap-3 ${collapsed ? "lg:justify-center lg:flex-1" : ""}`}
-            onClick={() => setSidebarOpen(false)}
-          >
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 shadow-sm shadow-brand-600/30">
-              <Store className="w-4.5 h-4.5 text-white" />
-            </div>
-            {!collapsed && (
-              <div>
-                <h1 className="text-base font-extrabold tracking-tight text-foreground leading-tight">
-                  ShopSphere
-                </h1>
-                <p className="text-[11px] text-text-muted font-medium">Admin Portal</p>
-              </div>
-            )}
-          </Link>
+        <div className="flex items-center justify-between p-[10.5px] border-b border-border">
+           <Link
+    to="/admin/dashboard"
+    className={`flex items-center gap-3 ${collapsed ? "lg:justify-center lg:flex-1" : ""}`}
+    onClick={() => setSidebarOpen(false)}
+  >
+    {collapsed ? (
+      // Collapsed: show just the icon mark
+      <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 shadow-sm shadow-brand-600/30">
+        <Store className="w-4.5 h-4.5 text-white" />
+      </div>
+    ) : (
+      // Expanded: show the full logo, theme-aware
+      <>
+        <img
+          src={lightLogo}
+          alt="ShopSphere"
+          className="h-auto w-[150px] dark:hidden"
+        />
+        <img
+          src={darkLogo}
+          alt="ShopSphere"
+          className="h-auto w-[150px] hidden dark:block"
+        />
+      </>
+    )}
+  </Link>
           <div className="flex items-center">
             <button
               onClick={toggleCollapsed}
