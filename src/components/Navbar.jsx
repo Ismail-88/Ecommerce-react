@@ -8,6 +8,8 @@ import SmartSearch from "./SmartSearch";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useTheme } from "../context/ThemeContext";
+import logoLight from "../assets/lightmode-3.png";
+import logoDark from "../assets/darkmode3.png";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -91,14 +93,21 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
             </button>
 
             {/* Logo */}
-            <Link to="/" aria-label="ShopSphere home" className="flex items-center gap-1.5 shrink-0">
+            {/* <Link to="/" aria-label="ShopSphere home" className="flex items-center gap-1.5 shrink-0">
               <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-600 text-white">
                 <ShoppingBag size={17} aria-hidden />
               </span>
               <span className="hidden sm:block text-xl font-display font-bold tracking-tight text-brand-600">
                 ShopSphere
               </span>
-            </Link>
+            </Link> */}
+            <Link to="/" aria-label="ShopSphere home" className="flex items-center shrink-0">
+  <img
+    src={isDark ? logoDark : logoLight}
+    alt="ShopSphere"
+    className="h-auto w-[150px]"
+  />
+</Link>
 
             {/* Search — dominant, centered */}
             <div className="flex-1 max-w-xl mx-auto">
