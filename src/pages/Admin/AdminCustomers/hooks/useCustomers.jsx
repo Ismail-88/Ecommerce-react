@@ -55,16 +55,20 @@ export const useCustomers = () => {
   const deleteCustomer = async (id) => {
     try {
       const token = localStorage.getItem('adminToken');
-      await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || `Failed to delete (HTTP ${response.status})`);
+      }
       fetchCustomers();
       toast.success('Customer deleted successfully!');
       return { success: true };
     } catch (error) {
       console.error('Error deleting customer:', error);
-      toast.error('Failed to delete customer');
+      toast.error(error.message || 'Failed to delete customer');
       return { success: false };
     }
   };
