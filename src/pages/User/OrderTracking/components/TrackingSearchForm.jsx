@@ -1,19 +1,17 @@
 // components/tracking/TrackingSearchForm.jsx
 import React from 'react';
-import { Search, Package, Mail } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 import Input from '../../../../components/ui/Input';
 import Button from '../../../../components/ui/Button';
 
 const TrackingSearchForm = ({ register, errors, onSubmit, loading }) => {
   return (
-    <div className="rounded-xl border border-border bg-surface p-8 max-w-2xl mx-auto">
-      <div className="flex items-center gap-3 mb-8">
-        <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-600 text-white">
-          <Package size={24} aria-hidden />
-        </span>
-        <h2 className="text-2xl font-bold text-foreground">Track Your Order</h2>
-      </div>
+    <div className="rounded-lg border border-border bg-surface p-6 max-w-2xl mx-auto">
+      <h2 className="text-xl font-bold text-foreground">Track Your Order</h2>
+      <p className="text-sm text-text-muted mt-1 mb-6">
+        Enter your Order ID to get real-time delivery updates
+      </p>
 
       <form onSubmit={onSubmit} className="space-y-5">
         <div>
@@ -33,19 +31,13 @@ const TrackingSearchForm = ({ register, errors, onSubmit, loading }) => {
           <label htmlFor="email" className="block text-sm font-bold text-text-muted uppercase tracking-wider mb-2">
             Email Address (Optional)
           </label>
-          <div className="relative">
-            <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-faint" aria-hidden />
-            <input
-              id="email"
-              type="email"
-              {...register("email")}
-              placeholder="Enter your email for verification"
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-border bg-background text-foreground placeholder:text-text-faint focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-all"
-            />
-          </div>
-          {errors.email && (
-            <p className="text-danger text-sm mt-2">{errors.email.message}</p>
-          )}
+          <Input
+            id="email"
+            type="email"
+            {...register("email")}
+            placeholder="Enter your email for verification"
+            error={errors.email?.message}
+          />
         </div>
 
         <Button type="submit" size="lg" className="w-full justify-center" loading={loading} disabled={loading}>

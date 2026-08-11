@@ -1,45 +1,50 @@
 // components/tracking/OrderInfoBanner.jsx
 import React from 'react';
-import { Package, Calendar, Truck } from 'lucide-react';
+import { CheckCircle2, XCircle } from 'lucide-react';
+
+import Badge from '../../../../components/ui/Badge';
 
 const OrderInfoBanner = ({ orderData, trackingStatus }) => {
+  const completedSteps = trackingStatus.filter((status) => status.completed);
+  const currentStatus = completedSteps[completedSteps.length - 1]?.status || "Pending";
+  const lastStep = trackingStatus[trackingStatus.length - 1];
+
+  const delivered = currentStatus === "Delivered";
+  const StatusChip = delivered ? CheckCircle2 : XCircle;
+
   return (
-    <div className="rounded-xl border border-border bg-surface overflow-hidden">
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center gap-4 p-4 rounded-xl border border-border bg-surface-alt">
-            <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400 flex-shrink-0">
-              <Package size={24} aria-hidden />
-            </span>
-            <div className="min-w-0">
-              <p className="text-sm text-text-muted mb-1">Order ID</p>
-              <p className="font-bold text-foreground truncate">{orderData.orderId}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 p-4 rounded-xl border border-border bg-surface-alt">
-            <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-info-soft text-info flex-shrink-0">
-              <Calendar size={24} aria-hidden />
-            </span>
-            <div>
-              <p className="text-sm text-text-muted mb-1">Order Date</p>
-              <p className="font-bold text-foreground">
-                {new Date(orderData.orderDate).toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 p-4 rounded-xl border border-success/20 bg-success-soft">
-            <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-success text-white flex-shrink-0">
-              <Truck size={24} aria-hidden />
-            </span>
-            <div>
-              <p className="text-sm text-success mb-1">Est. Delivery</p>
-              <p className="font-bold text-success">
-                {trackingStatus[trackingStatus.length - 1].date.toLocaleDateString()}
-              </p>
-            </div>
-          </div>
+    <div className="bg-surface border border-border rounded-lg overflow-hidden">
+      <div className="bg-surface-alt/60 border-b border-border px-5 py-3 flex items-center justify-between">
+        <h2 className="font-bold text-foreground">Order Summary</h2>
+        <Badge tone={delivered ? "success" : "brand"}>
+          <StatusChip size={13} aria-hidden />
+          {currentStatus}
+        </Badge>
+      </div>
+      <div className="px-5 py-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-text-muted mb-0.5">
+            Order Placed
+          </p>
+          <p className="text-sm font-semibold text-foreground">
+            {new Date(orderData.orderDate).toLocaleDateString()}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-text-muted mb-0.5">
+            Order ID
+          </p>
+          <p className="text-sm font-semibold text-foreground truncate">
+            {orderData.orderId}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-text-muted mb-0.5">
+            Est. Delivery
+          </p>
+          <p className="text-sm font-semibold text-success">
+            {lastStep.date.toLocaleDateString()}
+          </p>
         </div>
       </div>
     </div>

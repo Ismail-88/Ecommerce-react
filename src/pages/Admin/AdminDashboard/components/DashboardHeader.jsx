@@ -1,37 +1,29 @@
-import { Sparkles, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 const DashboardHeader = () => {
+  const today = new Date().toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-brand-soft via-surface to-surface shadow-card p-8">
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-transparent"></div>
-      <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={22} className="text-brand-600 dark:text-brand-400" aria-hidden />
-            <span className="text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
-              Admin Dashboard
-            </span>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-black mb-2 text-foreground">
-            Welcome back, Admin!
-          </h1>
-          <p className="text-lg text-text-muted">
-            Here's what's happening with your store today
-          </p>
-        </div>
-        <div className="rounded-2xl border border-border bg-surface p-6 text-center shadow-card">
-          <Calendar size={24} className="mx-auto mb-2 text-brand-600 dark:text-brand-400" aria-hidden />
-          <p className="text-sm mb-1 text-text-muted">
-            Today's Date
-          </p>
-          <p className="text-xl font-black text-foreground">
-            {new Date().toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            })}
-          </p>
-        </div>
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border border-border bg-surface px-5 py-4">
+      <div>
+        <p className="text-[11px] font-bold uppercase tracking-wider text-text-faint">
+          Overview
+        </p>
+        <h1 className="text-xl font-bold tracking-tight text-foreground mt-0.5">
+          Dashboard
+        </h1>
+        <p className="text-sm text-text-muted mt-0.5">
+          Store performance across sales, catalog, and customers
+        </p>
+      </div>
+      <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface-alt px-3 py-2 text-sm text-text-secondary">
+        <Calendar size={15} className="text-text-muted" aria-hidden />
+        <span className="font-medium">{today}</span>
       </div>
     </div>
   );

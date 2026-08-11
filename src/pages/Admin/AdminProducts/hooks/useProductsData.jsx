@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { api, getData } from '../../../../context/DataContext';
-import axios from 'axios';
 
 const useProductsData = () => {
     const { data, fetchAllProducts, categories, fetchCategories } = getData();
@@ -11,10 +10,13 @@ const useProductsData = () => {
       const [searchQuery, setSearchQuery] = useState("");
       const [selectedCategory, setSelectedCategory] = useState("all");
       const [sortBy, setSortBy] = useState("newest");
+      const mounted = useRef(false);
 
     useEffect(() => {
-    loadProducts();
-  }, []);
+      if (mounted.current) return;
+      mounted.current = true;
+      loadProducts();
+    }, []);
 
   useEffect(() => {
     setProducts(data);

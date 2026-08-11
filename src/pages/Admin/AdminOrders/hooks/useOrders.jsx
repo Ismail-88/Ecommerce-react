@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { api, getData } from "../../../../context/DataContext";
 import { formatINR } from "../../../../utils/formatCurrency";
@@ -11,10 +10,14 @@ export const useOrders = ()=>{
       const [searchTerm, setSearchTerm] = useState("");
       const [statusFilter, setStatusFilter] = useState("all");
       const [currentPage, setCurrentPage] = useState(1);
+      const [pageSize, setPageSize] = useState(10);
+      const mounted = useRef(false);
 
-      const productsPerPage = 6;
-
-      useEffect(()=>{fetchAllOrders()},[]);
+      useEffect(()=>{
+        if (mounted.current) return;
+        mounted.current = true;
+        fetchAllOrders();
+      },[]);
 
        useEffect(() => {
     filterOrders();
@@ -102,17 +105,9 @@ export const useOrders = ()=>{
     a.click();
   };
 
-   const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentOrders = filteredOrders.slice(
-      indexOfFirstProduct,
-      indexOfLastProduct
-    );
-    const totalPages = Math.ceil(filteredOrders.length / productsPerPage);
-
+   // Pagination + sorting is handled inside OrdersTable on the full filtered list.
      return {
     orders: filteredOrders,
-    currentOrders,
     loading: loadingOrders,
     searchTerm,
     setSearchTerm,
@@ -120,7 +115,8 @@ export const useOrders = ()=>{
     setStatusFilter,
     currentPage,
     setCurrentPage,
-    totalPages,
+    pageSize,
+    setPageSize,
     updateOrderStatus,
     deleteOrder,
     exportOrders,

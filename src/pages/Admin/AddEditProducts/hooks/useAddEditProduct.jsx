@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -36,10 +35,12 @@ const useAddEditProduct = (productId, isEditMode) => {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [submitError, setSubmitError] = useState("");
   const [colors, setColors] = useState([]); // ✨ NEW: Color variants state
+  const mounted = useRef(false);
 
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors },
     setValue,
     watch,
@@ -58,6 +59,8 @@ const useAddEditProduct = (productId, isEditMode) => {
   });
 
   useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
     fetchCategories();
     if (isEditMode && productId) {
       loadProduct();
@@ -68,7 +71,6 @@ const useAddEditProduct = (productId, isEditMode) => {
     try {
       setLoading(true);
       await getSingleProduct(productId);
-      toast.success("Product loaded successfully!");
     } catch (error) {
       console.error("Error loading product:", error);
       toast.error("Failed to load product");
@@ -124,6 +126,18 @@ const useAddEditProduct = (productId, isEditMode) => {
     setImagePreview((prev) => prev.filter((_, i) => i !== index));
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
     toast.info("Image removed");
+  };
+
+  const moveImage = (index, dir) => {
+    const swap = (prev) => {
+      const target = index + dir;
+      if (target < 0 || target >= prev.length) return prev;
+      const next = [...prev];
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    };
+    setImagePreview(swap);
+    setUploadedImages(swap);
   };
 
   const onSubmit = async (data) => {
@@ -188,10 +202,8 @@ const useAddEditProduct = (productId, isEditMode) => {
         });
       }
 
-      let res;
-
       if (isEditMode) {
-        res = await api.put(
+        await api.put(
           `/products/${productId}`,
           formData,
           {
@@ -228,7 +240,7 @@ const useAddEditProduct = (productId, isEditMode) => {
 
         toast.success("🎉 Product updated successfully!");
       } else {
-        res = await api.post("/products", formData, {
+        await api.post("/products", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
@@ -261,11 +273,13 @@ const useAddEditProduct = (productId, isEditMode) => {
 
   const watchedPrice = watch("price");
   const watchedDiscount = watch("discount");
+  const watchedStock = watch("stock");
   const finalPrice = watchedPrice - (watchedPrice * watchedDiscount) / 100;
 
   return {
     register,
     handleSubmit,
+    trigger,
     errors,
     loading,
     imagePreview,
@@ -274,9 +288,11 @@ const useAddEditProduct = (productId, isEditMode) => {
     setSubmitError,
     handleImageUpload,
     removeImage,
+    moveImage,
     onSubmit,
     watchedPrice,
     watchedDiscount,
+    watchedStock,
     finalPrice,
     categories,
     colors,

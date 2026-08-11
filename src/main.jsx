@@ -8,6 +8,7 @@ import { CartProvider } from "./context/CartContext.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { ThemeProvider, useTheme } from "./context/ThemeContext.jsx";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CustomScrollToTop from "./components/CustomScrollToTop.jsx";
 
 // Import your Publishable Key
@@ -21,7 +22,7 @@ const ThemedToaster = () => {
   const { isDark } = useTheme();
   return (
     <ToastContainer
-      position="bottom-right"
+      position="bottom-center"
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}

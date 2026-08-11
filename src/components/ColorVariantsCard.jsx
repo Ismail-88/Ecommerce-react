@@ -3,6 +3,10 @@ import { Palette, Plus, X, Upload, Trash2 } from "lucide-react";
 import { API_BASE_URL } from "../context/DataContext";
 
 import Button from "./ui/Button";
+import SectionCard from "./ui/erp/SectionCard";
+
+const inputClass =
+  "w-full px-3.5 py-2.5 border border-border bg-input-bg text-foreground rounded-lg outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all text-sm";
 
 export const ColorVariantsCard = ({ colors, setColors }) => {
   const [showAddColor, setShowAddColor] = useState(false);
@@ -54,58 +58,44 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
     setColors(updatedColors);
   };
 
-  const inputClass =
-    "w-full px-4 py-3 border border-border bg-background text-foreground rounded-xl outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all";
-
   return (
-    <div className="bg-surface rounded-2xl border border-border shadow-card p-6 md:p-8 space-y-6">
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-brand-soft text-brand-600 dark:text-brand-400">
-            <Palette size={24} aria-hidden />
-          </span>
-          <div>
-            <h2 className="text-xl font-bold text-foreground">Color Variants</h2>
-            <p className="text-sm text-text-muted">
-              Add different color options with images
-            </p>
-          </div>
-        </div>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => setShowAddColor(!showAddColor)}
-        >
-          <Plus size={20} aria-hidden />
+    <SectionCard
+      icon={Palette}
+      tone="brand"
+      title="Color Variants"
+      description="Add color options with images — this step is optional, you can skip it"
+      action={
+        <Button type="button" variant="secondary" onClick={() => setShowAddColor(!showAddColor)}>
+          <Plus size={16} aria-hidden />
           Add Color
         </Button>
-      </div>
-
+      }
+    >
       {colors.length > 0 && (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {colors.map((color, colorIndex) => (
             <div
               key={colorIndex}
-              className="border border-border rounded-xl p-4 space-y-3 bg-surface-alt"
+              className="border border-border rounded-lg p-4 space-y-3 bg-surface-alt"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-12 h-12 rounded-full border-2 border-border"
+                    className="w-10 h-10 rounded-full border-2 border-border"
                     style={{ backgroundColor: color.hex }}
                   />
                   <div>
-                    <p className="font-bold text-foreground">{color.name}</p>
-                    <p className="text-sm text-text-muted">{color.hex}</p>
+                    <p className="font-semibold text-foreground text-sm">{color.name}</p>
+                    <p className="text-xs text-text-muted">{color.hex}</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleRemoveColor(colorIndex)}
-                  className="p-2 text-danger hover:bg-danger-soft rounded-lg transition"
+                  className="p-1.5 text-danger hover:bg-danger-soft rounded-lg transition-colors"
                   aria-label={`Remove ${color.name}`}
                 >
-                  <Trash2 size={20} aria-hidden />
+                  <Trash2 size={16} aria-hidden />
                 </button>
               </div>
 
@@ -122,17 +112,15 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
                             : URL.createObjectURL(img)
                         }
                         alt={`${color.name} ${imgIndex + 1}`}
-                        className="w-full h-24 object-cover rounded-lg border border-border bg-surface"
+                        className="w-full h-20 object-cover rounded-lg border border-border bg-surface"
                       />
                       <button
                         type="button"
-                        onClick={() =>
-                          removeExistingColorImage(colorIndex, imgIndex)
-                        }
+                        onClick={() => removeExistingColorImage(colorIndex, imgIndex)}
                         className="absolute -top-2 -right-2 bg-danger text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-card"
                         aria-label="Remove image"
                       >
-                        <X size={12} aria-hidden />
+                        <X size={11} aria-hidden />
                       </button>
                     </div>
                   ))}
@@ -144,44 +132,38 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
       )}
 
       {showAddColor && (
-        <div className="border border-brand-500/40 rounded-xl p-6 space-y-4 bg-brand-soft">
-          <h3 className="font-bold text-foreground text-lg">Add New Color</h3>
+        <div className="border border-brand-500/40 rounded-lg p-5 space-y-4 bg-brand-soft">
+          <h3 className="font-bold text-foreground text-sm">Add New Color</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-bold text-foreground">
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-text-secondary">
                 Color Name <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
                 value={newColor.name}
-                onChange={(e) =>
-                  setNewColor({ ...newColor, name: e.target.value })
-                }
+                onChange={(e) => setNewColor({ ...newColor, name: e.target.value })}
                 className={inputClass}
                 placeholder="e.g., Brilliant Blue"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-sm font-bold text-foreground">
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-text-secondary">
                 Color Code <span className="text-danger">*</span>
               </label>
               <div className="flex gap-2">
                 <input
                   type="color"
                   value={newColor.hex}
-                  onChange={(e) =>
-                    setNewColor({ ...newColor, hex: e.target.value })
-                  }
-                  className="w-20 h-12 border border-border bg-surface rounded-xl cursor-pointer"
+                  onChange={(e) => setNewColor({ ...newColor, hex: e.target.value })}
+                  className="w-14 h-[42px] border border-border bg-surface rounded-lg cursor-pointer"
                 />
                 <input
                   type="text"
                   value={newColor.hex}
-                  onChange={(e) =>
-                    setNewColor({ ...newColor, hex: e.target.value })
-                  }
+                  onChange={(e) => setNewColor({ ...newColor, hex: e.target.value })}
                   className={inputClass}
                   placeholder="#000000"
                 />
@@ -189,12 +171,12 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <label className="block text-sm font-bold text-foreground">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-text-secondary">
               Color Images <span className="text-danger">*</span>
             </label>
 
-            <div className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-brand-500/50 transition-colors bg-surface">
+            <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-brand-500/50 transition-colors bg-surface">
               <input
                 type="file"
                 multiple
@@ -207,12 +189,10 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
               <label
                 htmlFor="color-image-upload"
                 className={`cursor-pointer ${
-                  imagePreview.length >= 4
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                  imagePreview.length >= 4 ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
-                <Upload className="mx-auto text-text-faint mb-2" size={36} aria-hidden />
+                <Upload className="mx-auto text-text-faint mb-2" size={28} aria-hidden />
                 <p className="text-foreground font-semibold text-sm">
                   Upload images for this color (max 4)
                 </p>
@@ -226,7 +206,7 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
                     <img
                       src={URL.createObjectURL(img)}
                       alt={`Preview ${index + 1}`}
-                      className="w-full h-24 object-cover rounded-lg border border-border bg-surface"
+                      className="w-full h-20 object-cover rounded-lg border border-border bg-surface"
                     />
                     <button
                       type="button"
@@ -234,7 +214,7 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
                       className="absolute -top-2 -right-2 bg-danger text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-card"
                       aria-label="Remove preview"
                     >
-                      <X size={12} aria-hidden />
+                      <X size={11} aria-hidden />
                     </button>
                   </div>
                 ))}
@@ -242,7 +222,7 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
             )}
           </div>
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-1">
             <Button
               type="button"
               onClick={handleAddColor}
@@ -268,11 +248,13 @@ export const ColorVariantsCard = ({ colors, setColors }) => {
 
       {colors.length === 0 && !showAddColor && (
         <div className="text-center py-8 text-text-muted">
-          <Palette className="mx-auto mb-3 text-text-faint" size={48} aria-hidden />
-          <p className="font-semibold text-foreground">No color variants added yet</p>
-          <p className="text-sm">Click "Add Color" to create color options</p>
+          <Palette className="mx-auto mb-3 text-text-faint" size={36} aria-hidden />
+          <p className="font-semibold text-foreground text-sm">No color variants added yet</p>
+          <p className="text-xs mt-1">
+            Click "Add Color" to create color options, or press Next to skip this step
+          </p>
         </div>
       )}
-    </div>
+    </SectionCard>
   );
 };

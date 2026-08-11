@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import AdminPagination from "../../../components/Admin/AdminPagination";
+import Pagination from "../../../components/ui/erp/Pagination";
 import { useOrders } from "./hooks/useOrders";
 import { OrdersHeader } from "./components/OrdersHeader";
 import { OrdersFilters } from "./components/OrdersFilters";
@@ -11,7 +11,6 @@ import { FullPageSpinner } from "../../../components/ui/Spinner";
 const AdminOrders = () => {
   const {
     orders,
-    currentOrders,
     loading,
     searchTerm,
     setSearchTerm,
@@ -19,7 +18,8 @@ const AdminOrders = () => {
     setStatusFilter,
     currentPage,
     setCurrentPage,
-    totalPages,
+    pageSize,
+    setPageSize,
     updateOrderStatus,
     deleteOrder,
     exportOrders,
@@ -67,16 +67,24 @@ const AdminOrders = () => {
 
       {/* Orders Table */}
       <OrdersTable
-        orders={currentOrders}
+        orders={orders}
+        currentPage={currentPage}
+        pageSize={pageSize}
         onViewOrder={handleViewOrder}
         onStatusChange={handleStatusChange}
         onDelete={handleDelete}
       />
 
-      <AdminPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
+      <Pagination
+        page={currentPage}
+        limit={pageSize}
+        total={orders.length}
         onPageChange={setCurrentPage}
+        onLimitChange={(limit) => {
+          setPageSize(limit);
+          setCurrentPage(1);
+        }}
+        className="mt-5"
       />
 
       {/* Modal */}

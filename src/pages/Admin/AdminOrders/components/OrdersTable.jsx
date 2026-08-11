@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Eye, Trash2 } from 'lucide-react';
 import { formatINR } from '../../../../utils/formatCurrency';
 
-import Badge from '../../../../components/ui/Badge';
 import ConfirmDialog from '../../../../components/ui/ConfirmDialog';
+import DataGrid from '../../../../components/ui/erp/DataGrid';
+import { sortRows } from '../../../../components/ui/erp/sortRows';
 
 const statusTones = {
   pending: 'warning',
@@ -15,8 +16,121 @@ const statusTones = {
 
 const statusOptions = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
 
-export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) => {
+const statusSelectClass = (tone) =>
+  `px-3 py-1 rounded-full text-sm font-semibold cursor-pointer border border-transparent transition-opacity duration-150 hover:opacity-80 ${
+    tone === 'success'
+      ? 'bg-success-soft text-success'
+      : tone === 'warning'
+      ? 'bg-warning-soft text-warning'
+      : tone === 'danger'
+      ? 'bg-danger-soft text-danger'
+      : tone === 'info'
+      ? 'bg-info-soft text-info'
+      : 'bg-brand-soft text-brand-600 dark:text-brand-400'
+  }`;
+
+const buildColumns = (onStatusChange) => [
+  {
+    key: 'orderId',
+    header: 'Order ID',
+    sortable: true,
+    render: (order) => (
+      <span className="font-mono text-sm font-semibold text-foreground">{order.orderId}</span>
+    ),
+  },
+  {
+    key: 'customer',
+    header: 'Customer',
+    sortable: true,
+    sortValue: (order) => order.shippingInfo?.fullName,
+    render: (order) => (
+      <div>
+        <p className="font-semibold text-foreground">{order.shippingInfo?.fullName}</p>
+        <p className="text-xs text-text-muted">{order.shippingInfo?.email}</p>
+      </div>
+    ),
+  },
+  {
+    key: 'date',
+    header: 'Date',
+    sortable: true,
+    sortValue: (order) => new Date(order.orderDate || order.createdAt).getTime(),
+    render: (order) => (
+      <span className="text-sm text-foreground">
+        {new Date(order.orderDate || order.createdAt).toLocaleDateString()}
+      </span>
+    ),
+  },
+  {
+    key: 'items',
+    header: 'Items',
+    align: 'right',
+    sortable: true,
+    sortValue: (order) => order.items?.length || 0,
+    render: (order) => (
+      <span className="text-sm text-foreground">{order.items?.length || 0} item(s)</span>
+    ),
+  },
+  {
+    key: 'total',
+    header: 'Total',
+    align: 'right',
+    sortable: true,
+    sortValue: (order) => order.pricing?.grandTotal || order.totalAmount || 0,
+    render: (order) => (
+      <span className="font-bold text-brand-600 dark:text-brand-400">
+        {formatINR(order.pricing?.grandTotal || order.totalAmount || 0)}
+      </span>
+    ),
+  },
+  {
+    key: 'status',
+    header: 'Status',
+    sortable: true,
+    sortValue: (order) => order.status,
+    render: (order) => {
+      const statusKey = order.status?.toLowerCase() || 'pending';
+      return (
+        <select
+          value={statusKey}
+          onChange={(e) => onStatusChange(order.orderId, e.target.value)}
+          className={statusSelectClass(statusTones[statusKey])}
+        >
+          {statusOptions.map((status) => (
+            <option key={status} value={status}>
+              {status.charAt(0).toUpperCase() + status.slice(1)}
+            </option>
+          ))}
+        </select>
+      );
+    },
+  },
+];
+
+export const OrdersTable = ({ orders, currentPage, pageSize, onViewOrder, onStatusChange, onDelete }) => {
+  const [sortKey, setSortKey] = useState('date');
+  const [sortDir, setSortDir] = useState('desc');
   const [orderToDelete, setOrderToDelete] = useState(null);
+
+  const columns = useMemo(() => buildColumns(onStatusChange), [onStatusChange]);
+  const totalPages = Math.max(1, Math.ceil(orders.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const sortedOrders = sortRows(orders, columns, sortKey, sortDir);
+  const pageRows = sortedOrders.slice((safePage - 1) * pageSize, safePage * pageSize);
+
+  const rowActions = (order) => [
+    {
+      label: 'View Details',
+      icon: <Eye size={15} aria-hidden />,
+      onClick: () => onViewOrder(order),
+    },
+    {
+      label: 'Delete Order',
+      icon: <Trash2 size={15} aria-hidden />,
+      tone: 'danger',
+      onClick: () => setOrderToDelete(order._id),
+    },
+  ];
 
   const handleConfirmDelete = () => {
     if (orderToDelete) {
@@ -26,98 +140,23 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
   };
 
   return (
-    <div className="bg-surface rounded-2xl border border-border shadow-card overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gradient-to-r from-brand-soft to-brand-50 dark:from-brand-950 dark:to-brand-900 border-b border-border/50">
-            <tr>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Order ID</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Customer</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Date</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Items</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Total</th>
-              <th className="text-left py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Status</th>
-              <th className="text-center py-4 px-6 font-semibold text-text-muted uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {orders.length > 0 ? (
-              orders.map((order, index) => {
-                const statusKey = order.status?.toLowerCase() || 'pending';
-                return (
-                <tr key={order.orderId} className="border-b border-border hover:bg-surface-alt transition-colors ${index % 2 === 0 ? 'bg-transparent' : 'bg-surface-alt/50'}">
-                  <td className="py-4 px-6 font-mono text-sm font-semibold text-foreground">
-                    {order.orderId}
-                  </td>
-                  <td className="py-4 px-6">
-                    <div>
-                      <p className="font-semibold text-foreground">{order.shippingInfo.fullName}</p>
-                      <p className="text-sm text-text-muted">{order.shippingInfo.email}</p>
-                    </div>
-                  </td>
-                  <td className="py-4 px-6 text-foreground">
-                    {new Date(order.orderDate).toLocaleDateString()}
-                  </td>
-                  <td className="py-4 px-6 text-foreground">
-                    {order.items.length} item(s)
-                  </td>
-                  <td className="py-4 px-6 font-bold text-brand-600 dark:text-brand-400">
-                    {formatINR(order.pricing.grandTotal)}
-                  </td>
-                  <td className="py-4 px-6">
-                    <select
-                      value={statusKey}
-                      onChange={(e) => onStatusChange(order.orderId, e.target.value)}
-                      className={`px-3 py-1 rounded-full text-sm font-semibold cursor-pointer border border-transparent ${
-                        statusTones[statusKey] === 'success'
-                          ? 'bg-success-soft text-success'
-                          : statusTones[statusKey] === 'warning'
-                          ? 'bg-warning-soft text-warning'
-                          : statusTones[statusKey] === 'danger'
-                          ? 'bg-danger-soft text-danger'
-                          : statusTones[statusKey] === 'info'
-                          ? 'bg-info-soft text-info'
-                          : 'bg-brand-soft text-brand-600 dark:text-brand-400'
-                      } hover:opacity-80 transition-opacity`}
-                    >
-                      {statusOptions.map((status) => (
-                        <option key={status} value={status}>
-                          {status.charAt(0).toUpperCase() + status.slice(1)}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td className="py-4 px-6 text-center">
-                    <div className="flex items-center justify-center gap-2">
-                      <button
-                        onClick={() => onViewOrder(order)}
-                        className="p-2.5 text-info hover:bg-info-soft rounded-lg transition-all"
-                        title="View Details"
-                      >
-                        <Eye size={18} aria-hidden />
-                      </button>
-                      <button
-                        onClick={() => setOrderToDelete(order._id)}
-                        className="p-2.5 text-danger hover:bg-danger-soft rounded-lg transition-all"
-                        title="Delete Order"
-                      >
-                        <Trash2 size={18} aria-hidden />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td colSpan="7" className="text-center py-12">
-                  <p className="text-text-muted">No orders found</p>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+    <>
+      <DataGrid
+        columns={columns}
+        rows={pageRows}
+        rowKey="orderId"
+        sortKey={sortKey}
+        sortDir={sortDir}
+        onSortChange={(key, dir) => {
+          setSortKey(key);
+          setSortDir(dir);
+        }}
+        rowActions={rowActions}
+        toolbar
+        title="Orders"
+        count={orders.length}
+        emptyMessage="No orders found"
+      />
 
       <ConfirmDialog
         open={Boolean(orderToDelete)}
@@ -127,6 +166,6 @@ export const OrdersTable = ({ orders, onViewOrder, onStatusChange, onDelete }) =
         message="You won't be able to revert this!"
         confirmText="Yes, delete it"
       />
-    </div>
+    </>
   )
 }

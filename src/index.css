@@ -10,20 +10,24 @@
 
 /* ---------- Brand palette (static across themes) ---------- */
 @theme {
-  --color-brand-50: #fff0f3;
-  --color-brand-100: #ffdde6;
-  --color-brand-200: #ffb3c6;
-  --color-brand-300: #ff8aa7;
-  --color-brand-400: #ff6b8c;
-  --color-brand-500: #ff5279;
-  --color-brand-600: #ff3f6c;
-  --color-brand-700: #e0285c;
-  --color-brand-800: #b81d4b;
-  --color-brand-900: #8f1438;
-  --color-brand-950: #5c0b24;
+  --color-brand-50: #fbf1f5;
+  --color-brand-100: #f8e0ea;
+  --color-brand-200: #f2c2d5;
+  --color-brand-300: #e897b7;
+  --color-brand-400: #dd6392;
+  --color-brand-500: #d6336c;
+  --color-brand-600: #c22a5f;
+  --color-brand-700: #b02a5b;
+  --color-brand-800: #8e2047;
+  --color-brand-900: #6c1736;
+  --color-brand-950: #3f0c1e;
+
+  /* Ink neutral — near-black slate for text & dark surfaces */
+  --color-ink: #14161a;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --radius-xs: 0.25rem;
   --radius-sm: 0.375rem;
@@ -107,58 +111,58 @@
 
 /* ---------- Semantic tokens (switch with theme) ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --background: #fafafa;
+  --foreground: #14161a;
   --surface: #ffffff;
-  --surface-hover: #f8fafc;
-  --surface-alt: #f6f7f9;
-  --surface-strong: #eef0f3;
-  --border: #e5e7eb;
-  --border-strong: #d1d5db;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-faint: #94a3b8;
-  --primary-soft: #fff0f3;
+  --surface-hover: #f7f7f8;
+  --surface-alt: #f4f5f7;
+  --surface-strong: #e9eaee;
+  --border: #e3e4e9;
+  --border-strong: #d8dae0;
+  --text-secondary: #3f434b;
+  --text-muted: #5c616b;
+  --text-faint: #9aa0a8;
+  --primary-soft: #fbf0f5;
   --primary-foreground: #ffffff;
-  --success: #16a34a;
-  --success-soft: #dcfce7;
-  --warning: #d97706;
-  --warning-soft: #fef3c7;
-  --danger: #dc2626;
-  --danger-soft: #fee2e2;
-  --info: #0284c7;
-  --info-soft: #e0f2fe;
+  --success: #067647;
+  --success-soft: #ecfdf3;
+  --warning: #b54708;
+  --warning-soft: #fffaeb;
+  --danger: #b42318;
+  --danger-soft: #fef3f2;
+  --info: #175cd3;
+  --info-soft: #eff8ff;
   --input-bg: #ffffff;
-  --overlay: rgb(15 23 42 / 0.5);
-  --hero-bg: #fafafa;
-  --shadow-color: rgb(15 23 42 / 0.08);
+  --overlay: rgb(20 22 26 / 0.55);
+  --hero-bg: #f4f5f7;
+  --shadow-color: rgb(20 22 26 / 0.08);
 }
 
 .dark {
-  --background: #0b0d14;
-  --foreground: #f1f5f9;
-  --surface: #131722;
-  --surface-hover: #171c29;
-  --surface-alt: #10141d;
-  --surface-strong: #1d2331;
-  --border: #262d3d;
-  --border-strong: #35405a;
-  --text-secondary: #94a3b8;
-  --text-muted: #7c8aa5;
-  --text-faint: #5b677f;
-  --primary-soft: #fff0f3;
+  --background: #0b0d12;
+  --foreground: #eef0f3;
+  --surface: #14161a;
+  --surface-hover: #1a1e25;
+  --surface-alt: #101318;
+  --surface-strong: #20242d;
+  --border: #262b35;
+  --border-strong: #363d49;
+  --text-secondary: #a8aeb8;
+  --text-muted: #8b919d;
+  --text-faint: #5f6671;
+  --primary-soft: #2b0c18;
   --primary-foreground: #ffffff;
-  --success: #22c55e;
-  --success-soft: #14532d;
-  --warning: #f59e0b;
-  --warning-soft: #451a03;
-  --danger: #ef4444;
-  --danger-soft: #450a0a;
-  --info: #38bdf8;
-  --info-soft: #0c4a6e;
-  --input-bg: #131722;
+  --success: #47cd89;
+  --success-soft: #0c2a1d;
+  --warning: #f79009;
+  --warning-soft: #331f07;
+  --danger: #f97066;
+  --danger-soft: #381310;
+  --info: #53b1fd;
+  --info-soft: #0a2740;
+  --input-bg: #14161a;
   --overlay: rgb(0 0 0 / 0.65);
-  --hero-bg: #10141d;
+  --hero-bg: #101318;
   --shadow-color: rgb(0 0 0 / 0.45);
 }
 
@@ -204,18 +208,18 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
   /* Soft ambient gradient behind everything (light) */
   background-image:
-    radial-gradient(1200px 800px at 88% -8%, rgb(255 63 108 / 0.10), transparent 60%),
-    radial-gradient(900px 700px at -12% 18%, rgb(59 130 246 / 0.09), transparent 55%),
-    radial-gradient(1100px 900px at 50% 118%, rgb(168 85 247 / 0.10), transparent 60%);
+    radial-gradient(1200px 800px at 88% -8%, rgb(214 51 108 / 0.05), transparent 60%),
+    radial-gradient(900px 700px at -12% 18%, rgb(23 92 211 / 0.04), transparent 55%),
+    radial-gradient(1100px 900px at 50% 118%, rgb(176 42 91 / 0.05), transparent 60%);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
 .dark body {
   background-image:
-    radial-gradient(1200px 800px at 88% -8%, rgb(255 63 108 / 0.16), transparent 60%),
-    radial-gradient(900px 700px at -12% 18%, rgb(59 130 246 / 0.13), transparent 55%),
-    radial-gradient(1100px 900px at 50% 118%, rgb(168 85 247 / 0.16), transparent 60%);
+    radial-gradient(1200px 800px at 88% -8%, rgb(214 51 108 / 0.08), transparent 60%),
+    radial-gradient(900px 700px at -12% 18%, rgb(23 92 211 / 0.06), transparent 55%),
+    radial-gradient(1100px 900px at 50% 118%, rgb(176 42 91 / 0.08), transparent 60%);
 }
 
 /* ---------- Consistent form controls ---------- */
@@ -234,7 +238,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--color-brand-500);
-  box-shadow: 0 0 0 3px rgb(255 63 108 / 0.12);
+  box-shadow: 0 0 0 3px rgb(214 51 108 / 0.13);
 }
 
 input::placeholder,
@@ -362,4 +366,50 @@ button:focus-visible,
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------- Brand micro-interaction: tap scale ---------- */
+.btn-tap {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-tap:active {
+  transform: scale(0.96);
+}
+
+/* ---------- Badge pop (cart/wishlist counts, wishlist heart) ---------- */
+@keyframes badge-pop {
+  0% { transform: scale(0.4); }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.badge-pop {
+  animation: badge-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- Admin: ERP dense table ---------- */
+.admin-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: var(--surface-alt);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.admin-table th,
+.admin-table td {
+  padding: 0.5rem 0.75rem;
+  font-size: 13px;
+}
+.admin-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+.admin-table tbody tr:hover {
+  background-color: var(--surface-hover);
+}
+.admin-table tbody tr:last-child {
+  border-bottom: none;
 }

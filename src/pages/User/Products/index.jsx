@@ -10,7 +10,7 @@ import ProductsSkeleton from "./components/ProductsSkeleton";
 import EmptyProductsState from "./components/EmptyProductsState";
 import BreadCrumbs from "../../../components/BreadCrumbs";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 12;
 const MAX_PRICE = 5000;
 
 const Products = () => {
@@ -37,7 +37,7 @@ const Products = () => {
   } = useProductsFilter();
 
   const [openFilter, setOpenFilter] = useState(false);
-  const [viewMode, setViewMode] = useState("grid");
+  const [viewMode, setViewMode] = useState("list");
 
   const loading = !data || data.length === 0;
 
@@ -58,10 +58,10 @@ const Products = () => {
 
       <div className="px-4 md:px-6 pb-16">
         <div className="max-w-7xl mx-auto">
-          {/* Page header */}
+          {/* Flipkart-style results header */}
           <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pt-2">
             <div>
-              <h1 className="text-xl md:text-2xl font-extrabold text-foreground tracking-tight">
+              <h1 className="text-lg md:text-xl font-bold text-foreground tracking-tight">
                 All Products
               </h1>
               <p className="text-xs text-text-muted mt-0.5">
@@ -102,9 +102,9 @@ const Products = () => {
             </div>
           )}
 
-          <div className="flex gap-8">
+          <div className="flex gap-5 lg:gap-6">
             {/* Desktop Sidebar */}
-            <div className="hidden md:block flex-shrink-0 w-64">
+            <div className="hidden md:block flex-shrink-0 w-60">
               <FilterSidebar
                 search={search}
                 setSearch={setSearch}
@@ -124,12 +124,6 @@ const Products = () => {
 
             {/* Products Section */}
             <div className="flex-1 min-w-0">
-              <CategoryPills
-                categories={categoryNames}
-                activeCategory={category}
-                onSelect={selectCategoryPill}
-              />
-
               <ProductsToolbar
                 itemCount={filteredProducts?.length || 0}
                 sortBy={sortBy}
@@ -141,6 +135,12 @@ const Products = () => {
                 startIndex={loading ? 0 : startIndex}
                 endIndex={loading ? 0 : endIndex}
                 total={filteredProducts?.length || 0}
+              />
+
+              <CategoryPills
+                categories={categoryNames}
+                activeCategory={category}
+                onSelect={selectCategoryPill}
               />
 
               {loading ? (

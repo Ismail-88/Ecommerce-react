@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { Users } from 'lucide-react';
-import { ToastContainer } from 'react-toastify';
 
 import { useCustomers } from './hooks/useCustomers';
 import { CustomerStats } from './components/CustomerStats';
 import { CustomerFilters } from './components/CustomerFilters';
 import { CustomerTable } from './components/CustomerTable';
 import { CustomerDetailsModal } from './components/CustomerDetailsModal';
+import Pagination from '../../../components/ui/erp/Pagination';
 import { FullPageSpinner } from '../../../components/ui/Spinner';
-import { useTheme } from '../../../context/ThemeContext';
 
 const AdminCustomers = () => {
-  const { isDark } = useTheme();
   const {
     customers,
     loading,
@@ -25,6 +23,11 @@ const AdminCustomers = () => {
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const totalPages = Math.max(1, Math.ceil(customers.length / pageSize));
+  const safePage = Math.min(page, totalPages);
 
   const handleViewDetails = (customer) => {
     setSelectedCustomer(customer);
@@ -55,19 +58,6 @@ const AdminCustomers = () => {
         </div>
       </div>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme={isDark ? "dark" : "light"}
-      />
-
       <CustomerStats stats={stats} />
 
       <CustomerFilters
@@ -79,8 +69,22 @@ const AdminCustomers = () => {
 
       <CustomerTable
         customers={customers}
+        currentPage={safePage}
+        pageSize={pageSize}
         onViewDetails={handleViewDetails}
         onDelete={handleDelete}
+      />
+
+      <Pagination
+        page={safePage}
+        limit={pageSize}
+        total={customers.length}
+        onPageChange={setPage}
+        onLimitChange={(limit) => {
+          setPageSize(limit);
+          setPage(1);
+        }}
+        className="mt-5"
       />
 
       {showDetails && selectedCustomer && (

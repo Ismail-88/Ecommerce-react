@@ -1,87 +1,54 @@
 import React from "react";
-import { Star, BadgeCheck, PackageCheck, ShieldCheck } from "lucide-react";
-import Badge from "../../../../../components/ui/Badge";
+import { Star, BadgeCheck } from "lucide-react";
 
 const ProductHeader = ({ title, brand, category, reviewStats, stock }) => {
   const isOutOfStock = stock === 0;
   const lowStock = stock > 0 && stock <= 5;
 
+  const rating = (reviewStats?.average || 4.5).toFixed(1);
+  const total = reviewStats?.total || 0;
+  const reviews = Math.max(0, Math.floor(total / 2.4)) || Math.max(24, Math.floor(rating * 137) % 300);
+
   return (
-    <div className="rounded-xl border border-border bg-surface p-5">
-      <div className="flex items-center gap-2 mb-3 flex-wrap">
-        <Badge tone="brand">
-          <BadgeCheck size={12} className="fill-current" aria-hidden />
-          Premium Product
-        </Badge>
+    <div>
+      <h1 className="text-xl md:text-2xl font-medium text-foreground leading-snug">{title}</h1>
+
+      {/* Rating + status row */}
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        <a
+          href="#reviews"
+          className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-xs font-bold text-white hover:opacity-90 transition-opacity"
+        >
+          {rating}
+          <Star size={11} className="fill-current" aria-hidden />
+        </a>
+        <span className="text-sm text-text-muted">
+          {total > 0
+            ? `${total.toLocaleString("en-IN")} ratings${reviews ? ` & ${reviews.toLocaleString("en-IN")} reviews` : ""}`
+            : "No ratings yet"}
+        </span>
+        <span className="w-1 h-1 rounded-full bg-border-strong" aria-hidden />
         {isOutOfStock ? (
-          <Badge tone="danger">
-            <PackageCheck size={12} aria-hidden />
-            Out of Stock
-          </Badge>
+          <span className="text-sm font-semibold text-danger">Currently Unavailable</span>
         ) : lowStock ? (
-          <Badge tone="warning">
-            <PackageCheck size={12} aria-hidden />
-            Only {stock} left in stock
-          </Badge>
+          <span className="text-sm font-semibold text-warning">Only {stock} left in stock</span>
         ) : (
-          <Badge tone="success">
-            <PackageCheck size={12} aria-hidden />
-            In Stock
-          </Badge>
+          <span className="text-sm font-semibold text-success">In Stock</span>
         )}
       </div>
 
-      <h1 className="text-xl md:text-2xl font-bold text-foreground mb-3 leading-tight">{title}</h1>
-
-      {reviewStats.total > 0 ? (
-        <div className="flex items-center gap-3 flex-wrap mb-4">
-          <span className="inline-flex items-center gap-1 rounded bg-success px-2 py-0.5 font-bold text-sm text-white">
-            <Star size={13} className="fill-current" aria-hidden />
-            {reviewStats.average}
-          </span>
-          <a
-            href="#reviews"
-            className="text-sm text-text-muted hover:text-brand-600 dark:hover:text-brand-400 underline underline-offset-2 transition-colors"
-          >
-            {reviewStats.total} {reviewStats.total === 1 ? "Review" : "Reviews"}
-          </a>
-          <span className="w-1 h-1 rounded-full bg-border-strong" aria-hidden />
-          <span className="text-sm text-text-muted">
-            {Math.max(20, reviewStats.total * 7)} sold this week
-          </span>
-        </div>
-      ) : (
-        <p className="text-sm text-text-faint mb-4">Be the first to review this product</p>
-      )}
-
-      <div className="flex items-center gap-3 text-sm flex-wrap">
-        <span className="font-bold text-brand-600 dark:text-brand-400">Special Price</span>
-        <span className="w-1 h-1 rounded-full bg-border-strong" aria-hidden />
+      {/* Brand */}
+      <div className="flex items-center gap-2 mt-2 text-sm">
+        <BadgeCheck size={15} className="text-brand-600 flex-shrink-0" aria-hidden />
         <span className="text-text-muted">
-          Brand: <span className="font-semibold text-foreground">{brand || "ShopSphere"}</span>
+          Visit the <span className="font-semibold text-foreground">{brand || "ShopSphere"}</span> store
         </span>
         {category?.name && (
           <>
             <span className="w-1 h-1 rounded-full bg-border-strong" aria-hidden />
-            <span className="text-text-muted">
-              Category: <span className="font-semibold text-foreground">{category.name}</span>
-            </span>
+            <span className="text-text-muted">Category: {category.name}</span>
           </>
         )}
-      </div>
-
-      <div className="mt-4 pt-4 border-t border-border flex items-center gap-2 text-xs text-text-muted">
-        <ShieldCheck size={15} className="text-success flex-shrink-0" aria-hidden />
-        <span>
-          Assured quality · 100% genuine · Easy returns & free delivery by{" "}
-          <span className="font-bold text-foreground">
-            {new Date(Date.now() + 3 * 86400000).toLocaleDateString("en-IN", {
-              weekday: "short",
-              day: "numeric",
-              month: "short",
-            })}
-          </span>
-        </span>
       </div>
     </div>
   );

@@ -1,35 +1,37 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { api, getData } from '../../../../context/DataContext';
+import { api } from '../../../../context/DataContext';
+
+const DAY = 24 * 60 * 60 * 1000;
+
+const growthPct = (current, previous) => {
+  if (previous === 0) return current === 0 ? 0 : 100;
+  return Math.round(((current - previous) / previous) * 1000) / 10;
+};
 
 const useDashboardData = () => {
-  const {fetchCategories } = getData();
-  
   const [stats, setStats] = useState({
     totalRevenue: 0,
-    revenueGrowth: 12.5,
+    revenueGrowth: 0,
     totalOrders: 0,
-    ordersGrowth: 8.2,
+    ordersGrowth: 0,
     totalProducts: 0,
-    productsGrowth: 5.4,
+    productsGrowth: 0,
     totalCustomers: 0,
-    customersGrowth: 15.3,
+    customersGrowth: 0,
     pendingOrders: 0,
     lowStock: 0,
   });
 
-  const [allOrders, setAllOrders] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoryData, setCategoryData] = useState([]);
   const [salesData, setSalesData] = useState([]);
-  const [productsData, setProductsData] = useState([]);
 
   const calculateMonthlySales = (orders) => {
     const monthlyData = {};
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
+
     const now = new Date();
     for (let i = 5; i >= 0; i--) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -38,14 +40,14 @@ const useDashboardData = () => {
         month: months[date.getMonth()],
         sales: 0,
         orders: 0,
-        revenue: 0
+        revenue: 0,
       };
     }
 
-    orders.forEach(order => {
+    orders.forEach((order) => {
       const orderDate = new Date(order.orderDate || order.createdAt);
       const monthKey = `${orderDate.getFullYear()}-${orderDate.getMonth()}`;
-      
+
       if (monthlyData[monthKey]) {
         monthlyData[monthKey].orders += 1;
         monthlyData[monthKey].revenue += order.pricing?.grandTotal || order.totalAmount || 0;
@@ -60,51 +62,77 @@ const useDashboardData = () => {
     try {
       setLoading(true);
 
-      // Fetch all data in parallel
-      const [categoriesRes, productsRes, ordersRes] = await Promise.all([
-        fetchCategories(),
-        api.get("/products"),
-        api.get("/orders")
-      ]);
+      const token = localStorage.getItem('adminToken');
+      const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
+      const [productsRes, ordersRes, usersRes] = await Promise.all([
+        api.get('/products'),
+        api.get('/orders'),
+        api.get('/api/admin/users?limit=500', { headers: authHeaders }).catch(() => null),
+      ]);
       const productsData = productsRes.data;
       const ordersData = ordersRes.data;
-      
-      setProductsData(productsData);
-      setAllOrders(ordersData);
+      const usersData = usersRes?.data?.users || [];
 
-      const totalRevenue = ordersData.reduce((sum, order) => {
-        const orderTotal = order.pricing?.grandTotal || order.totalAmount || 0;
-        return sum + orderTotal;
-      }, 0);
+      const now = Date.now();
+      const curStart = now - 30 * DAY;
+      const prevStart = now - 60 * DAY;
 
-      const pendingOrders = ordersData.filter((o) => o.status?.toLowerCase() === "pending").length;
-      const lowStock = productsData.filter((p) => (p.stock || 0) < 10).length;
+      const totalRevenue = ordersData.reduce(
+        (sum, order) => sum + (order.pricing?.grandTotal || order.totalAmount || 0),
+        0
+      );
 
-      const uniqueCustomers = new Set(
-        ordersData.map(
-          (order) =>
-            order.shippingInfo?.email || order.userId || order.customerEmail
-        )
-      ).size;
-
-      setStats({
-        totalRevenue: totalRevenue,
-        revenueGrowth: 12.5,
-        totalOrders: ordersData.length,
-        ordersGrowth: 8.2,
-        totalProducts: productsData.length,
-        productsGrowth: 5.4,
-        totalCustomers: uniqueCustomers,
-        customersGrowth: 15.3,
-        pendingOrders: pendingOrders,
-        lowStock: lowStock,
+      let revenueCur = 0;
+      let revenuePrev = 0;
+      let ordersCur = 0;
+      let ordersPrev = 0;
+      ordersData.forEach((order) => {
+        const amount = order.pricing?.grandTotal || order.totalAmount || 0;
+        const ts = new Date(order.orderDate || order.createdAt).getTime();
+        if (ts >= curStart && ts < now) {
+          revenueCur += amount;
+          ordersCur += 1;
+        } else if (ts >= prevStart && ts < curStart) {
+          revenuePrev += amount;
+          ordersPrev += 1;
+        }
       });
 
-      const sortedOrders = ordersData.sort(
-        (a, b) =>
-          new Date(b.orderDate || b.createdAt) -
-          new Date(a.orderDate || a.createdAt)
+      let productsCur = 0;
+      let productsPrev = 0;
+      productsData.forEach((product) => {
+        const ts = new Date(product.createdAt).getTime();
+        if (ts >= curStart && ts < now) productsCur += 1;
+        else if (ts >= prevStart && ts < curStart) productsPrev += 1;
+      });
+
+      let customersCur = 0;
+      let customersPrev = 0;
+      usersData.forEach((user) => {
+        const ts = new Date(user.createdAt).getTime();
+        if (ts >= curStart && ts < now) customersCur += 1;
+        else if (ts >= prevStart && ts < curStart) customersPrev += 1;
+      });
+
+      const pendingOrders = ordersData.filter((o) => o.status?.toLowerCase() === 'pending').length;
+      const lowStock = productsData.filter((p) => (p.stock || 0) < 10).length;
+
+      setStats({
+        totalRevenue,
+        revenueGrowth: growthPct(revenueCur, revenuePrev),
+        totalOrders: ordersData.length,
+        ordersGrowth: growthPct(ordersCur, ordersPrev),
+        totalProducts: productsData.length,
+        productsGrowth: growthPct(productsCur, productsPrev),
+        totalCustomers: usersData.length,
+        customersGrowth: growthPct(customersCur, customersPrev),
+        pendingOrders,
+        lowStock,
+      });
+
+      const sortedOrders = [...ordersData].sort(
+        (a, b) => new Date(b.orderDate || b.createdAt) - new Date(a.orderDate || a.createdAt)
       );
       setRecentOrders(sortedOrders.slice(0, 5));
 
@@ -112,31 +140,27 @@ const useDashboardData = () => {
 
       const categoryCount = {};
       productsData.forEach((product) => {
-        const catName = product.category?.name || "Other";
+        const catName = product.category?.name || 'Other';
         categoryCount[catName] = (categoryCount[catName] || 0) + 1;
       });
 
-      const categoryChartData = Object.entries(categoryCount).map(
-        ([name, value], index) => ({
-          name,
-          value,
-          fill: [
-            "#FF3F6C",
-            "#FB7185",
-            "#FF8AA7",
-            "#EC4899",
-            "#F43F5E",
-            "#E0285C",
-          ][index % 6],
-        })
-      );
+      const categoryChartData = Object.entries(categoryCount).map(([name, value], index) => ({
+        name,
+        value,
+        fill: [
+          '#FF3F6C',
+          '#FB7185',
+          '#FF8AA7',
+          '#EC4899',
+          '#F43F5E',
+          '#E0285C',
+        ][index % 6],
+      }));
       setCategoryData(categoryChartData);
 
-      const monthlySales = calculateMonthlySales(ordersData);
-      setSalesData(monthlySales);
-
+      setSalesData(calculateMonthlySales(ordersData));
     } catch (error) {
-      console.error("Error fetching dashboard data:", error);
+      console.error('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
     }
@@ -144,11 +168,10 @@ const useDashboardData = () => {
 
   useEffect(() => {
     fetchDashboardData();
-  }, []); 
+  }, []);
 
   return {
     stats,
-    allOrders,
     recentOrders,
     topProducts,
     loading,
@@ -157,4 +180,4 @@ const useDashboardData = () => {
   };
 };
 
-export default useDashboardData
+export default useDashboardData;

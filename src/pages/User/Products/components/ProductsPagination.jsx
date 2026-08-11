@@ -4,15 +4,18 @@ const ProductsPagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   const btnBase =
-    "inline-flex items-center justify-center min-w-10 h-10 rounded-lg border text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center min-w-9 h-9 px-2 text-sm font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed";
 
   return (
-    <nav className="flex justify-center items-center gap-1.5 mt-10 flex-wrap" aria-label="Pagination">
+    <nav
+      className="flex justify-center items-center gap-1 mt-8 bg-surface border border-border rounded-lg p-1.5 shadow-card"
+      aria-label="Pagination"
+    >
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         aria-label="Previous page"
-        className={`${btnBase} border-border bg-surface text-text-secondary hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 disabled:hover:border-border`}
+        className={`${btnBase} text-text-secondary hover:text-brand-600 dark:hover:text-brand-400 disabled:hover:text-text-secondary`}
       >
         <ChevronLeft size={16} aria-hidden />
       </button>
@@ -23,10 +26,10 @@ const ProductsPagination = ({ currentPage, totalPages, onPageChange }) => {
           onClick={() => onPageChange(i + 1)}
           aria-current={currentPage === i + 1 ? "page" : undefined}
           aria-label={`Page ${i + 1}`}
-          className={`${btnBase} ${
+          className={`${btnBase} rounded-md ${
             currentPage === i + 1
-              ? "bg-brand-600 border-brand-600 text-white shadow-sm shadow-brand-600/20"
-              : "border-border bg-surface text-text-secondary hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400"
+              ? "bg-brand-600 text-white shadow-sm shadow-brand-600/20"
+              : "text-text-secondary hover:bg-surface-alt hover:text-brand-600 dark:hover:text-brand-400"
           }`}
         >
           {i + 1}
@@ -37,7 +40,7 @@ const ProductsPagination = ({ currentPage, totalPages, onPageChange }) => {
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         aria-label="Next page"
-        className={`${btnBase} border-border bg-surface text-text-secondary hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 disabled:hover:border-border`}
+        className={`${btnBase} text-text-secondary hover:text-brand-600 dark:hover:text-brand-400 disabled:hover:text-text-secondary`}
       >
         <ChevronRight size={16} aria-hidden />
       </button>

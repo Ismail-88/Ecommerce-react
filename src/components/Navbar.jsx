@@ -31,11 +31,19 @@ const HeaderAction = ({ label, onClick, children }) => (
 const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
   const [openNav, setOpenNav] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { cartItem } = useCart();
   const { wishlistCount } = useWishlist();
   const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const profileRef = useRef(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const onClickOutside = (e) => {
@@ -55,7 +63,7 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
   return (
     <>
       {/* Announcement Bar */}
-      <div className="bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 text-white text-center">
+      <div className="bg-ink text-white text-center">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-1.5 flex items-center justify-center gap-2 text-[11px] sm:text-xs font-bold uppercase tracking-wide">
           <Zap size={12} className="shrink-0" aria-hidden />
           <p>Free Shipping Over ₹499 · Extra 10% Off on First Order</p>
@@ -63,7 +71,13 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
       </div>
 
       {/* Main Header */}
-      <header className="sticky top-0 left-0 right-0 z-50 bg-surface border-b border-border">
+      <header
+        className={`sticky top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-surface/85 backdrop-blur-xl shadow-soft border-b border-border"
+            : "bg-surface border-b border-border"
+        }`}
+      >
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex items-center gap-3 md:gap-6 h-16">
             {/* Mobile menu */}
@@ -81,7 +95,7 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
               <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-600 text-white">
                 <ShoppingBag size={17} aria-hidden />
               </span>
-              <span className="hidden sm:block text-xl font-extrabold tracking-tight text-brand-600">
+              <span className="hidden sm:block text-xl font-display font-bold tracking-tight text-brand-600">
                 ShopSphere
               </span>
             </Link>
@@ -190,7 +204,10 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
                 <span className="relative">
                   <Heart size={19} aria-hidden />
                   {wishlistCount > 0 && (
-                    <span className="absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-brand-600 text-[9px] font-bold text-white">
+                    <span
+                      key={wishlistCount}
+                      className="absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-brand-600 text-[9px] font-bold text-white badge-pop"
+                    >
                       {wishlistCount}
                     </span>
                   )}
@@ -207,7 +224,10 @@ const Navbar = ({ location, getLocation, openDropDown, setOpenDropDown }) => {
                 <span className="relative">
                   <ShoppingBag size={19} aria-hidden />
                   {cartItem.length > 0 && (
-                    <span className="absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-brand-600 text-[9px] font-bold text-white">
+                    <span
+                      key={cartItem.length}
+                      className="absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-brand-600 text-[9px] font-bold text-white badge-pop"
+                    >
                       {cartItem.length}
                     </span>
                   )}

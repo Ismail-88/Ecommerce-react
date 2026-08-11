@@ -42,7 +42,7 @@ import OrderDetails from './pages/User/OrderDetails'
 import OrderTracking from './pages/User/OrderTracking'
 import Rewards from './pages/User/Rewards'
 import CustomScrollToTop from "./components/CustomScrollToTop"
-import LiveChatWidget from "./components/LiveChatWidget"
+// import LiveChatWidget from "./components/LiveChatWidget"
 import AIAssistant from "./components/AIAssistant"
 
 function UserRoutes({ location, getLocation }) {
@@ -142,7 +142,7 @@ useEffect(()=>{localStorage.setItem('cartItem',JSON.stringify(cartItem))},[cartI
             <UserRoutes location={location} getLocation={getLocation} />
             <Footer />
             <div className="h-16 lg:hidden" aria-hidden />
-            <LiveChatWidget />
+            {/* <LiveChatWidget /> */}
             <AIAssistant />
           </>
         } />

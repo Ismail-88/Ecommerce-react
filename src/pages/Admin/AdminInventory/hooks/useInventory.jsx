@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 import { API_BASE_URL } from '../../../../context/DataContext';
 
@@ -10,10 +10,13 @@ const useInventory = () => {
       const [searchTerm, setSearchTerm] = useState('');
       const [stockFilter, setStockFilter] = useState('all');
       const [currentPage, setCurrentPage] = useState(1);
-      const productsPerPage = 5;
+      const [pageSize, setPageSize] = useState(10);
+      const mounted = useRef(false);
 
     useEffect(() => {
-    fetchProducts();
+      if (mounted.current) return;
+      mounted.current = true;
+      fetchProducts();
     }, []);
 
      useEffect(() => {
@@ -83,22 +86,18 @@ const useInventory = () => {
     }
   };
 
-  //stats
-  const totalProducts = filteredProducts.length;
-  const lowStockProducts = filteredProducts.filter(p => p.stock <= 10 && p.stock > 0).length;
-  const outOfStockProducts = filteredProducts.filter(p => p.stock === 0).length;
-  const totalStockValue = filteredProducts.reduce((sum, p) => sum + (Number(p.price) * Number(p.stock) || 0), 0);
+  //stats (based on ALL products, not the filtered page)
+  const totalProducts = products.length;
+  const lowStockProducts = products.filter(p => p.stock <= 10 && p.stock > 0).length;
+  const outOfStockProducts = products.filter(p => p.stock === 0).length;
+  const totalStockValue = products.reduce((sum, p) => sum + (Number(p.price) * Number(p.stock) || 0), 0);
 
-  //pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
-   
+  //pagination is handled inside InventoryTable (sort + slice on the full filtered list)
+  const filteredCount = filteredProducts.length;
 
   return {
-    products : currentProducts,
+    products: filteredProducts,
+    filteredCount,
     loading,
     searchTerm,
     setSearchTerm,
@@ -106,15 +105,15 @@ const useInventory = () => {
     setStockFilter,
     currentPage,
     setCurrentPage,
-    totalPages,
+    pageSize,
+    setPageSize,
     updateStock,
-    stats : {
+    stats: {
       totalProducts,
       lowStockProducts,
       outOfStockProducts,
       totalStockValue
     }
-
   }
 }
 

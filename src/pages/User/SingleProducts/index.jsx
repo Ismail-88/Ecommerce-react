@@ -7,6 +7,7 @@ import { useSingleProduct } from "./hooks/useSingleProduct";
 import { useShare } from "./hooks/useShare";
 import ProductImageGallery from "./components/SingleProduct/ProductImageGallery";
 import ProductHeader from "./components/SingleProduct/ProductHeader";
+import PriceSection from "./components/SingleProduct/PriceSection";
 import PurchasePanel from "./components/SingleProduct/PurchasePanel";
 import ColorSelector from "./components/SingleProduct/ColorSelector";
 import QuantitySelector from "./components/SingleProduct/QuantitySelector";
@@ -102,9 +103,9 @@ const SingleProduct = () => {
         />
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6">
           {/* Left - Image Gallery */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-4">
             <ProductImageGallery
               currentImages={currentImages}
               selectedImage={selectedImage}
@@ -120,12 +121,19 @@ const SingleProduct = () => {
           </div>
 
           {/* Middle - Product Details */}
-          <div className="lg:col-span-4 space-y-5">
+          <div className="lg:col-span-5 space-y-4">
             <ProductHeader
               title={singleProduct.title}
               brand={singleProduct.brand}
               category={singleProduct.category}
               reviewStats={reviewStats}
+              stock={singleProduct.stock}
+            />
+
+            <PriceSection
+              price={singleProduct.price}
+              originalPrice={pricing.originalPrice}
+              discount={singleProduct.discount}
               stock={singleProduct.stock}
             />
 
@@ -177,7 +185,7 @@ const SingleProduct = () => {
 
         {/* Mobile Action Buttons */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 backdrop-blur-xl p-4 z-50 animate-slide-down">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between gap-4 mb-3">
             <div>
               <p className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1.5">
                 Quantity
@@ -192,7 +200,9 @@ const SingleProduct = () => {
               <p className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1">
                 Total
               </p>
-              <p className="font-extrabold text-foreground text-xl">{formatINR(singleProduct.price * quantity)}</p>
+              <p className="font-extrabold text-foreground text-xl">
+                {formatINR(singleProduct.price * quantity)}
+              </p>
             </div>
           </div>
           <div className="flex flex-col gap-2">

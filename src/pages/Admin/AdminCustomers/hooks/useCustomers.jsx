@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { API_BASE_URL } from '../../../../context/DataContext';
 
@@ -8,8 +8,11 @@ export const useCustomers = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
+  const mounted = useRef(false);
 
   useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
     fetchCustomers();
   }, []);
 
@@ -25,7 +28,6 @@ export const useCustomers = () => {
       });
       const data = await response.json();
       setCustomers(data.users || []);
-      toast.success('Customers loaded successfully!');
     } catch (error) {
       console.error('Error fetching customers:', error);
       toast.error('Failed to load customers');

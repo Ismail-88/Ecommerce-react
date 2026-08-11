@@ -4,6 +4,8 @@ import { useUser } from '@clerk/clerk-react';
 import { toast } from 'react-toastify';
 import { api, getData } from '../../../../context/DataContext';
 
+const TRANSIT_STATUSES = ["pending", "processing", "shipped"];
+
 export const useOrders = () => {
   const { user, isLoaded } = useUser();
   const { orders, fetchOrdersByUser, loadingOrders } = getData();
@@ -23,6 +25,12 @@ export const useOrders = () => {
 
     if (filter === "all") {
       return orders;
+    }
+
+    if (filter === "transit") {
+      return orders.filter((order) =>
+        TRANSIT_STATUSES.includes(order.status?.toLowerCase())
+      );
     }
 
     const filtered = orders.filter((order) => {
@@ -53,7 +61,13 @@ export const useOrders = () => {
     if (!orders || !Array.isArray(orders)) return 0;
     
     if (status === "all") return orders.length;
-    
+
+    if (status === "transit") {
+      return orders.filter((o) =>
+        TRANSIT_STATUSES.includes(o.status?.toLowerCase())
+      ).length;
+    }
+
     const count = orders.filter((o) => 
       o.status?.toLowerCase() === status.toLowerCase()
     ).length;

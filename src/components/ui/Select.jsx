@@ -1,7 +1,7 @@
 import { forwardRef, useId } from "react";
 
 const Select = forwardRef(function Select(
-  { label, error, hint, className = "", required = false, id, children, ...props },
+  { label, error, hint, success = false, className = "", required = false, id, children, ...props },
   ref
 ) {
   const autoId = useId();
@@ -23,6 +23,8 @@ const Select = forwardRef(function Select(
         className={`w-full rounded-lg border bg-input-bg px-3.5 py-2.5 text-sm text-foreground transition-colors appearance-none bg-no-repeat pr-10 ${
           error
             ? "border-danger focus:border-danger"
+            : success
+            ? "border-success focus:border-success"
             : "border-border focus:border-brand-500"
         }`}
         style={{

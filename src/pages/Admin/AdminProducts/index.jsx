@@ -1,6 +1,6 @@
 // pages/Admin/AdminProducts.jsx
 import React, { useState } from "react";
-import AdminPagination from "../../../components/Admin/AdminPagination";
+import Pagination from "../../../components/ui/erp/Pagination";
 import useProductsData from "./hooks/useProductsData";
 import ProductsHeader from "./components/ProductsHeader";
 import ProductsStats from "./components/ProductsStats";
@@ -26,19 +26,19 @@ const AdminProducts = () => {
   } = useProductsData();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(12);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState("grid");
 
-  const productsPerPage = 12;
+  const productsPerPage = pageSize;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const handleDeleteClick = (product) => {
     setProductToDelete(product);
@@ -120,10 +120,17 @@ const AdminProducts = () => {
             </div>
 
             {/* Pagination */}
-            <AdminPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
+            <Pagination
+              page={currentPage}
+              limit={pageSize}
+              total={filteredProducts.length}
               onPageChange={setCurrentPage}
+              onLimitChange={(limit) => {
+                setPageSize(limit);
+                setCurrentPage(1);
+              }}
+              options={[12, 24, 48]}
+              className="mt-6"
             />
           </>
         )}

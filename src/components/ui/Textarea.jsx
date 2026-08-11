@@ -1,7 +1,7 @@
 import { forwardRef, useId } from "react";
 
 const Textarea = forwardRef(function Textarea(
-  { label, error, hint, className = "", required = false, id, rows = 4, ...props },
+  { label, error, hint, success = false, className = "", required = false, id, rows = 4, ...props },
   ref
 ) {
   const autoId = useId();
@@ -22,7 +22,11 @@ const Textarea = forwardRef(function Textarea(
         required={required}
         aria-invalid={error ? "true" : undefined}
         className={`w-full rounded-lg border bg-input-bg px-3.5 py-2.5 text-sm text-foreground placeholder:text-text-faint transition-colors resize-y ${
-          error ? "border-danger focus:border-danger" : "border-border focus:border-brand-500"
+          error
+            ? "border-danger focus:border-danger"
+            : success
+            ? "border-success focus:border-success"
+            : "border-border focus:border-brand-500"
         }`}
         {...props}
       />

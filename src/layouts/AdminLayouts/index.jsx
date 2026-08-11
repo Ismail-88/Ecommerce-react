@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useAdminLayout } from "./hooks/useAdminLayout";
 import { Sidebar } from "./components/Sidebar";
@@ -18,12 +19,24 @@ const AdminLayout = () => {
 
   const { isDark, toggleTheme } = useTheme();
 
+  const [collapsed, setCollapsed] = useState(
+    () => localStorage.getItem("admin-sidebar-collapsed") === "1"
+  );
+  const toggleCollapsed = () =>
+    setCollapsed((c) => {
+      const next = !c;
+      localStorage.setItem("admin-sidebar-collapsed", next ? "1" : "0");
+      return next;
+    });
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Sidebar */}
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        collapsed={collapsed}
+        toggleCollapsed={toggleCollapsed}
         adminInfo={adminInfo}
         getAdminName={getAdminName}
         getAdminRole={getAdminRole}

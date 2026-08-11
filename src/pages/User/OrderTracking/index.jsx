@@ -4,14 +4,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useOrderTracking } from "./hooks/useOrderTracking";
-import { MapPin, TrendingUp } from "lucide-react";
+import { Headset } from "lucide-react";
 
 // Components
 import TrackingSearchForm from "./components/TrackingSearchForm";
 import OrderInfoBanner from "./components/OrderInfoBanner";
 import TrackingTimeline from "./components/TrackingTimeline";
 import EmptyTrackingState from "./components/EmptyTrackingState";
-import PageHeader from "../../../components/ui/PageHeader";
 
 // Zod validation
 const trackingSchema = z.object({
@@ -39,19 +38,18 @@ const OrderTracking = () => {
 
   return (
     <div className="min-h-screen text-foreground">
-      {/* Header */}
-      <div className="border-b border-border bg-surface-alt">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
-          <PageHeader
-            icon={MapPin}
-            title="Track Your Order"
-            description="Real-time delivery updates at your fingertips"
-          />
-        </div>
-      </div>
-
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-10">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-10">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+            Track Your Order
+          </h1>
+          <p className="text-sm text-text-muted mt-1">
+            Real-time delivery updates at your fingertips
+          </p>
+        </div>
+
         {/* Search Form */}
         <div className="mb-10">
           <TrackingSearchForm
@@ -64,7 +62,7 @@ const OrderTracking = () => {
 
         {/* Tracking Results */}
         {trackingStatus && orderData ? (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {/* Live indicator */}
             <div className="flex items-center gap-2">
               <span
@@ -89,35 +87,41 @@ const OrderTracking = () => {
             <TrackingTimeline trackingStatus={trackingStatus} />
 
             {/* Additional Info */}
-            <div className="rounded-xl border border-border bg-surface p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-success-soft text-success">
-                  <TrendingUp size={24} aria-hidden />
-                </span>
-                <h3 className="text-xl font-bold text-foreground">Delivery Information</h3>
+            <div className="bg-surface border border-border rounded-lg overflow-hidden">
+              <div className="bg-surface-alt/60 border-b border-border px-5 py-3">
+                <h2 className="font-bold text-foreground">Delivery Information</h2>
               </div>
+              <div className="p-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-5 rounded-lg border border-border bg-surface-alt">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-text-muted mb-2">
+                      Delivery Address
+                    </p>
+                    <p className="font-semibold text-foreground mb-1">{orderData.shippingInfo.address}</p>
+                    <p className="text-text-muted">
+                      {orderData.shippingInfo.city}, {orderData.shippingInfo.state} {orderData.shippingInfo.zipCode}
+                    </p>
+                    <p className="text-text-muted">{orderData.shippingInfo.country}</p>
+                  </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-5 rounded-xl border border-border bg-surface-alt">
-                  <p className="text-sm text-text-muted mb-2">Delivery Address</p>
-                  <p className="font-semibold text-foreground mb-1">{orderData.shippingInfo.address}</p>
-                  <p className="text-text-muted">
-                    {orderData.shippingInfo.city}, {orderData.shippingInfo.state} {orderData.shippingInfo.zipCode}
+                  <div className="p-5 rounded-lg border border-border bg-surface-alt">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-text-muted mb-2">
+                      Contact Information
+                    </p>
+                    <p className="font-semibold text-foreground mb-1">{orderData.shippingInfo.fullName}</p>
+                    <p className="text-text-muted">{orderData.shippingInfo.phone}</p>
+                    <p className="text-text-muted">{orderData.shippingInfo.email}</p>
+                  </div>
+                </div>
+
+                <div className="mt-5 p-4 rounded-lg border border-border bg-brand-50 flex items-center gap-3 text-sm">
+                  <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-brand-600 text-white flex-shrink-0">
+                    <Headset size={18} aria-hidden />
+                  </span>
+                  <p className="text-text-secondary">
+                    Need help? Contact our support team 24/7
                   </p>
-                  <p className="text-text-muted">{orderData.shippingInfo.country}</p>
                 </div>
-
-                <div className="p-5 rounded-xl border border-border bg-surface-alt">
-                  <p className="text-sm text-text-muted mb-2">Contact Information</p>
-                  <p className="font-semibold text-foreground mb-1">{orderData.shippingInfo.fullName}</p>
-                  <p className="text-text-muted">{orderData.shippingInfo.phone}</p>
-                  <p className="text-text-muted">{orderData.shippingInfo.email}</p>
-                </div>
-              </div>
-
-              <div className="mt-5 p-4 rounded-xl bg-info-soft text-info border border-info/20 flex items-center gap-2 text-sm">
-                <span className="w-2 h-2 bg-info rounded-full animate-pulse" aria-hidden></span>
-                Need help? Contact our support team 24/7
               </div>
             </div>
           </div>

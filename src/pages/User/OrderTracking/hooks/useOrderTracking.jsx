@@ -1,5 +1,5 @@
 // hooks/useOrderTracking.js
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FaBox, FaShippingFast, FaTruck, FaCheckCircle } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';

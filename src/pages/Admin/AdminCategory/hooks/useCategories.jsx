@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { API_BASE_URL } from '../../../../context/DataContext';
 export const useCategories = () => {
@@ -6,8 +6,11 @@ export const useCategories = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const mounted = useRef(false);
 
   useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
     fetchCategories();
   }, []);
 
@@ -20,7 +23,6 @@ export const useCategories = () => {
       const response = await fetch(`${API_BASE_URL}/categories`);
       const data = await response.json();
       setCategories(data);
-      toast.success('Categories loaded successfully!');
     } catch (error) {
       console.error('Error fetching categories:', error);
       toast.error('Failed to load categories');

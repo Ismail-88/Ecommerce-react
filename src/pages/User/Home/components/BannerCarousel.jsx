@@ -10,7 +10,7 @@ const slides = [
     subtitle: "Up to 70% Off on Top Brands",
     cta: "Shop Now",
     to: "/products",
-    gradient: "from-brand-700 via-brand-600 to-brand-500",
+    gradient: "from-brand-900 via-brand-700 to-brand-500",
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ const slides = [
     subtitle: "Gadgets at Unbeatable Prices",
     cta: "Explore Deals",
     to: "/deals",
-    gradient: "from-indigo-700 via-indigo-600 to-purple-600",
+    gradient: "from-slate-900 via-indigo-800 to-purple-700",
   },
   {
     id: 3,
@@ -26,7 +26,7 @@ const slides = [
     subtitle: "Earn Points on Every Order",
     cta: "Check Rewards",
     to: "/rewards",
-    gradient: "from-amber-600 via-orange-500 to-rose-500",
+    gradient: "from-amber-800 via-orange-700 to-brand-700",
   },
 ];
 
@@ -62,14 +62,14 @@ const BannerCarousel = () => {
               aria-hidden={i !== active}
             >
               <div
-                className={`absolute inset-0 bg-gradient-to-r ${slide.gradient} opacity-95`}
+                className={`absolute inset-0 bg-gradient-to-r ${slide.gradient} opacity-90`}
                 aria-hidden
               />
               <div className="relative z-10 text-white max-w-md" key={active === i ? "active" : "inactive"}>
                 <p className={`text-xs md:text-sm font-bold uppercase tracking-widest text-white/80 mb-2 ${i === active ? "animate-fade-in-up" : ""}`}>
                   ShopSphere Special
                 </p>
-                <h2 className={`text-3xl md:text-5xl font-extrabold tracking-tight leading-tight mb-2 ${i === active ? "animate-fade-in-up" : ""}`} style={i === active ? { animationDelay: "80ms" } : undefined}>
+                <h2 className={`font-display text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-2 ${i === active ? "animate-fade-in-up" : ""}`} style={i === active ? { animationDelay: "80ms" } : undefined}>
                   {slide.title}
                 </h2>
                 <p className={`text-white/90 text-sm md:text-lg mb-5 ${i === active ? "animate-fade-in-up" : ""}`} style={i === active ? { animationDelay: "160ms" } : undefined}>

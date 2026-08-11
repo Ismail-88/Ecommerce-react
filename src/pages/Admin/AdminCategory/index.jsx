@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useCategories } from './hooks/useCategories';
 import { CategoriesHeader } from './components/CategoriesHeader';
 import { CategorySearch } from './components/CategorySearch';
@@ -8,11 +6,9 @@ import { CategoryCard } from './components/CategoryCard';
 import { CategoryModal } from './components/CategoryModal';
 import EmptyState from '../../../components/ui/EmptyState';
 import { FullPageSpinner } from '../../../components/ui/Spinner';
-import { useTheme } from '../../../context/ThemeContext';
 import { FolderOpen } from 'lucide-react';
 
 const AdminCategories = () => {
-  const { isDark } = useTheme();
   const {
     categories,
     loading,
@@ -58,19 +54,6 @@ const AdminCategories = () => {
 
   return (
     <div className="p-6 bg-transparent min-h-screen">
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme={isDark ? "dark" : "light"}
-      />
-
       <CategoriesHeader
         totalCategories={categories.length}
         onAddClick={handleAddClick}

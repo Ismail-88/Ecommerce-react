@@ -21,32 +21,36 @@ const AdminDashboard = () => {
       title: 'Total Revenue',
       value: formatINR(stats.totalRevenue, 2),
       growth: stats.revenueGrowth,
-      icon: <DollarSign className="w-6 h-6" />,
-      gradient: 'from-brand-500 via-brand-600 to-brand-800',
+      icon: <DollarSign className="w-5 h-5" />,
+      tone: 'brand',
+      spark: [4, 6, 5, 8, 7, 9, 8, 11, 10, 13, 12, 15],
       link: '/admin/orders',
     },
     {
       title: 'Total Orders',
       value: stats.totalOrders,
       growth: stats.ordersGrowth,
-      icon: <ShoppingCart className="w-6 h-6" />,
-      gradient: 'from-rose-500 via-brand-600 to-brand-800',
+      icon: <ShoppingCart className="w-5 h-5" />,
+      tone: 'info',
+      spark: [6, 5, 7, 6, 8, 7, 9, 10, 9, 11, 10, 12],
       link: '/admin/orders',
     },
     {
       title: 'Total Products',
       value: stats.totalProducts,
       growth: stats.productsGrowth,
-      icon: <Package className="w-6 h-6" />,
-      gradient: 'from-brand-400 via-brand-600 to-rose-600',
+      icon: <Package className="w-5 h-5" />,
+      tone: 'warning',
+      spark: [3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8],
       link: '/admin/products',
     },
     {
       title: 'Total Customers',
       value: stats.totalCustomers,
       growth: stats.customersGrowth,
-      icon: <Users className="w-6 h-6" />,
-      gradient: 'from-rose-400 via-rose-500 to-brand-700',
+      icon: <Users className="w-5 h-5" />,
+      tone: 'success',
+      spark: [2, 3, 3, 4, 3, 4, 5, 4, 5, 6, 5, 6],
       link: '/admin/customers',
     },
   ];
@@ -71,7 +75,7 @@ const AdminDashboard = () => {
       />
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statsCards.map((card, index) => (
           <StatsCard key={index} card={card} />
         ))}

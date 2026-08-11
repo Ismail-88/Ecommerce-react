@@ -8,7 +8,6 @@ import { Package } from "lucide-react";
 import OrderFilterTabs from "./components/OrderFilterTabs";
 import OrderCard from "./components/OrderCard";
 import EmptyOrdersState from "./components/EmptyOrdersState";
-import PageHeader from "../../../components/ui/PageHeader";
 import EmptyState from "../../../components/ui/EmptyState";
 import Button from "../../../components/ui/Button";
 import { FullPageSpinner } from "../../../components/ui/Spinner";
@@ -57,19 +56,23 @@ const MyOrders = () => {
 
   return (
     <div className="min-h-screen text-foreground">
-      {/* Header */}
-      <div className="border-b border-border bg-surface-alt">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
-          <PageHeader
-            icon={Package}
-            title="Your Orders"
-            description="Track and manage all your purchases"
-          />
-        </div>
-      </div>
-
       {/* Orders Section */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-6">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+              My Orders
+            </h1>
+            <p className="text-sm text-text-muted mt-1">
+              Track and manage all your purchases
+            </p>
+          </div>
+          <p className="text-sm font-semibold text-text-muted">
+            {orders.length} order{orders.length !== 1 ? "s" : ""}
+          </p>
+        </div>
+
         {/* Filter Tabs */}
         <OrderFilterTabs
           filter={filter}
@@ -81,7 +84,7 @@ const MyOrders = () => {
         {filteredOrders.length === 0 ? (
           <EmptyOrdersState filter={filter} />
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {filteredOrders.map((order) => (
               <OrderCard
                 key={order._id}

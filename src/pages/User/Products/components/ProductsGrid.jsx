@@ -7,12 +7,12 @@ const ProductsGrid = ({ products, viewMode }) => {
 
   if (viewMode === "list") {
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {products.map((product, index) => (
           <div
             key={product._id}
             className="animate-fade-in-up"
-            style={{ animationDelay: `${Math.min(index, 7) * 60}ms` }}
+            style={{ animationDelay: `${Math.min(index, 7) * 50}ms` }}
           >
             <ProductCard product={product} viewMode="list" />
           </div>
@@ -23,12 +23,12 @@ const ProductsGrid = ({ products, viewMode }) => {
 
   return (
     <div id="shop-grid" className="scroll-mt-24">
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
         {products.map((product, index) => (
           <div
             key={product._id}
             className="animate-fade-in-up"
-            style={{ animationDelay: `${Math.min(index, 7) * 60}ms` }}
+            style={{ animationDelay: `${Math.min(index, 7) * 50}ms` }}
           >
             <ProductCard product={product} viewMode="grid" />
           </div>
